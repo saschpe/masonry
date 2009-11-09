@@ -1,3 +1,7 @@
+Solid-borne Sound Lab
+=====================
+
+tbd.
 
 
 INSTALLATION
@@ -7,3 +11,9 @@ INSTALLATION
     cd build/
     cmake ..
     make && make install
+
+
+TODO
+====
+
+ - 
