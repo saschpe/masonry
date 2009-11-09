@@ -19,14 +19,43 @@
 
 #include "gui/mainwindow.h"
 
+#include <Quarter/Quarter.h>
+#include <Quarter/QuarterWidget.h>
+
 #include <QApplication>
+
+#include <Inventor/nodes/SoBaseColor.h>
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoSeparator.h>
+
+using namespace SIM::Coin3D::Quarter;
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    MainWindow win;
+    /*MainWindow win;
+    win.show();*/
 
-    win.show();
+    Quarter::init();
 
-    return app.exec();
+    SoSeparator *root = new SoSeparator;
+    root->ref();
+
+    SoBaseColor *col = new SoBaseColor;
+    col->rgb = SbColor(1, 1, 0);
+    root->addChild(col);
+    root->addChild(new SoCone);
+
+    QuarterWidget *viewer = new QuarterWidget;
+    viewer->setSceneGraph(root);
+    viewer->setNavigationModeFile(QUrl("coin:///scxml/navigation/examiner.xml"));
+    viewer->show();
+
+    app.exec();
+
+    root->unref();
+    delete viewer;
+    Quarter::clean();
+
+    return 0;
 }

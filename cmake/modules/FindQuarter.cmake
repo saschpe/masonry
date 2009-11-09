@@ -1,0 +1,17 @@
+FIND_PATH(QUARTER_INCLUDE_DIR Quarter.h /usr/include/Quarter /usr/local/include/Quarter)
+
+FIND_LIBRARY(QUARTER_LIBRARY NAMES Quarter PATH /usr/lib /usr/local/lib)
+
+IF (QUARTER_INCLUDE_DIR AND QUARTER_LIBRARY)
+    SET(QUARTER_FOUND TRUE)
+ENDIF (QUARTER_INCLUDE_DIR AND QUARTER_LIBRARY)
+
+IF (QUARTER_FOUND)
+    IF (NOT Quarter_FIND_QUIETLY)
+        MESSAGE(STATUS "Found 'Quarter' Coin3D bindings for Qt4: ${QUARTER_LIBRARY}")
+    ENDIF (NOT Quarter_FIND_QUIETLY)
+ELSE (QUARTER_FOUND)
+    IF (Quarter_FIND_REQUIRED)
+        MESSAGE(FATAL_ERROR "Could not find 'Quarter' Coin3D bindings for Qt4")
+    ENDIF (Quarter_FIND_REQUIRED)
+ENDIF (QUARTER_FOUND)

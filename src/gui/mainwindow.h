@@ -22,9 +22,6 @@
 
 #include <QMainWindow>
 
-class QVTKWidget;
-class vtkRenderer;
-
 namespace Ui
 {
     class MainWindow;
@@ -42,8 +39,6 @@ private:
     void setupActions();
 
     Ui::MainWindow *m_ui;
-    QVTKWidget *m_vtkWidget;
-    vtkRenderer *m_vtkRenderer;
 };
 
 #endif // MAINWINDOW_H
