@@ -1,6 +1,6 @@
 find_package(Qt4 4.5 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
-find_package(Coin3D REQUIRED)
-find_package(Quarter REQUIRED)
+find_package(Coin3D 3.1 REQUIRED)
+find_package(Quarter 1.0 REQUIRED)
 
 set(QT_USE_OPENGL TRUE)
 

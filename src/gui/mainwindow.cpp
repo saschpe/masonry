@@ -20,26 +20,60 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include <QHBoxLayout>
+#include <QToolBar>
+#include <Inventor/nodes/SoBaseColor.h>
+#include <Inventor/nodes/SoCone.h>
+#include <Inventor/nodes/SoSeparator.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
+    , m_scene(new SoSeparator)
+    , m_viewWidget(new QuarterWidget)
 {
     m_ui->setupUi(this);
-    setupActions();
+    m_scene->ref();
 
-    //QHBoxLayout *layout = new QHBoxLayout;
-    //m_ui->centralWidget->setLayout(layout);
+    SoBaseColor *col = new SoBaseColor;
+    col->rgb = SbColor(1, 1, 0);
+    m_scene->addChild(col);
+    m_scene->addChild(new SoCone);
+
+    m_viewWidget->setSceneGraph(m_scene);
+    m_viewWidget->setNavigationModeFile(QUrl("coin:///scxml/navigation/examiner.xml"));
+    m_ui->centralWidget->layout()->addWidget(m_viewWidget);
+
+    setupActions();
+    setupToolbars();
 }
 
 MainWindow::~MainWindow()
 {
+    m_scene->unref();
+    delete m_viewWidget;
     delete m_ui;
 }
 
 void MainWindow::setupActions()
 {
 
+}
+
+void MainWindow::setupToolbars()
+{
+    QToolBar *fileToolBar = addToolBar(tr("File"));
+    fileToolBar->addAction(m_ui->newAction);
+    fileToolBar->addAction(m_ui->loadAction);
+    fileToolBar->addAction(m_ui->saveAction);
+
+    QToolBar *editToolBar = addToolBar(tr("Edit"));
+    editToolBar->addAction(m_ui->undoAction);
+    editToolBar->addAction(m_ui->redoAction);
+    editToolBar->addSeparator();
+    editToolBar->addAction(m_ui->cutAction);
+    editToolBar->addAction(m_ui->copyAction);
+    editToolBar->addAction(m_ui->pasteAction);
+
+    QToolBar *viewToolBar = addToolBar(tr("View"));
 }
 
 #include "mainwindow.moc"
