@@ -21,10 +21,33 @@
 
 #include <QApplication>
 
+#include <iostream>
+#include <tulip/Graph.h>
+
+using namespace std;
+using namespace tlp;
+
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    Graph *graph = tlp::newGraph();
+
+    node n1 = graph->addNode();
+    node n2 = graph->addNode();
+    node n3 = graph->addNode();
+
+    edge e1 = graph->addEdge(n2, n3);
+    edge e2 = graph->addEdge(n1, n2);
+    edge e3 = graph->addEdge(n3, n1);
+
+    cout << graph << flush;
+    tlp::saveGraph(graph, "tuto1.tlp");
+
+    delete graph;
+    return EXIT_SUCCESS;
+
+
+    /*QApplication app(argc, argv);
     MainWindow win;
     win.show();
-    return app.exec();
+    return app.exec();*/
 }
