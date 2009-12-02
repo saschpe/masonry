@@ -39,6 +39,9 @@ private slots:
     void loadPreferences();
     void savePreferences();
 
+    // Automatic slot connections:
+    void on_quitAction_triggered();
+
 private:
     void setupActions();
     void setupDockWidgets();

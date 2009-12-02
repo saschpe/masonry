@@ -3,7 +3,7 @@ project(masonry)
 
 set(CMAKE_MODULE_PATH "${masonry_SOURCE_DIR}/cmake/modules")
 
-find_package(Qt4 4.5 COMPONENTS QtCore QtGui REQUIRED)
+find_package(Qt4 4.6 COMPONENTS QtCore QtGui REQUIRED)
 find_package(Boost 1.39 COMPONENTS graph REQUIRED)
 
 include(${QT_USE_FILE})

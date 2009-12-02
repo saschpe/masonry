@@ -23,78 +23,6 @@
     </property>
    </layout>
   </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>600</width>
-     <height>22</height>
-    </rect>
-   </property>
-   <widget class="QMenu" name="menu_Quit">
-    <property name="title">
-     <string>&amp;File</string>
-    </property>
-    <addaction name="newAction"/>
-    <addaction name="loadAction"/>
-    <addaction name="saveAction"/>
-    <addaction name="separator"/>
-    <addaction name="quitAction"/>
-   </widget>
-   <widget class="QMenu" name="menu_Edit">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="undoAction"/>
-    <addaction name="redoAction"/>
-    <addaction name="separator"/>
-    <addaction name="cutAction"/>
-    <addaction name="copyAction"/>
-    <addaction name="pasteAction"/>
-    <addaction name="separator"/>
-    <addaction name="selectAllAction"/>
-    <addaction name="selectNoneAction"/>
-    <addaction name="invertSelectionAction"/>
-   </widget>
-   <widget class="QMenu" name="menu_Help">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="helpAction"/>
-    <addaction name="separator"/>
-    <addaction name="aboutAction"/>
-   </widget>
-   <widget class="QMenu" name="menu_Settings">
-    <property name="title">
-     <string>&amp;Settings</string>
-    </property>
-    <widget class="QMenu" name="menuToolbars">
-     <property name="title">
-      <string>&amp;Toolbars</string>
-     </property>
-     <addaction name="showFileToolBarAction"/>
-     <addaction name="showEditToolBarAction"/>
-     <addaction name="showGraphToolBarAction"/>
-    </widget>
-    <addaction name="menuToolbars"/>
-    <addaction name="separator"/>
-    <addaction name="actionPreferences"/>
-   </widget>
-   <widget class="QMenu" name="menu_Graph">
-    <property name="title">
-     <string>&amp;Graph</string>
-    </property>
-    <addaction name="addGraphNodeAction"/>
-    <addaction name="addGraphEdgeAction"/>
-    <addaction name="removeGraphItemAction"/>
-   </widget>
-   <addaction name="menu_Quit"/>
-   <addaction name="menu_Edit"/>
-   <addaction name="menu_Graph"/>
-   <addaction name="menu_Settings"/>
-   <addaction name="menu_Help"/>
-  </widget>
   <widget class="QStatusBar" name="statusBar"/>
   <widget class="QToolBar" name="fileToolBar">
    <property name="windowTitle">
@@ -128,6 +56,78 @@
    <attribute name="toolBarBreak">
     <bool>false</bool>
    </attribute>
+  </widget>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>600</width>
+     <height>22</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_Quit">
+    <property name="title">
+     <string>&amp;File</string>
+    </property>
+    <addaction name="newAction"/>
+    <addaction name="loadAction"/>
+    <addaction name="saveAsAction"/>
+    <addaction name="separator"/>
+    <addaction name="quitAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_Edit">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="undoAction"/>
+    <addaction name="redoAction"/>
+    <addaction name="separator"/>
+    <addaction name="cutAction"/>
+    <addaction name="copyAction"/>
+    <addaction name="pasteAction"/>
+    <addaction name="separator"/>
+    <addaction name="selectAllAction"/>
+    <addaction name="selectNoneAction"/>
+    <addaction name="invertSelectionAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_Help">
+    <property name="title">
+     <string>&amp;Help</string>
+    </property>
+    <addaction name="helpAction"/>
+    <addaction name="separator"/>
+    <addaction name="aboutAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_Settings">
+    <property name="title">
+     <string>&amp;Settings</string>
+    </property>
+    <widget class="QMenu" name="menuToolbars">
+     <property name="title">
+      <string>Show &amp;Toolbars</string>
+     </property>
+     <addaction name="showFileToolBarAction"/>
+     <addaction name="showEditToolBarAction"/>
+     <addaction name="showGraphToolBarAction"/>
+    </widget>
+    <addaction name="menuToolbars"/>
+    <addaction name="separator"/>
+    <addaction name="preferencesAction"/>
+   </widget>
+   <widget class="QMenu" name="menu_Graph">
+    <property name="title">
+     <string>&amp;Graph</string>
+    </property>
+    <addaction name="addGraphNodeAction"/>
+    <addaction name="addGraphEdgeAction"/>
+    <addaction name="removeGraphItemAction"/>
+   </widget>
+   <addaction name="menu_Quit"/>
+   <addaction name="menu_Edit"/>
+   <addaction name="menu_Graph"/>
+   <addaction name="menu_Settings"/>
+   <addaction name="menu_Help"/>
   </widget>
   <action name="helpAction">
    <property name="text">
@@ -175,9 +175,12 @@
     <string>Ctrl+L</string>
    </property>
   </action>
-  <action name="saveAction">
+  <action name="saveAsAction">
    <property name="text">
-    <string>&amp;Save</string>
+    <string>&amp;Save As...</string>
+   </property>
+   <property name="toolTip">
+    <string>Save As...</string>
    </property>
    <property name="shortcut">
     <string>Ctrl+S</string>
@@ -245,7 +248,7 @@
     <bool>true</bool>
    </property>
    <property name="checked">
-    <bool>false</bool>
+    <bool>true</bool>
    </property>
    <property name="text">
     <string>&amp;File Toolbar</string>
@@ -312,7 +315,7 @@
     <string>&amp;Remove Item</string>
    </property>
   </action>
-  <action name="actionPreferences">
+  <action name="preferencesAction">
    <property name="text">
     <string>&amp;Preferences</string>
    </property>
@@ -326,6 +329,11 @@
    </property>
    <property name="text">
     <string>&amp;Graph Toolbar</string>
+   </property>
+  </action>
+  <action name="action_Delete">
+   <property name="text">
+    <string>&amp;Delete</string>
    </property>
   </action>
  </widget>
