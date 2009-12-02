@@ -22,10 +22,28 @@
 
 #include <QToolBar>
 
+#include <tulip/GlMainWidget.h>
+#include <tulip/Graph.h>
+
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), m_ui(new Ui::MainWindow)
+    : QMainWindow(parent), m_ui(new Ui::MainWindow), m_graphWidget(new tlp::GlMainWidget(this))
 {
     m_ui->setupUi(this);
+
+    setCentralWidget(m_graphWidget);
+
+    tlp::Graph *graph = tlp::newGraph();
+    //add three nodes
+    tlp::node n1 = graph->addNode();
+    tlp::node n2 = graph->addNode();
+    tlp::node n3 = graph->addNode();
+
+    //add three edges
+    tlp::edge e1 = graph->addEdge(n2,n3);
+    tlp::edge e2 = graph->addEdge(n1,n2);
+    tlp::edge e3 = graph->addEdge(n3,n1);
+
+    m_graphWidget->setGraph(graph);
 
     setupActions();
     setupToolbars();
@@ -33,6 +51,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
+    delete m_graphWidget;
     delete m_ui;
 }
 

@@ -25,6 +25,9 @@
 namespace Ui {
     class MainWindow;
 }
+namespace tlp {
+    class GlMainWidget;
+}
 
 class MainWindow : public QMainWindow
 {
@@ -39,6 +42,7 @@ private:
     void setupToolbars();
 
     Ui::MainWindow *m_ui;
+    tlp::GlMainWidget *m_graphWidget;
 };
 
 #endif // MAINWINDOW_H

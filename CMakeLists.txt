@@ -6,10 +6,8 @@ set(CMAKE_MODULE_PATH "${masonry_SOURCE_DIR}/cmake/modules")
 find_package(Qt4 4.5 COMPONENTS QtCore QtGui QtOpenGL REQUIRED)
 find_package(Tulip REQUIRED)
 
-set(QT_USE_OPENGL TRUE)
-
 include(${QT_USE_FILE})
-include_directories(${QT_INCLUDE_DIR} ${TULIP_INCLUDE_DIRS})
+include_directories(${QT_INCLUDE_DIR} ${TULIP_INCLUDE_DIR})
 
 set(masonry_UIS
     src/gui/mainwindow.ui
