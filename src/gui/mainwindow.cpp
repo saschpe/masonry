@@ -22,6 +22,7 @@
 #include "graphicsview/graphview.h"
 
 #include <QDebug>
+#include <QSettings>
 #include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -48,19 +49,52 @@ MainWindow::~MainWindow()
 
 void MainWindow::loadPreferences()
 {
-
+    QSettings settings;
+    // Load view specific settings
+    showFileToolBarAction->setChecked(settings.value("view/showFileToolBar", true).toBool());
+    showEditToolBarAction->setChecked(settings.value("view/showEditToolBar", true).toBool());
+    showGraphToolBarAction->setChecked(settings.value("view/showGraphToolBar", true).toBool());
 }
 
 void MainWindow::savePreferences()
 {
+    QSettings settings;
+    // Save view specific settings
+    settings.setValue("view/showFileToolBar", showFileToolBarAction->isChecked());
+    settings.setValue("view/showEditToolBar", showEditToolBarAction->isChecked());
+    settings.setValue("view/showGraphToolBar", showGraphToolBarAction->isChecked());
+}
 
+void MainWindow::on_newAction_triggered()
+{
+    qDebug() << "New graph";
+}
+
+void MainWindow::on_loadAction_triggered()
+{
+    qDebug() << "Load graph";
+}
+
+void MainWindow::on_saveAsAction_triggered()
+{
+    qDebug() << "Save graph";
 }
 
 void MainWindow::on_quitAction_triggered()
 {
+    //TODO: Check here if current graph is unsaved and ask
     QCoreApplication::quit();
 }
 
+void MainWindow::on_helpAction_triggered()
+{
+    qDebug() << "TODO: Show help";
+}
+
+void MainWindow::on_aboutAction_triggered()
+{
+    qDebug() << "TODO: Show about screen";
+}
 void MainWindow::setupActions()
 {
 #ifndef QT_WS_X11

@@ -39,8 +39,12 @@ private slots:
     void loadPreferences();
     void savePreferences();
 
-    // Automatic slot connections:
+    void on_newAction_triggered();
+    void on_loadAction_triggered();
+    void on_saveAsAction_triggered();
     void on_quitAction_triggered();
+    void on_helpAction_triggered();
+    void on_aboutAction_triggered();
 
 private:
     void setupActions();

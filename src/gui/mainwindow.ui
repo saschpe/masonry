@@ -176,6 +176,9 @@
    </property>
   </action>
   <action name="saveAsAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Save As...</string>
    </property>
@@ -271,6 +274,9 @@
    </property>
   </action>
   <action name="undoAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Undo</string>
    </property>
@@ -279,6 +285,9 @@
    </property>
   </action>
   <action name="redoAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Redo</string>
    </property>
