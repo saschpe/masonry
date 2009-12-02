@@ -27,9 +27,9 @@ class GraphScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    explicit GraphScene(QObject *parent = 0);
+    GraphScene(QObject *parent = 0);
     virtual ~GraphScene();
 
 };
 
-#endif
+#endif // GRAPHSCENE_H

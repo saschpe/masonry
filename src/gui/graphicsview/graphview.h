@@ -35,7 +35,7 @@ class GraphView : public QGraphicsView
     Q_OBJECT
 
 public:
-    explicit GraphView(GraphScene *scene, QWidget *parent = 0);
+    GraphView(GraphScene *scene, QWidget *parent = 0);
     virtual ~GraphView();
 
 private:
@@ -46,4 +46,4 @@ private:
     GraphScene * const m_scene;
 };
 
-#endif
+#endif // GRAPHVIEW_H

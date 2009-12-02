@@ -18,29 +18,40 @@
 */
 
 #include "mainwindow.h"
-#include "ui_mainwindow.h"
 #include "graphicsview/graphscene.h"
 #include "graphicsview/graphview.h"
 
 #include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), m_ui(new Ui::MainWindow)
+    : QMainWindow(parent)
     , m_graphScene(new GraphScene), m_graphView(new GraphView(m_graphScene))
 {
-    m_ui->setupUi(this);
+    setupUi(this);
 
     setCentralWidget(m_graphView);
 
+    loadPreferences();
     setupActions();
+    setupDockWidgets();
     setupToolbars();
 }
 
 MainWindow::~MainWindow()
 {
+    savePreferences();
     delete m_graphScene;
     delete m_graphView;
-    delete m_ui;
+}
+
+void MainWindow::loadPreferences()
+{
+
+}
+
+void MainWindow::savePreferences()
+{
+
 }
 
 void MainWindow::setupActions()
@@ -48,22 +59,30 @@ void MainWindow::setupActions()
 
 }
 
+void MainWindow::setupDockWidgets()
+{
+
+}
+
 void MainWindow::setupToolbars()
 {
-    QToolBar *fileToolBar = addToolBar(tr("File"));
-    fileToolBar->addAction(m_ui->newAction);
-    fileToolBar->addAction(m_ui->loadAction);
-    fileToolBar->addAction(m_ui->saveAction);
+    fileToolBar->addAction(newAction);
+    fileToolBar->addAction(loadAction);
+    fileToolBar->addAction(saveAction);
+    fileToolBar->setVisible(showFileToolBarAction->isChecked());
 
-    QToolBar *editToolBar = addToolBar(tr("Edit"));
-    editToolBar->addAction(m_ui->undoAction);
-    editToolBar->addAction(m_ui->redoAction);
-    editToolBar->addSeparator();
-    editToolBar->addAction(m_ui->cutAction);
-    editToolBar->addAction(m_ui->copyAction);
-    editToolBar->addAction(m_ui->pasteAction);
+    editToolBar->addAction(undoAction);
+    editToolBar->addAction(redoAction);
+    /*editToolBar->addSeparator();
+    editToolBar->addAction(cutAction);
+    editToolBar->addAction(copyAction);
+    editToolBar->addAction(pasteAction);*/
+    editToolBar->setVisible(showEditToolBarAction->isChecked());
 
-    QToolBar *viewToolBar = addToolBar(tr("View"));
+    graphToolBar->addAction(addGraphNodeAction);
+    graphToolBar->addAction(addGraphEdgeAction);
+    graphToolBar->addAction(removeGraphItemAction);
+    graphToolBar->setVisible(showGraphToolBarAction->isChecked());
 }
 
 #include "mainwindow.moc"

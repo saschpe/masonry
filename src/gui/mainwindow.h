@@ -20,15 +20,14 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "ui_mainwindow.h"
+
 #include <QMainWindow>
 
 class GraphScene;
 class GraphView;
-namespace Ui {
-    class MainWindow;
-}
 
-class MainWindow : public QMainWindow
+class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
 
@@ -36,11 +35,14 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
+private slots:
+    void loadPreferences();
+    void savePreferences();
+
 private:
     void setupActions();
+    void setupDockWidgets();
     void setupToolbars();
-
-    Ui::MainWindow *m_ui;
 
     GraphScene *m_graphScene;
     GraphView *m_graphView;
