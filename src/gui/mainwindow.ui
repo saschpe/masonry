@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>SBSLab - Solid-Borne Sound Lab</string>
+   <string>Masonry - Mason-Graph Lab</string>
   </property>
   <property name="dockNestingEnabled">
    <bool>true</bool>
