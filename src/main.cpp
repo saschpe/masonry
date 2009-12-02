@@ -19,20 +19,12 @@
 
 #include "gui/mainwindow.h"
 
-#include <Quarter/Quarter.h>
 #include <QApplication>
-
-using namespace SIM::Coin3D::Quarter;
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    Quarter::init();
-
     MainWindow win;
     win.show();
-    app.exec();
-
-    Quarter::clean();
-    return 0;
+    return app.exec();
 }

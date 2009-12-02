@@ -21,26 +21,11 @@
 #include "ui_mainwindow.h"
 
 #include <QToolBar>
-#include <Inventor/nodes/SoBaseColor.h>
-#include <Inventor/nodes/SoCone.h>
-#include <Inventor/nodes/SoSeparator.h>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), m_ui(new Ui::MainWindow)
-    , m_scene(new SoSeparator)
-    , m_viewWidget(new QuarterWidget)
 {
     m_ui->setupUi(this);
-    m_scene->ref();
-
-    SoBaseColor *col = new SoBaseColor;
-    col->rgb = SbColor(1, 1, 0);
-    m_scene->addChild(col);
-    m_scene->addChild(new SoCone);
-
-    m_viewWidget->setSceneGraph(m_scene);
-    m_viewWidget->setNavigationModeFile(QUrl("coin:///scxml/navigation/examiner.xml"));
-    m_ui->centralWidget->layout()->addWidget(m_viewWidget);
 
     setupActions();
     setupToolbars();
@@ -48,8 +33,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    m_scene->unref();
-    delete m_viewWidget;
     delete m_ui;
 }
 

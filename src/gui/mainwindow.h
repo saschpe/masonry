@@ -20,12 +20,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <Quarter/QuarterWidget.h>
 #include <QMainWindow>
 
-using namespace SIM::Coin3D::Quarter;
-
-class SoSeparator;
 namespace Ui {
     class MainWindow;
 }
@@ -43,8 +39,6 @@ private:
     void setupToolbars();
 
     Ui::MainWindow *m_ui;
-    QuarterWidget *m_viewWidget;
-    SoSeparator *m_scene;
 };
 
 #endif // MAINWINDOW_H
