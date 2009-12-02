@@ -17,33 +17,21 @@
     02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#include "graphscene.h"
 
-#include <QMainWindow>
+#include <QPainter>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
 
-class GraphScene;
-class GraphView;
-namespace Ui {
-    class MainWindow;
+GraphScene::GraphScene(QObject *parent)
+    : QGraphicsScene(parent)
+{
+
 }
 
-class MainWindow : public QMainWindow
+GraphScene::~GraphScene()
 {
-    Q_OBJECT
 
-public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+}
 
-private:
-    void setupActions();
-    void setupToolbars();
-
-    Ui::MainWindow *m_ui;
-
-    GraphScene *m_graphScene;
-    GraphView *m_graphView;
-};
-
-#endif // MAINWINDOW_H
+#include "graphscene.moc"

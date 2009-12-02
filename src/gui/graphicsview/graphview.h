@@ -17,33 +17,33 @@
     02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef GRAPHVIEW_H
+#define GRAPHVIEW_H
 
-#include <QMainWindow>
+#include <QGraphicsView>
 
 class GraphScene;
-class GraphView;
-namespace Ui {
-    class MainWindow;
-}
 
-class MainWindow : public QMainWindow
+/**
+ * This class represents a view on a graph scene.
+ *
+ * @author Sascha Peilicke <sasch.pe@gmx.de>
+ * @since 0.1
+ */
+class GraphView : public QGraphicsView
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    explicit GraphView(GraphScene *scene, QWidget *parent = 0);
+    virtual ~GraphView();
 
 private:
-    void setupActions();
-    void setupToolbars();
+    //void drawForeground(QPainter *painter, const QRectF &rect);
+    //void showEvent(QShowEvent *event);
+    //void resizeEvent(QResizeEvent *event);
 
-    Ui::MainWindow *m_ui;
-
-    GraphScene *m_graphScene;
-    GraphView *m_graphView;
+    GraphScene * const m_scene;
 };
 
-#endif // MAINWINDOW_H
+#endif
