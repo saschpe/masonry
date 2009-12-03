@@ -46,6 +46,7 @@ private slots:
     void on_saveAsAction_triggered();
     void on_helpAction_triggered();
     void on_aboutAction_triggered();
+    void on_aboutQtAction_triggered();
 
 private:
     void readSettings();

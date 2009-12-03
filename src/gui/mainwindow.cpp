@@ -92,6 +92,11 @@ void MainWindow::on_aboutAction_triggered()
     qDebug() << "TODO: Show about screen";
 }
 
+void MainWindow::on_aboutQtAction_triggered()
+{
+    QApplication::aboutQt();
+}
+
 void MainWindow::readSettings()
 {
     QSettings settings;
@@ -153,7 +158,7 @@ void MainWindow::setupActions()
     addGraphEdgeAction->setIcon(QIcon::fromTheme("format-add-node"));
 
     // Set icons for the actions in the settings menu
-    settingsAction->setIcon(QIcon::fromTheme("configure"));
+    preferencesAction->setIcon(QIcon::fromTheme("configure"));
 
     // Set icons for the actions in the help menu
     helpAction->setIcon(QIcon::fromTheme("help-contents"));

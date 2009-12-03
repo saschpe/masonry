@@ -23,10 +23,10 @@
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
     QCoreApplication::setOrganizationName("ifak");
     QCoreApplication::setOrganizationDomain("ifak.eu");
     QCoreApplication::setApplicationName("Masonry");
+    QApplication app(argc, argv);
     MainWindow win;
     win.show();
     return app.exec();
