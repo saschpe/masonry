@@ -23,7 +23,7 @@
     </property>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QStatusBar" name="statusBar_"/>
   <widget class="QToolBar" name="fileToolBar">
    <property name="windowTitle">
     <string>File</string>
@@ -394,6 +394,22 @@
     <hint type="destinationlabel">
      <x>307</x>
      <y>26</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>quitAction</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>299</x>
+     <y>199</y>
     </hint>
    </hints>
   </connection>

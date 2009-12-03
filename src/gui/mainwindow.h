@@ -35,18 +35,21 @@ public:
     MainWindow(QWidget *parent = 0);
     ~MainWindow();
 
-private slots:
-    void loadPreferences();
-    void savePreferences();
+protected:
+    void closeEvent(QCloseEvent *event);
 
+private slots:
     void on_newAction_triggered();
     void on_loadAction_triggered();
     void on_saveAsAction_triggered();
-    void on_quitAction_triggered();
     void on_helpAction_triggered();
     void on_aboutAction_triggered();
 
 private:
+    void readSettings();
+    void writeSettings();
+    bool maybeSave();
+
     void setupActions();
     void setupDockWidgets();
     void setupToolbars();

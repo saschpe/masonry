@@ -21,6 +21,7 @@
 #include "graphicsview/graphscene.h"
 #include "graphicsview/graphview.h"
 
+#include <QCloseEvent>
 #include <QDebug>
 #include <QSettings>
 #include <QToolBar>
@@ -33,36 +34,29 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(m_graphView);
 
-    loadPreferences();
     setupActions();
     setupDockWidgets();
     setupToolbars();
+
+    readSettings();
+
+    statusBar()->showMessage(tr("Ready"));
 }
 
 MainWindow::~MainWindow()
 {
-    savePreferences();
-
     delete m_graphScene;
     delete m_graphView;
 }
 
-void MainWindow::loadPreferences()
+void MainWindow::closeEvent(QCloseEvent *event)
 {
-    QSettings settings;
-    // Load view specific settings
-    showFileToolBarAction->setChecked(settings.value("view/showFileToolBar", true).toBool());
-    showEditToolBarAction->setChecked(settings.value("view/showEditToolBar", true).toBool());
-    showGraphToolBarAction->setChecked(settings.value("view/showGraphToolBar", true).toBool());
-}
-
-void MainWindow::savePreferences()
-{
-    QSettings settings;
-    // Save view specific settings
-    settings.setValue("view/showFileToolBar", showFileToolBarAction->isChecked());
-    settings.setValue("view/showEditToolBar", showEditToolBarAction->isChecked());
-    settings.setValue("view/showGraphToolBar", showGraphToolBarAction->isChecked());
+    if (maybeSave()) {
+        writeSettings();
+        event->accept();
+    } else {
+        event->ignore();
+    }
 }
 
 void MainWindow::on_newAction_triggered()
@@ -80,12 +74,6 @@ void MainWindow::on_saveAsAction_triggered()
     qDebug() << "Save graph";
 }
 
-void MainWindow::on_quitAction_triggered()
-{
-    //TODO: Check here if current graph is unsaved and ask
-    QCoreApplication::quit();
-}
-
 void MainWindow::on_helpAction_triggered()
 {
     qDebug() << "TODO: Show help";
@@ -95,6 +83,49 @@ void MainWindow::on_aboutAction_triggered()
 {
     qDebug() << "TODO: Show about screen";
 }
+
+void MainWindow::readSettings()
+{
+    QSettings settings;
+
+    // Load window specific settings
+    settings.beginGroup("mainwindow");
+    resize(settings.value("size", QSize(800, 600)).toSize());
+    move(settings.value("pos", QPoint(200, 200)).toPoint());
+    settings.endGroup();
+
+    // Load view specific settings
+    settings.beginGroup("view");
+    showFileToolBarAction->setChecked(settings.value("showFileToolBar", true).toBool());
+    showEditToolBarAction->setChecked(settings.value("showEditToolBar", true).toBool());
+    showGraphToolBarAction->setChecked(settings.value("showGraphToolBar", true).toBool());
+    settings.endGroup();
+}
+
+void MainWindow::writeSettings()
+{
+    QSettings settings;
+
+    // Save window specific settings
+    settings.beginGroup("mainwindow");
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.endGroup();
+
+    // Save view specific settings
+    settings.beginGroup("view");
+    settings.setValue("showFileToolBar", showFileToolBarAction->isChecked());
+    settings.setValue("showEditToolBar", showEditToolBarAction->isChecked());
+    settings.setValue("showGraphToolBar", showGraphToolBarAction->isChecked());
+    settings.endGroup();
+}
+
+bool MainWindow::maybeSave()
+{
+    //TODO: If graph has unsafed modifications return false
+    return true;
+}
+
 void MainWindow::setupActions()
 {
 #ifndef QT_WS_X11
