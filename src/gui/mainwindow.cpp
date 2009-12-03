@@ -69,9 +69,14 @@ void MainWindow::on_loadAction_triggered()
     qDebug() << "Load graph";
 }
 
-void MainWindow::on_saveAsAction_triggered()
+void MainWindow::on_saveAction_triggered()
 {
     qDebug() << "Save graph";
+}
+
+void MainWindow::on_saveAsAction_triggered()
+{
+    qDebug() << "Save graph as...";
 }
 
 void MainWindow::on_helpAction_triggered()
@@ -139,6 +144,7 @@ void MainWindow::setupActions()
     // Set icons for the actions in the file menu
     newAction->setIcon(QIcon::fromTheme("document-new"));
     loadAction->setIcon(QIcon::fromTheme("document-open"));
+    saveAction->setIcon(QIcon::fromTheme("document-save"));
     saveAsAction->setIcon(QIcon::fromTheme("document-save-as"));
     quitAction->setIcon(QIcon::fromTheme("application-exit"));
 
@@ -148,15 +154,15 @@ void MainWindow::setupActions()
     cutAction->setIcon(QIcon::fromTheme("edit-cut"));
     copyAction->setIcon(QIcon::fromTheme("edit-copy"));
     pasteAction->setIcon(QIcon::fromTheme("edit-paste"));
+    deleteAction->setIcon(QIcon::fromTheme("edit-delete"));
     selectAllAction->setIcon(QIcon::fromTheme("edit-select-all"));
 
     // Set icons for the actions in the graph menu
     addGraphNodeAction->setIcon(QIcon::fromTheme("format-add-node"));
     addGraphEdgeAction->setIcon(QIcon::fromTheme("format-add-node"));
-    removeGraphItemAction->setIcon(QIcon::fromTheme("format-remove-node"));
 
     // Set icons for the actions in the settings menu
-    preferencesAction->setIcon(QIcon::fromTheme("configure"));
+    settingsAction->setIcon(QIcon::fromTheme("configure"));
 
     // Set icons for the actions in the help menu
     helpAction->setIcon(QIcon::fromTheme("help-contents"));
@@ -181,11 +187,12 @@ void MainWindow::setupToolbars()
     editToolBar->addAction(cutAction);
     editToolBar->addAction(copyAction);
     editToolBar->addAction(pasteAction);
+    editToolBar->addAction(deleteAction);
+    editToolBar->addAction(selectAllAction);
     editToolBar->setVisible(showEditToolBarAction->isChecked());
 
     graphToolBar->addAction(addGraphNodeAction);
     graphToolBar->addAction(addGraphEdgeAction);
-    graphToolBar->addAction(removeGraphItemAction);
     graphToolBar->setVisible(showGraphToolBarAction->isChecked());
 }
 

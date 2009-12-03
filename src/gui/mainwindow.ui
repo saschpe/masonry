@@ -72,6 +72,8 @@
     </property>
     <addaction name="newAction"/>
     <addaction name="loadAction"/>
+    <addaction name="separator"/>
+    <addaction name="saveAction"/>
     <addaction name="saveAsAction"/>
     <addaction name="separator"/>
     <addaction name="quitAction"/>
@@ -86,10 +88,8 @@
     <addaction name="cutAction"/>
     <addaction name="copyAction"/>
     <addaction name="pasteAction"/>
-    <addaction name="separator"/>
+    <addaction name="deleteAction"/>
     <addaction name="selectAllAction"/>
-    <addaction name="selectNoneAction"/>
-    <addaction name="invertSelectionAction"/>
    </widget>
    <widget class="QMenu" name="menu_Help">
     <property name="title">
@@ -105,7 +105,7 @@
     </property>
     <widget class="QMenu" name="menuToolbars">
      <property name="title">
-      <string>Show &amp;Toolbars</string>
+      <string>Toolbars</string>
      </property>
      <addaction name="showFileToolBarAction"/>
      <addaction name="showEditToolBarAction"/>
@@ -113,7 +113,7 @@
     </widget>
     <addaction name="menuToolbars"/>
     <addaction name="separator"/>
-    <addaction name="preferencesAction"/>
+    <addaction name="settingsAction"/>
    </widget>
    <widget class="QMenu" name="menu_Graph">
     <property name="title">
@@ -121,7 +121,7 @@
     </property>
     <addaction name="addGraphNodeAction"/>
     <addaction name="addGraphEdgeAction"/>
-    <addaction name="removeGraphItemAction"/>
+    <addaction name="separator"/>
    </widget>
    <addaction name="menu_Quit"/>
    <addaction name="menu_Edit"/>
@@ -172,7 +172,7 @@
     <string>Load</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+L</string>
+    <string>Ctrl+O</string>
    </property>
   </action>
   <action name="saveAsAction">
@@ -180,7 +180,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Save As...</string>
+    <string>Save &amp;As...</string>
    </property>
    <property name="toolTip">
     <string>Save As...</string>
@@ -196,21 +196,8 @@
    <property name="text">
     <string>Select &amp;All</string>
    </property>
-  </action>
-  <action name="selectNoneAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Select &amp;None</string>
-   </property>
-  </action>
-  <action name="invertSelectionAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Invert Selection</string>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
    </property>
   </action>
   <action name="cutAction">
@@ -268,11 +255,6 @@
     <string>&amp;Edit Toolbar</string>
    </property>
   </action>
-  <action name="actionDockers">
-   <property name="text">
-    <string>&amp;Dockers</string>
-   </property>
-  </action>
   <action name="undoAction">
    <property name="enabled">
     <bool>false</bool>
@@ -308,23 +290,7 @@
     <string>Add &amp;Edge</string>
    </property>
   </action>
-  <action name="removeNodeAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Remove Node</string>
-   </property>
-  </action>
-  <action name="removeGraphItemAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Remove Item</string>
-   </property>
-  </action>
-  <action name="preferencesAction">
+  <action name="settingsAction">
    <property name="text">
     <string>&amp;Preferences</string>
    </property>
@@ -340,9 +306,23 @@
     <string>&amp;Graph Toolbar</string>
    </property>
   </action>
-  <action name="action_Delete">
+  <action name="deleteAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="saveAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>&amp;Save</string>
    </property>
   </action>
  </widget>
