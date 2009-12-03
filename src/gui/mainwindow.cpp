@@ -100,15 +100,7 @@ void MainWindow::readSettings()
     settings.beginGroup("mainwindow");
     resize(settings.value("size", QSize(800, 600)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
-    settings.endGroup();
-
-    // Load view specific settings
-    settings.beginGroup("view");
-    fileToolBar->setVisible(settings.value("fileToolBarVisible", true).toBool());
-    editToolBar->setVisible(settings.value("editToolBarVisible", true).toBool());
-    graphToolBar->setVisible(settings.value("graphToolBarVisible", true).toBool());
-    m_infoDockWidget->setVisible(settings.value("infoDockWidgetVisible", true).toBool());
-    m_outputDockWidget->setVisible(settings.value("outputDockWidgetVisible", true).toBool());
+    restoreState(settings.value("windowState").toByteArray());
     settings.endGroup();
 }
 
@@ -120,15 +112,7 @@ void MainWindow::writeSettings()
     settings.beginGroup("mainwindow");
     settings.setValue("size", size());
     settings.setValue("pos", pos());
-    settings.endGroup();
-
-    // Save view specific settings
-    settings.beginGroup("view");
-    settings.setValue("fileToolBarVisible", fileToolBar->isVisible());
-    settings.setValue("editToolBarVisible", editToolBar->isVisible());
-    settings.setValue("graphToolBarVisible", graphToolBar->isVisible());
-    settings.setValue("infoDockWidgetVisible", m_infoDockWidget->isVisible());
-    settings.setValue("outputDockWidgetVisible", m_outputDockWidget->isVisible());
+    settings.setValue("windowState", saveState());
     settings.endGroup();
 }
 
