@@ -6,4 +6,6 @@ cmake_install.cmake
 ui_*.h
 .*.swp
 *.moc
-sbslab
+masonry
+*.patch
+*.html
