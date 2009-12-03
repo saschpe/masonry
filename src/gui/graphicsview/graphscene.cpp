@@ -26,12 +26,11 @@
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
 {
-
+    setBackgroundBrush(Qt::white);
 }
 
 GraphScene::~GraphScene()
 {
-
 }
 
 #include "graphscene.moc"

@@ -15,6 +15,7 @@ set(masonry_UIS
     src/gui/widgets/outputdockwidget.ui
 )
 set(masonry_SRCS
+    src/gui/graphicsview/graphnodeitem.cpp
     src/gui/graphicsview/graphscene.cpp
     src/gui/graphicsview/graphview.cpp
     src/gui/mainwindow.cpp

@@ -24,9 +24,7 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent), m_scene(scene)
 {
     setCacheMode(QGraphicsView::CacheBackground);
-    //setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //setFrameStyle(QFrame::NoFrame);
+    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     /*setOptimizationFlags(QGraphicsView::DontClipPainter |
                          QGraphicsView::DontSavePainterState |
                          QGraphicsView::DontAdjustForAntialiasing);*/

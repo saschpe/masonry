@@ -18,6 +18,7 @@
 */
 
 #include "mainwindow.h"
+#include "graphicsview/graphnodeitem.h"
 #include "graphicsview/graphscene.h"
 #include "graphicsview/graphview.h"
 #include "widgets/infodockwidget.h"
@@ -37,6 +38,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     setCentralWidget(m_graphView);
 
+    m_graphScene->addItem(new GraphNodeItem);
+    m_graphScene->addItem(new GraphNodeItem);
+
     setupActions();
     setupDockWidgets();
     setupToolbars();
@@ -48,8 +52,6 @@ MainWindow::MainWindow(QWidget *parent)
 
 MainWindow::~MainWindow()
 {
-    delete m_graphScene;
-    delete m_graphView;
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)

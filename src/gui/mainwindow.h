@@ -34,7 +34,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    virtual ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent *event);
