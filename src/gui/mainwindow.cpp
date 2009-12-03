@@ -20,9 +20,12 @@
 #include "mainwindow.h"
 #include "graphicsview/graphscene.h"
 #include "graphicsview/graphview.h"
+#include "widgets/infodockwidget.h"
+#include "widgets/outputdockwidget.h"
 
 #include <QCloseEvent>
 #include <QDebug>
+#include <QDockWidget>
 #include <QSettings>
 #include <QToolBar>
 
@@ -101,9 +104,11 @@ void MainWindow::readSettings()
 
     // Load view specific settings
     settings.beginGroup("view");
-    showFileToolBarAction->setChecked(settings.value("showFileToolBar", true).toBool());
-    showEditToolBarAction->setChecked(settings.value("showEditToolBar", true).toBool());
-    showGraphToolBarAction->setChecked(settings.value("showGraphToolBar", true).toBool());
+    fileToolBar->setVisible(settings.value("fileToolBarVisible", true).toBool());
+    editToolBar->setVisible(settings.value("editToolBarVisible", true).toBool());
+    graphToolBar->setVisible(settings.value("graphToolBarVisible", true).toBool());
+    m_infoDockWidget->setVisible(settings.value("infoDockWidgetVisible", true).toBool());
+    m_outputDockWidget->setVisible(settings.value("outputDockWidgetVisible", true).toBool());
     settings.endGroup();
 }
 
@@ -119,9 +124,11 @@ void MainWindow::writeSettings()
 
     // Save view specific settings
     settings.beginGroup("view");
-    settings.setValue("showFileToolBar", showFileToolBarAction->isChecked());
-    settings.setValue("showEditToolBar", showEditToolBarAction->isChecked());
-    settings.setValue("showGraphToolBar", showGraphToolBarAction->isChecked());
+    settings.setValue("fileToolBarVisible", fileToolBar->isVisible());
+    settings.setValue("editToolBarVisible", editToolBar->isVisible());
+    settings.setValue("graphToolBarVisible", graphToolBar->isVisible());
+    settings.setValue("infoDockWidgetVisible", m_infoDockWidget->isVisible());
+    settings.setValue("outputDockWidgetVisible", m_outputDockWidget->isVisible());
     settings.endGroup();
 }
 
@@ -171,7 +178,15 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDockWidgets()
 {
+    // Info dock widget
+    m_infoDockWidget = new InfoDockWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_infoDockWidget);
+    dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
 
+    // Output dock widget
+    m_outputDockWidget = new OutputDockWidget(this);
+    addDockWidget(Qt::BottomDockWidgetArea, m_outputDockWidget);
+    dockersSettingsMenu->addAction(m_outputDockWidget->toggleViewAction());
 }
 
 void MainWindow::setupToolbars()
@@ -179,7 +194,7 @@ void MainWindow::setupToolbars()
     fileToolBar->addAction(newAction);
     fileToolBar->addAction(loadAction);
     fileToolBar->addAction(saveAsAction);
-    fileToolBar->setVisible(showFileToolBarAction->isChecked());
+    toolBarsSettingsMenu->addAction(fileToolBar->toggleViewAction());
 
     editToolBar->addAction(undoAction);
     editToolBar->addAction(redoAction);
@@ -189,11 +204,11 @@ void MainWindow::setupToolbars()
     editToolBar->addAction(pasteAction);
     editToolBar->addAction(deleteAction);
     editToolBar->addAction(selectAllAction);
-    editToolBar->setVisible(showEditToolBarAction->isChecked());
+    toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
 
     graphToolBar->addAction(addGraphNodeAction);
     graphToolBar->addAction(addGraphEdgeAction);
-    graphToolBar->setVisible(showGraphToolBarAction->isChecked());
+    toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }
 
 #include "mainwindow.moc"

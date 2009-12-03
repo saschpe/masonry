@@ -17,50 +17,24 @@
     02110-1301, USA.
 */
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef INFODOCKWIDGET_H
+#define INFODOCKWIDGET_H
 
-#include "ui_mainwindow.h"
+#include "ui_infodockwidget.h"
 
-#include <QMainWindow>
+#include <QDockWidget>
 
-class GraphScene;
-class GraphView;
-class QDockWidget;
-
-class MainWindow : public QMainWindow, private Ui::MainWindow
+/**
+ * @author Sascha Peilicke <sasch.pe@gmx.de>
+ * @since 0.1
+ */
+class InfoDockWidget : public QDockWidget, private Ui::InfoDockWidget
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
-    ~MainWindow();
+    InfoDockWidget(QWidget *parent = 0);
 
-protected:
-    void closeEvent(QCloseEvent *event);
-
-private slots:
-    void on_newAction_triggered();
-    void on_loadAction_triggered();
-    void on_saveAction_triggered();
-    void on_saveAsAction_triggered();
-    void on_helpAction_triggered();
-    void on_aboutAction_triggered();
-
-private:
-    void readSettings();
-    void writeSettings();
-    bool maybeSave();
-
-    void setupActions();
-    void setupDockWidgets();
-    void setupToolbars();
-
-    GraphScene *m_graphScene;
-    GraphView *m_graphView;
-
-    QDockWidget *m_infoDockWidget;
-    QDockWidget *m_outputDockWidget;
 };
 
-#endif // MAINWINDOW_H
+#endif // INFODOCKWIDGET_H
