@@ -114,7 +114,7 @@
     <addaction name="toolBarsSettingsMenu"/>
     <addaction name="dockersSettingsMenu"/>
     <addaction name="separator"/>
-    <addaction name="preferencesAction"/>
+    <addaction name="configureAction"/>
    </widget>
    <widget class="QMenu" name="graphMenu">
     <property name="title">
@@ -270,9 +270,12 @@
     <string>Add &amp;Edge</string>
    </property>
   </action>
-  <action name="preferencesAction">
+  <action name="configureAction">
    <property name="text">
-    <string>&amp;Preferences</string>
+    <string>&amp;Configure...</string>
+   </property>
+   <property name="toolTip">
+    <string>Configure</string>
    </property>
   </action>
   <action name="deleteAction">

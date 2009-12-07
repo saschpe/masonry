@@ -91,9 +91,9 @@ void MainWindow::on_computeAction_triggered()
     //      and feed it to Matlab/Octave/...
 }
 
-void MainWindow::on_preferencesAction_triggered()
+void MainWindow::on_configureAction_triggered()
 {
-    qDebug() << "Show preferences window";
+    qDebug() << "Show configure window";
 }
 
 void MainWindow::on_helpAction_triggered()
@@ -172,7 +172,7 @@ void MainWindow::setupActions()
     addGraphEdgeAction->setIcon(QIcon::fromTheme("format-add-node"));
 
     // Set icons for the actions in the settings menu
-    preferencesAction->setIcon(QIcon::fromTheme("configure"));
+    configureAction->setIcon(QIcon::fromTheme("configure"));
 
     // Set icons for the actions in the help menu
     helpAction->setIcon(QIcon::fromTheme("help-contents"));
