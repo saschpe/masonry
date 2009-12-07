@@ -10,11 +10,13 @@ include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR} ${Boost_INCLUDE_DIRS})
 
 set(masonry_UIS
+    src/gui/configdialog.ui
     src/gui/mainwindow.ui
     src/gui/widgets/infodockwidget.ui
     src/gui/widgets/outputdockwidget.ui
 )
 set(masonry_SRCS
+    src/gui/configdialog.cpp
     src/gui/graphicsview/graphnodeitem.cpp
     src/gui/graphicsview/graphscene.cpp
     src/gui/graphicsview/graphview.cpp

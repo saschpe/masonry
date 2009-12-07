@@ -18,6 +18,7 @@
 */
 
 #include "mainwindow.h"
+#include "configdialog.h"
 #include "graphicsview/graphnodeitem.h"
 #include "graphicsview/graphscene.h"
 #include "graphicsview/graphview.h"
@@ -93,7 +94,8 @@ void MainWindow::on_computeAction_triggered()
 
 void MainWindow::on_configureAction_triggered()
 {
-    qDebug() << "Show configure window";
+    ConfigDialog dialog(this);
+    dialog.exec();
 }
 
 void MainWindow::on_helpAction_triggered()
