@@ -1,0 +1,127 @@
+[Icon Theme]
+Name=Oxygen
+Name[ar]=أكسجين
+Name[bn]=অক্সিজেন
+Name[csb]=Krziseń
+Name[es]=Oxígeno
+Name[gu]=ઓક્સિજન
+Name[hi]=आक्सीजन
+Name[hne]=आक्सीजन
+Name[kk]=Оттегі
+Name[km]=អុកស៊ីហ្សែន
+Name[kn]=ಆಕ್ಸಿಜನ್
+Name[mai]=आक्सीजन
+Name[mk]=Оксиген
+Name[ml]=ഓക്സിജന്‍
+Name[mr]=आक्सीजन
+Name[ne]=अक्सिजन
+Name[nn]=Oksygen
+Name[or]=ଅକ୍ସିଜେନ
+Name[pa]=ਆਕਸੀਜਨ
+Name[se]=Oksygena
+Name[sr]=Кисеоник
+Name[sr@latin]=Kiseonik
+Name[ta]=ஆக்ஸிஜன்
+Name[th]=รูปแบบ Oxygen
+Name[wa]=Ocsidjinne
+Name[x-test]=xxOxygenxx
+
+Comment=Oxygen Team
+Comment[af]=Oxygen span
+Comment[ar]=ثيمة أكسجين
+Comment[be@latin]=Supołka „Oxygen”
+Comment[bg]=Екипът на Oxygen
+Comment[bn]=অক্সিজেন টীম
+Comment[bn_IN]=Oxygen দল
+Comment[cs]=Tým Oxygen
+Comment[csb]=Oxygen-Team
+Comment[da]=Oxygen-holdet
+Comment[de]=Oxygen-Team
+Comment[el]=Η ομάδα του Oxygen
+Comment[eo]=Oxygen Teamo
+Comment[es]=Equipo Oxygen
+Comment[et]=Oxygeni meeskond
+Comment[eu]=Oxygen taldea
+Comment[fi]=Oxygen-tiimi
+Comment[fr]=L'équipe Oxygen
+Comment[ga]=Foireann Oxygen
+Comment[gl]=A equipa de Oxygen
+Comment[gu]=ઓક્સિજન ટીમ
+Comment[he]=צוות Oxygen
+Comment[hi]=ऑक्सीजन टोली
+Comment[hne]=आक्सीजन टीम
+Comment[hr]=Tim Oxygen-a
+Comment[is]=Oxygen teymið
+Comment[it]=La squadra di Oxygen
+Comment[kk]=Oxygen тобы
+Comment[km]=ក្រុម​អុកស៊ីសែន
+Comment[kn]=ಆಕ್ಸಿಜನ್ ತಂಡ
+Comment[ko]=Oxygen 팀
+Comment[ku]=Koma Oxygen
+Comment[lt]=Oxygen komanda
+Comment[lv]=Oxygen komanda
+Comment[mk]=Тимот на Оксиген
+Comment[ml]=ഓക്സിജന്‍ സംഘം
+Comment[mr]=ऑक्सीजन समूह
+Comment[nds]=Oxygen-Koppel
+Comment[nl]=Oxygen-team
+Comment[nn]=Oksygen-gruppa
+Comment[or]=Oxygen ଦଳ
+Comment[pa]=ਆਕਸੀਜਨ ਟੀਮ
+Comment[pl]=Zespół Oxygena
+Comment[pt]=Equipa do Oxygen
+Comment[pt_BR]=Equipe do Oxygen
+Comment[ro]=Echipa Oxygen
+Comment[ru]=Команда Oxygen
+Comment[si]=Oxygen කණ්ඩායම
+Comment[sk]=Tím Oxygen
+Comment[sl]=Ekipa Oxygena
+Comment[sr]=Тим Кисеоника
+Comment[sr@latin]=Tim Kiseonika
+Comment[sv]=Oxygen-gruppen
+Comment[ta]=Oxygen அணி
+Comment[te]=Oxygen టీము
+Comment[tg]=Командаи Oxygen
+Comment[th]=กลุ่มผู้พัฒนา Oxygen
+Comment[tr]=Oxygen Ekibi
+Comment[uk]=Команда Oxygen
+Comment[uz]=Oxygen jamoasi
+Comment[uz@cyrillic]=Oxygen жамоаси
+Comment[wa]=Ekipe Ocsidjinne
+Comment[x-test]=xxOxygen Teamxx
+Comment[zh_CN]=Oxygen 团队
+Comment[zh_TW]=Oxygen 開發團隊
+
+DisplayDepth=32
+
+Inherits=hicolor
+
+Example=folder
+
+LinkOverlay=link
+LockOverlay=lockoverlay
+ShareOverlay=share
+ZipOverlay=zip
+
+DesktopDefault=48
+DesktopSizes=16,22,32,48,64,128,256
+ToolbarDefault=22
+ToolbarSizes=16,22,32,48
+MainToolbarDefault=22
+MainToolbarSizes=16,22,32,48
+SmallDefault=16
+SmallSizes=16,22
+PanelDefault=32
+PanelSizes=16,22,32,48,64,128,256
+
+Directories=32x32/actions,32x32/status,
+
+[32x32/actions]
+Size=32
+Context=Actions
+Type=Threshold
+
+[32x32/status]
+Size=32
+Context=Status
+Type=Threshold
