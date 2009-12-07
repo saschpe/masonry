@@ -84,6 +84,18 @@ void MainWindow::on_saveAsAction_triggered()
     qDebug() << "Save graph as...";
 }
 
+void MainWindow::on_computeAction_triggered()
+{
+    qDebug() << "Run computation of Mason graph...";
+    //TODO: Convert graph into suitable representation
+    //      and feed it to Matlab/Octave/...
+}
+
+void MainWindow::on_preferencesAction_triggered()
+{
+    qDebug() << "Show preferences window";
+}
+
 void MainWindow::on_helpAction_triggered()
 {
     qDebug() << "TODO: Show help";
@@ -131,7 +143,7 @@ bool MainWindow::maybeSave()
 
 void MainWindow::setupActions()
 {
-#ifndef QT_WS_X11
+#ifndef Q_WS_X11
     // Set a specific icon theme on non-X11 platforms.
     QStringList themeSearchPaths = QIcon::themeSearchPaths();
     themeSearchPaths << "data/icons";

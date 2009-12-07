@@ -123,6 +123,7 @@
     <addaction name="addGraphNodeAction"/>
     <addaction name="addGraphEdgeAction"/>
     <addaction name="separator"/>
+    <addaction name="computeAction"/>
    </widget>
    <addaction name="quitMenu"/>
    <addaction name="editMenu"/>
@@ -296,6 +297,11 @@
   <action name="aboutQtAction">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+  </action>
+  <action name="computeAction">
+   <property name="text">
+    <string>&amp;Compute...</string>
    </property>
   </action>
  </widget>
