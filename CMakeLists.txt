@@ -17,9 +17,10 @@ set(masonry_UIS
 )
 set(masonry_SRCS
     src/gui/configdialog.cpp
-    src/gui/graphicsview/graphnodeitem.cpp
-    src/gui/graphicsview/graphscene.cpp
-    src/gui/graphicsview/graphview.cpp
+    src/gui/graph/directededgeitem.cpp
+    src/gui/graph/nodeitem.cpp
+    src/gui/graph/graphscene.cpp
+    src/gui/graph/graphview.cpp
     src/gui/mainwindow.cpp
     src/gui/widgets/infodockwidget.cpp
     src/gui/widgets/outputdockwidget.cpp

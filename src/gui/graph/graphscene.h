@@ -17,22 +17,40 @@
     02110-1301, USA.
 */
 
-#include "graphnodeitem.h"
+#ifndef GRAPHSCENE_H
+#define GRAPHSCENE_H
 
-#include <QPen>
-#include <QRadialGradient>
+#include <QGraphicsScene>
 
-GraphNodeItem::GraphNodeItem(QGraphicsItem *parent)
-    : QGraphicsEllipseItem(parent)
+class DirectedEdgeItem;
+class NodeItem;
+
+class GraphScene : public QGraphicsScene
 {
-    setRect(0, 0, 20, 20);
+    Q_OBJECT
 
-    QRadialGradient gradient(10, 10, 10);
-    gradient.setColorAt(0, QColor::fromRgbF(1, 0.9, 0, 1));
-    gradient.setColorAt(1, QColor::fromRgbF(1, 0.7, 0, 1));
-    QBrush fillBrush(gradient);
-    setBrush(fillBrush);
-    QPen pen;
-    pen.setWidthF(0.3);
-    setPen(pen);
-}
+public:
+    enum Mode {
+        InsertNode = 1,
+        InsertDirectedEdge,
+        MoveItem,
+    };
+
+    GraphScene(QObject *parent = 0);
+    virtual ~GraphScene();
+
+public slots:
+    void setMode(Mode mode);
+
+signals:
+    void edgeInserted(DirectedEdgeItem *);
+    void nodeInserted(NodeItem *);
+    void itemInserted(QGraphicsItem *);
+
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *);
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+};
+
+#endif // GRAPHSCENE_H

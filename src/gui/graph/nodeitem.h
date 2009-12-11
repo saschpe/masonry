@@ -17,15 +17,29 @@
     02110-1301, USA.
 */
 
-#ifndef GRAPHNODEITEM_H
-#define GRAPHNODEITEM_H
+#ifndef NODEITEM_H
+#define NODEITEM_H
 
 #include <QGraphicsEllipseItem>
 
-class GraphNodeItem : public QGraphicsEllipseItem
+class DirectedEdgeItem;
+
+class NodeItem : public QGraphicsEllipseItem
 {
 public:
-    GraphNodeItem(QGraphicsItem *parent = 0);
+    NodeItem(QMenu *contextMenu = 0, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+
+    void addEdgeItem(DirectedEdgeItem *item);
+    void removeEdgeItem(DirectedEdgeItem *item);
+    void removeEdgeItems();
+
+protected:
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
+
+private:
+    QMenu *m_contextMenu;
+    QList<DirectedEdgeItem *> m_edgeItems;
 };
 
-#endif // GRAPHNODEITEM_H
+#endif // NODEITEM_H

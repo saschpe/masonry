@@ -17,21 +17,41 @@
     02110-1301, USA.
 */
 
-#ifndef GRAPHSCENE_H
-#define GRAPHSCENE_H
+#include "graphscene.h"
 
-#include <QGraphicsScene>
+#include <QDebug>
+#include <QPainter>
+#include <QGraphicsPixmapItem>
+#include <QGraphicsSceneMouseEvent>
 
-class GraphScene : public QGraphicsScene
+GraphScene::GraphScene(QObject *parent)
+    : QGraphicsScene(parent)
 {
-    Q_OBJECT
+    setBackgroundBrush(Qt::white);
+}
 
-public:
-    GraphScene(QObject *parent = 0);
-    virtual ~GraphScene();
+GraphScene::~GraphScene()
+{
+}
 
-    /*void addNode();
-    void addEdge*/
-};
+void GraphScene::setMode(Mode mode)
+{
+    qDebug() << "TODO: Implement";
+}
 
-#endif // GRAPHSCENE_H
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}
+
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}
+
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+
+}
+
+#include "graphscene.moc"

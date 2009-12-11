@@ -17,20 +17,36 @@
     02110-1301, USA.
 */
 
-#include "graphscene.h"
+#ifndef DIRECTEDEDGEITEM_H
+#define DIRECTEDEDGEITEM_H
 
-#include <QPainter>
-#include <QGraphicsPixmapItem>
-#include <QGraphicsSceneMouseEvent>
+#include <QGraphicsLineItem>
 
-GraphScene::GraphScene(QObject *parent)
-    : QGraphicsScene(parent)
+class NodeItem;
+
+class DirectedEdgeItem : public QGraphicsLineItem
 {
-    setBackgroundBrush(Qt::white);
-}
+public:
+    DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
-GraphScene::~GraphScene()
-{
-}
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
+    void setColor(const QColor &color) { m_color = color; }
+    NodeItem *startNodeItem() const { return m_startNodeItem; }
+    NodeItem *endNodeItem() const { return m_endNodeItem; }
 
-#include "graphscene.moc"
+public slots:
+    void updatePosition();
+
+protected:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+
+private:
+    QColor m_color;
+    QPolygonF m_arrowHead;
+    NodeItem *m_startNodeItem;
+    NodeItem *m_endNodeItem;
+};
+
+#endif // NODEITEM_H
+
