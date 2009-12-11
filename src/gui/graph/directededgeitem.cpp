@@ -21,11 +21,10 @@
 #include "nodeitem.h"
 #include <cmath>
 
+#include <QDebug>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QPen>
-
-const qreal Pi = 3.14;
 
 DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsLineItem(parent, scene)
@@ -71,26 +70,13 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         return;
     }
 
+    //TODO: Optimise all these computations later on!
     QLineF centerLine(m_startNodeItem->pos(), m_endNodeItem->pos());
-    /*QPolygonF endPolygon = m_endNodeItem->polygon();
-    QPointF p1 = endPolygon.first() + m_endNodeItem->pos();
-    QPointF p2;
-    QPointF intersectPoint;
-    QLineF polyLine;
-    for (int i = 1; i < endPolygon.count(); i++) {
-        p2 = endPolygon.at(i) + m_endNodeItem->pos();
-        polyLine = QLineF(p1, p2);
-        QLineF::IntersectType intersectType = polyLine.intersect(centerLine, &intersectPoint);
-        if (intersectType == QLineF::BoundedIntersection) {
-            break;
-        }
-        p1 = p2;
-    }*/
-    /*QPointF endNodeItemCenter = m_endNodeItem->rect()->center();
-    qreal endNodeItemRadius = m_endNodeItem->rect()->width() / 2;*/
-
-    //setLine(QLineF(intersectPoint, m_startNodeItem->pos()));
-    setLine(centerLine);
+    QPointF p1(m_startNodeItem->pos().x() + 15 * sin(M_PI_2 + centerLine.angle() / 180*M_PI),
+               m_startNodeItem->pos().y() + 15 * cos(M_PI_2 + centerLine.angle() / 180*M_PI));
+    QPointF p2(m_endNodeItem->pos().x() + 15 * sin(centerLine.angle() / 180*M_PI - M_PI_2),
+               m_endNodeItem->pos().y() + 15 * cos(centerLine.angle() / 180*M_PI - M_PI_2));
+    setLine(QLineF(p1, p2));
 
     QPen p = pen();
     QBrush b(Qt::black);
@@ -103,14 +89,13 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     double angle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0) {
-        angle = (Pi * 2) - angle;
+        angle = (M_PI * 2) - angle;
     }
-
     qreal arrowSize = 7;
-    QPointF arrowP1 = line().p1() + QPointF(sin(angle + Pi / 3) * arrowSize,
-                                            cos(angle + Pi / 3) * arrowSize);
-    QPointF arrowP2 = line().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
-                                            cos(angle + Pi - Pi / 3) * arrowSize);
+    QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
+                                            cos(angle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
+                                            cos(angle + M_PI - M_PI / 3) * arrowSize);
     m_arrowHead.clear();
     m_arrowHead << line().p1() << arrowP1 << arrowP2;
 

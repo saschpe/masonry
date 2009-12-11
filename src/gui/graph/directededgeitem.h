@@ -27,6 +27,8 @@ class NodeItem;
 class DirectedEdgeItem : public QGraphicsLineItem
 {
 public:
+    enum {Type = UserType + 2};
+
     DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~DirectedEdgeItem();
 
