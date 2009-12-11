@@ -35,13 +35,26 @@ class GraphView : public QGraphicsView
     Q_OBJECT
 
 public:
+    enum {
+        AddState = 1,
+        ModifyState,
+        ViewState
+    } State;
+
     GraphView(GraphScene *scene, QWidget *parent = 0);
     virtual ~GraphView();
+
+    /*void setState(State state);
+    State state() const { ; }*/
+
+public slots:
 
 private:
     //void drawForeground(QPainter *painter, const QRectF &rect);
     //void showEvent(QShowEvent *event);
     //void resizeEvent(QResizeEvent *event);
+    //void mousePressEvent(QMouseEvent *);
+    //void mouseReleaseEvent(QMouseEvent *);
 
     GraphScene * const m_scene;
 };
