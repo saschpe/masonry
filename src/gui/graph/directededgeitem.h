@@ -31,7 +31,6 @@ public:
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
-    void setColor(const QColor &color) { m_color = color; }
     NodeItem *startNodeItem() const { return m_startNodeItem; }
     NodeItem *endNodeItem() const { return m_endNodeItem; }
 
@@ -42,7 +41,6 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    QColor m_color;
     QPolygonF m_arrowHead;
     NodeItem *m_startNodeItem;
     NodeItem *m_endNodeItem;

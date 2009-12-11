@@ -23,26 +23,19 @@
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
+#include <QPainter>
 #include <QPen>
-#include <QRadialGradient>
+//#include <QRadialGradient>
 
 NodeItem::NodeItem(QMenu *contextMenu, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
     , m_contextMenu(contextMenu)
 {
-    setRect(0, 0, 20, 20);
-
-    QRadialGradient gradient(10, 10, 10);
-    gradient.setColorAt(0, QColor::fromRgbF(1, 0.9, 0, 1));
-    gradient.setColorAt(1, QColor::fromRgbF(1, 0.7, 0, 1));
-    QBrush fillBrush(gradient);
-    setBrush(fillBrush);
-    QPen pen;
-    pen.setWidthF(0.3);
-    setPen(pen);
-
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setRect(-10, -10, 20, 20);
+    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setBrush(Qt::white);
 }
 
 void NodeItem::addEdgeItem(DirectedEdgeItem *item)
@@ -70,6 +63,10 @@ void NodeItem::removeEdgeItems()
 
 void NodeItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
+    if (!m_contextMenu) {
+        return;
+    }
+
     scene()->clearSelection();
     setSelected(true);
     m_contextMenu->exec(event->screenPos());
@@ -83,4 +80,21 @@ QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant &value)
         }
     }
     return value;
+}
+
+void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    /*QRadialGradient gradient(0, 0, 0);
+    gradient.setColorAt(0, QColor::fromRgbF(1, 0.9, 0, 1));
+    gradient.setColorAt(1, QColor::fromRgbF(1, 0.7, 0, 1));
+    QBrush fillBrush(gradient);
+    setBrush(fillBrush);*/
+    QBrush b = brush();
+    if (isSelected()) {
+        b.setColor(Qt::red);
+    }
+    painter->setPen(pen());
+    painter->setBrush(b);
+    painter->drawEllipse(rect());
+    //QGraphicsEllipseItem::paint(painter, option, widget);
 }

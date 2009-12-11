@@ -28,10 +28,12 @@ const qreal Pi = 3.14;
 
 DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsLineItem(parent, scene)
-    , m_color(Qt::black), m_startNodeItem(startNodeItem), m_endNodeItem(endNodeItem)
+    , m_startNodeItem(startNodeItem), m_endNodeItem(endNodeItem)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setPen(QPen(m_color, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    m_startNodeItem->addEdgeItem(this);
+    m_endNodeItem->addEdgeItem(this);
 }
 
 QRectF DirectedEdgeItem::boundingRect() const
@@ -61,12 +63,6 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         return;
     }
 
-    QPen myPen = pen();
-    myPen.setColor(m_color);
-    painter->setPen(myPen);
-    painter->setBrush(m_color);
-    qreal arrowSize = 20;
-
     QLineF centerLine(m_startNodeItem->pos(), m_endNodeItem->pos());
     /*QPolygonF endPolygon = m_endNodeItem->polygon();
     QPointF p1 = endPolygon.first() + m_endNodeItem->pos();
@@ -88,11 +84,21 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     //setLine(QLineF(intersectPoint, m_startNodeItem->pos()));
     setLine(centerLine);
 
+    QPen p = pen();
+    QBrush b(Qt::black);
+    if (isSelected()) {
+        p.setColor(Qt::red);
+        b.setColor(Qt::red);
+    }
+    painter->setPen(p);
+    painter->setBrush(b);
+
     double angle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0) {
         angle = (Pi * 2) - angle;
     }
 
+    qreal arrowSize = 5;
     QPointF arrowP1 = line().p1() + QPointF(sin(angle + Pi / 3) * arrowSize,
                                             cos(angle + Pi / 3) * arrowSize);
     QPointF arrowP2 = line().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,
@@ -102,12 +108,4 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     painter->drawLine(line());
     painter->drawPolygon(m_arrowHead);
-    if (isSelected()) {
-        painter->setPen(QPen(Qt::red, 2));
-    }
-    QLineF myLine = line();
-    myLine.translate(0, 4.0);
-    painter->drawLine(myLine);
-    myLine.translate(0, -8.0);
-    painter->drawLine(myLine);
 }
