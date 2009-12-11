@@ -20,19 +20,26 @@
 #include "graphview.h"
 #include "graphscene.h"
 
+#include <QWheelEvent>
+
 GraphView::GraphView(GraphScene *scene, QWidget *parent)
     : QGraphicsView(scene, parent), m_scene(scene)
 {
     setCacheMode(QGraphicsView::CacheBackground);
+    setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     /*setOptimizationFlags(QGraphicsView::DontClipPainter |
                          QGraphicsView::DontSavePainterState |
                          QGraphicsView::DontAdjustForAntialiasing);*/
 }
 
-GraphView::~GraphView()
+void GraphView::wheelEvent(QWheelEvent *event)
 {
-
+    if (event->delta() > 0) {
+        scale(1.2, 1.2);
+    } else {
+        scale(1 / 1.2, 1 / 1.2);
+    }
 }
 
 /*void GraphView::drawForeground(QPainter *painter, const QRectF &rect)
