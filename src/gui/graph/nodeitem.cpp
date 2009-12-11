@@ -31,7 +31,7 @@ NodeItem::NodeItem(QMenu *contextMenu, QGraphicsItem *parent, QGraphicsScene *sc
     : QGraphicsEllipseItem(parent, scene)
     , m_contextMenu(contextMenu)
 {
-    setFlag(QGraphicsItem::ItemIsMovable, true);
+    //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-15, -15, 30, 30);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));

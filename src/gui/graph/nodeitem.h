@@ -27,6 +27,8 @@ class DirectedEdgeItem;
 class NodeItem : public QGraphicsEllipseItem
 {
 public:
+    enum {Type = UserType + 1};
+
     NodeItem(QMenu *contextMenu = 0, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~NodeItem();
 
