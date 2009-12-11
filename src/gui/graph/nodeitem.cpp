@@ -33,9 +33,15 @@ NodeItem::NodeItem(QMenu *contextMenu, QGraphicsItem *parent, QGraphicsScene *sc
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setRect(-10, -10, 20, 20);
+    setRect(-15, -15, 30, 30);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(Qt::white);
+}
+
+NodeItem::~NodeItem()
+{
+    removeEdgeItems();
+    scene()->removeItem(this);
 }
 
 void NodeItem::addEdgeItem(DirectedEdgeItem *item)
@@ -54,9 +60,6 @@ void NodeItem::removeEdgeItem(DirectedEdgeItem *item)
 void NodeItem::removeEdgeItems()
 {
     foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-        edgeItem->startNodeItem()->removeEdgeItem(edgeItem);
-        edgeItem->endNodeItem()->removeEdgeItem(edgeItem);
-        scene()->removeItem(edgeItem);
         delete edgeItem;
     }
 }

@@ -21,6 +21,7 @@
 #include "nodeitem.h"
 #include <cmath>
 
+#include <QGraphicsScene>
 #include <QPainter>
 #include <QPen>
 
@@ -34,6 +35,13 @@ DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeIte
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     m_startNodeItem->addEdgeItem(this);
     m_endNodeItem->addEdgeItem(this);
+}
+
+DirectedEdgeItem::~DirectedEdgeItem()
+{
+    m_startNodeItem->removeEdgeItem(this);
+    m_endNodeItem->removeEdgeItem(this);
+    scene()->removeItem(this);
 }
 
 QRectF DirectedEdgeItem::boundingRect() const
@@ -98,7 +106,7 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         angle = (Pi * 2) - angle;
     }
 
-    qreal arrowSize = 5;
+    qreal arrowSize = 7;
     QPointF arrowP1 = line().p1() + QPointF(sin(angle + Pi / 3) * arrowSize,
                                             cos(angle + Pi / 3) * arrowSize);
     QPointF arrowP2 = line().p1() + QPointF(sin(angle + Pi - Pi / 3) * arrowSize,

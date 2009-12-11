@@ -28,6 +28,7 @@ class DirectedEdgeItem : public QGraphicsLineItem
 {
 public:
     DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    virtual ~DirectedEdgeItem();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

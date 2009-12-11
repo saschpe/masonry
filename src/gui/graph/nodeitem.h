@@ -28,6 +28,7 @@ class NodeItem : public QGraphicsEllipseItem
 {
 public:
     NodeItem(QMenu *contextMenu = 0, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    virtual ~NodeItem();
 
     void addEdgeItem(DirectedEdgeItem *item);
     void removeEdgeItem(DirectedEdgeItem *item);
