@@ -40,17 +40,19 @@ MainWindow::MainWindow(QWidget *parent)
     setCentralWidget(m_graphView);
 
     NodeItem *node1 = new NodeItem;
-    node1->setPos(-100, 0);
+    node1->setPos(100, 0);
     NodeItem *node2 = new NodeItem;
-    node2->setPos(0, 0);
+    node2->setPos(0, 10);
     NodeItem *node3 = new NodeItem;
-    node3->setPos(100, 0);
+    node3->setPos(-100, 50);
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2);
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3);
 
     m_graphScene->addItem(node1);
     m_graphScene->addItem(node2);
     m_graphScene->addItem(node3);
+    m_graphScene->addItem(edge1);
+    m_graphScene->addItem(edge2);
 
     setupActions();
     setupDockWidgets();
