@@ -28,9 +28,6 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
     setCacheMode(QGraphicsView::CacheBackground);
     setDragMode(QGraphicsView::ScrollHandDrag);
     setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
-    /*setOptimizationFlags(QGraphicsView::DontClipPainter |
-                         QGraphicsView::DontSavePainterState |
-                         QGraphicsView::DontAdjustForAntialiasing);*/
 }
 
 void GraphView::wheelEvent(QWheelEvent *event)
@@ -41,25 +38,5 @@ void GraphView::wheelEvent(QWheelEvent *event)
         scale(1 / 1.2, 1 / 1.2);
     }
 }
-
-/*void GraphView::drawForeground(QPainter *painter, const QRectF &rect)
-{
-    if (!isInteractive()) {
-        painter->save();
-        painter->setBrush(QBrush(QColor(60,60,60,100), Qt::Dense4Pattern));
-        painter->drawRect(rect);
-        painter->restore();
-    }
-}*/
-
-/*void GraphView::showEvent(QShowEvent *)
-{
-    m_scene->resizeScene(width(), height());
-}*/
-
-/*void GraphView::resizeEvent(QResizeEvent *event)
-{
-    m_scene->resizeScene(event->size().width(), event->size().height());
-}*/
 
 #include "graphview.moc"

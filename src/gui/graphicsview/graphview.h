@@ -43,9 +43,6 @@ public slots:
 
 protected:
     void wheelEvent(QWheelEvent *);
-    //void drawForeground(QPainter *painter, const QRectF &rect);
-    //void showEvent(QShowEvent *event);
-    //void resizeEvent(QResizeEvent *event);
 
     GraphScene * const m_scene;
 };
