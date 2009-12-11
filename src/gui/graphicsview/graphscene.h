@@ -30,6 +30,8 @@ public:
     GraphScene(QObject *parent = 0);
     virtual ~GraphScene();
 
+    /*void addNode();
+    void addEdge*/
 };
 
 #endif // GRAPHSCENE_H

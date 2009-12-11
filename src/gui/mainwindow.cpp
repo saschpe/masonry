@@ -36,18 +36,12 @@ MainWindow::MainWindow(QWidget *parent)
     , m_graphScene(new GraphScene), m_graphView(new GraphView(m_graphScene))
 {
     setupUi(this);
-
     setCentralWidget(m_graphView);
-
-    m_graphScene->addItem(new GraphNodeItem);
-    m_graphScene->addItem(new GraphNodeItem);
 
     setupActions();
     setupDockWidgets();
     setupToolbars();
-
     readSettings();
-
     statusBar()->showMessage(tr("Ready"));
 }
 
