@@ -27,9 +27,9 @@
 #include <QPen>
 //#include <QRadialGradient>
 
-NodeItem::NodeItem(QMenu *contextMenu, QGraphicsItem *parent, QGraphicsScene *scene)
+NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
-    , m_contextMenu(contextMenu)
+    , m_contextMenu(0)
 {
     //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
