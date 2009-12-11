@@ -39,7 +39,7 @@ void GraphScene::setMode(Mode mode)
     qDebug() << "TODO: Implement";
 }
 
-void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+/*void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
 
 }
@@ -52,6 +52,6 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
 
-}
+}*/
 
 #include "graphscene.moc"

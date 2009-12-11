@@ -48,9 +48,9 @@ signals:
     void itemInserted(QGraphicsItem *);
 
 protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *);
+    /*void mousePressEvent(QGraphicsSceneMouseEvent *);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *);*/
 };
 
 #endif // GRAPHSCENE_H
