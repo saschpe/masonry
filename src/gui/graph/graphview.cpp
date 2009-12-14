@@ -27,7 +27,7 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
 {
     setCacheMode(QGraphicsView::CacheBackground);
     setDragMode(QGraphicsView::ScrollHandDrag);
-    setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
+    setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 }
 
 void GraphView::wheelEvent(QWheelEvent *event)
