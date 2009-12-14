@@ -50,8 +50,8 @@ MainWindow::MainWindow(QWidget *parent)
     node3->setPos(-100, 50);
     node3->setRadius(20);
     node3->setIsInput(true);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2);
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3);
+    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
+    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
 
     m_graphScene->addItem(node1);
     m_graphScene->addItem(node2);

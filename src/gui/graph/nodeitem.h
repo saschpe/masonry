@@ -44,7 +44,6 @@ public:
     bool isInput() const { return m_isInput; }
     void setIsOutput(bool isOutput);
     bool isOutput() const { return m_isOutput; }
-
     void setRadius(qreal radius);
     qreal radius() const { return m_radius; }
 
@@ -56,7 +55,6 @@ protected:
 private:
     QMenu *m_contextMenu;
     QList<DirectedEdgeItem *> m_edgeItems;
-
     QString m_name;
     bool m_isInput;
     bool m_isOutput;

@@ -29,13 +29,16 @@ class DirectedEdgeItem : public QGraphicsLineItem
 public:
     enum {Type = UserType + 2};
 
-    DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~DirectedEdgeItem();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
     NodeItem *startNodeItem() const { return m_startNodeItem; }
     NodeItem *endNodeItem() const { return m_endNodeItem; }
+
+    void setName(const QString &name);
+    QString name() const { return m_name; }
 
 public slots:
     void updatePosition();
@@ -45,8 +48,10 @@ protected:
 
 private:
     QPolygonF m_arrowHead;
+    QRectF m_textRect;
     NodeItem *m_startNodeItem;
     NodeItem *m_endNodeItem;
+    QString m_name;
 };
 
 #endif // NODEITEM_H

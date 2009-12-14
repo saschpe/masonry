@@ -138,6 +138,5 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     painter->drawEllipse(rect());
     p.setColor(Qt::black);
     painter->setPen(p);
-    //TODO: Adjust text size to rect()
     painter->drawText(rect(), Qt::AlignCenter, m_name);
 }

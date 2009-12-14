@@ -26,9 +26,9 @@
 #include <QPainter>
 #include <QPen>
 
-DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, QGraphicsItem *parent, QGraphicsScene *scene)
+DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsLineItem(parent, scene)
-    , m_startNodeItem(startNodeItem), m_endNodeItem(endNodeItem)
+    , m_startNodeItem(startNodeItem), m_endNodeItem(endNodeItem), m_name(name)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
@@ -55,8 +55,16 @@ QPainterPath DirectedEdgeItem::shape() const
 {
     QPainterPath path = QGraphicsLineItem::shape();
     path.addPolygon(m_arrowHead);
+    path.addRect(m_textRect);
     return path;
 }
+
+void DirectedEdgeItem::setName(const QString &name)
+{
+    m_name = name;
+    update();
+}
+
 
 void DirectedEdgeItem::updatePosition()
 {
@@ -70,13 +78,14 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
         return;
     }
 
-    //TODO: Optimise all these computations later on!
-    QLineF centerLine(m_startNodeItem->pos(), m_endNodeItem->pos());
-    QPointF p1(m_startNodeItem->pos().x() + m_startNodeItem->radius() * sin(M_PI_2 + centerLine.angle() / 180*M_PI),
-               m_startNodeItem->pos().y() + m_startNodeItem->radius() * cos(M_PI_2 + centerLine.angle() / 180*M_PI));
-    QPointF p2(m_endNodeItem->pos().x() + m_endNodeItem->radius() * sin(centerLine.angle() / 180*M_PI - M_PI_2),
-               m_endNodeItem->pos().y() + m_endNodeItem->radius() * cos(centerLine.angle() / 180*M_PI - M_PI_2));
-    setLine(QLineF(p1, p2));
+    QLineF l(m_startNodeItem->pos(), m_endNodeItem->pos());
+    QPointF p1(m_startNodeItem->pos().x() + m_startNodeItem->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
+               m_startNodeItem->pos().y() + m_startNodeItem->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
+    QPointF p2(m_endNodeItem->pos().x() + m_endNodeItem->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
+               m_endNodeItem->pos().y() + m_endNodeItem->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
+    l.setP1(p1);
+    l.setP2(p2);
+    setLine(l);
 
     QPen p = pen();
     QBrush b(Qt::black);
@@ -87,18 +96,59 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setPen(p);
     painter->setBrush(b);
 
-    double angle = ::acos(line().dx() / line().length());
+    double arrowAngle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0) {
-        angle = (M_PI * 2) - angle;
+        arrowAngle = (M_PI * 2) - arrowAngle;
     }
     qreal arrowSize = 7;
-    QPointF arrowP1 = line().p1() + QPointF(sin(angle + M_PI / 3) * arrowSize,
-                                            cos(angle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 = line().p1() + QPointF(sin(angle + M_PI - M_PI / 3) * arrowSize,
-                                            cos(angle + M_PI - M_PI / 3) * arrowSize);
+    QPointF arrowP1 = line().p1() + QPointF(sin(arrowAngle + M_PI / 3) * arrowSize,
+                                            cos(arrowAngle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 = line().p1() + QPointF(sin(arrowAngle + M_PI - M_PI / 3) * arrowSize,
+                                            cos(arrowAngle + M_PI - M_PI / 3) * arrowSize);
     m_arrowHead.clear();
     m_arrowHead << line().p1() << arrowP1 << arrowP2;
 
     painter->drawLine(line());
     painter->drawPolygon(m_arrowHead);
+
+    QPointF middle = l.pointAt(0.5);
+    m_textRect = QRectF(middle.x() - 10, middle.y() - 10, 20, 20);
+    qreal angle = l.angle();
+    if (line().dy() > 0) {
+        m_textRect.translate(0, 10);
+    } else {
+        m_textRect.translate(0, -10);
+    }
+    if (angle > 30 && angle <= 90 ||
+        angle >= 270 && angle < 330) {
+        m_textRect.translate(-10, 0);
+    }
+    if (angle > 90 && angle < 150 ||
+        angle > 210 && angle < 270) {
+        m_textRect.translate(10, 0);
+    }
+    /*if (lineAngle > 135 && lineAngle <= 225) {
+        m_textRect.translate(-10, 0);
+    } else if (lineAngle > 315 && lineAngle <= 45) {
+        m_textRect.translate(10, 0);
+    }*/
+    /*if (lineAngle > 45 && lineAngle <= 135) {
+        m_textRect.translate(0, -10);
+    } else*/
+    /*} else if (lineAngle > 225 && lineAngle <= 315) {
+        m_textRect.translate(0, 10);
+    }*/
+
+    /*qDebug() << "line dx:" << line().dx() << "dy:" << line().dy();
+    if (line().dx() > 0) {
+        m_textRect.translate(-10, 0);
+    } else if (line().dx() < 0) {
+        m_textRect.translate(10, 0);
+    }*/
+
+
+
+    p.setColor(Qt::black);
+    painter->setPen(p);
+    painter->drawText(m_textRect, Qt::AlignCenter, m_name);
 }
