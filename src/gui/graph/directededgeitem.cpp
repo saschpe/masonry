@@ -114,7 +114,7 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QPointF middle = l.pointAt(0.5);
     m_textRect = QRectF(middle.x() - 10, middle.y() - 10, 20, 20);
     qreal angle = l.angle();
-    if (line().dy() > 0) {
+    if (line().dy() >= 0) {
         m_textRect.translate(0, 10);
     } else {
         m_textRect.translate(0, -10);

@@ -28,8 +28,7 @@
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
-    , m_contextMenu(0), m_name(name), m_isInput(false), m_isOutput(false)
-    , m_radius(10)
+    , m_contextMenu(0), m_name(name), m_isInput(false), m_isOutput(false), m_radius(10)
 {
     //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
