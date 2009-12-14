@@ -25,7 +25,6 @@
 #include <QMenu>
 #include <QPainter>
 #include <QPen>
-//#include <QRadialGradient>
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
