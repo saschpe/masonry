@@ -60,6 +60,14 @@ void ConfigDialog::readSettings()
     settings.endGroup();
 
     settings.beginGroup("backend");
+    settings.beginGroup("octave");
+    octaveExecutableLineEdit->setText(settings.value("executable", "octave").toString());
+    octaveParameterLineEdit->setText(settings.value("parameters", "--silent --eval \"%1;\"").toString());
+    settings.endGroup();
+    settings.beginGroup("matlab");
+    matlabExecutableLineEdit->setText(settings.value("executable", "matlab").toString());
+    matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"%1;exit\"").toString());
+    settings.endGroup();
     settings.endGroup();
 }
 
@@ -74,6 +82,14 @@ void ConfigDialog::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("backend");
+    settings.beginGroup("octave");
+    settings.setValue("executable", octaveExecutableLineEdit->text());
+    settings.setValue("parameters", octaveParameterLineEdit->text());
+    settings.endGroup();
+    settings.beginGroup("matlab");
+    settings.setValue("executable", matlabExecutableLineEdit->text());
+    settings.setValue("parameters", matlabParameterLineEdit->text());
+    settings.endGroup();
     settings.endGroup();
 }
 

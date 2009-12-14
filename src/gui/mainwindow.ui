@@ -97,6 +97,15 @@
     <addaction name="aboutAction"/>
     <addaction name="aboutQtAction"/>
    </widget>
+   <widget class="QMenu" name="graphMenu">
+    <property name="title">
+     <string>&amp;Graph</string>
+    </property>
+    <addaction name="addGraphNodeAction"/>
+    <addaction name="addGraphEdgeAction"/>
+    <addaction name="separator"/>
+    <addaction name="computeAction"/>
+   </widget>
    <widget class="QMenu" name="settingsMenu">
     <property name="title">
      <string>&amp;Settings</string>
@@ -115,15 +124,6 @@
     <addaction name="dockersSettingsMenu"/>
     <addaction name="separator"/>
     <addaction name="configureAction"/>
-   </widget>
-   <widget class="QMenu" name="graphMenu">
-    <property name="title">
-     <string>&amp;Graph</string>
-    </property>
-    <addaction name="addGraphNodeAction"/>
-    <addaction name="addGraphEdgeAction"/>
-    <addaction name="separator"/>
-    <addaction name="computeAction"/>
    </widget>
    <addaction name="quitMenu"/>
    <addaction name="editMenu"/>
@@ -272,10 +272,10 @@
   </action>
   <action name="configureAction">
    <property name="text">
-    <string>&amp;Configure...</string>
+    <string>&amp;Configure Masonry...</string>
    </property>
    <property name="toolTip">
-    <string>Configure</string>
+    <string>Configure Masonry</string>
    </property>
   </action>
   <action name="deleteAction">
