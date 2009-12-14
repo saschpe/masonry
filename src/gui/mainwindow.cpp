@@ -41,10 +41,15 @@ MainWindow::MainWindow(QWidget *parent)
 
     NodeItem *node1 = new NodeItem;
     node1->setPos(100, 0);
+    node1->setName("1");
+    node1->setIsOutput(true);
     NodeItem *node2 = new NodeItem;
     node2->setPos(0, 10);
-    NodeItem *node3 = new NodeItem;
+    node2->setName("2");
+    NodeItem *node3 = new NodeItem("3");
     node3->setPos(-100, 50);
+    node3->setRadius(20);
+    node3->setIsInput(true);
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2);
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3);
 

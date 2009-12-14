@@ -29,7 +29,7 @@ class NodeItem : public QGraphicsEllipseItem
 public:
     enum {Type = UserType + 1};
 
-    NodeItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    NodeItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~NodeItem();
 
     void setContextMenu(QMenu *contextMenu) { m_contextMenu = contextMenu; }
@@ -45,6 +45,7 @@ public:
     void setIsOutput(bool isOutput);
     bool isOutput() const { return m_isOutput; }
 
+    void setRadius(qreal radius);
     qreal radius() const { return m_radius; }
 
 protected:

@@ -27,9 +27,10 @@
 #include <QPen>
 //#include <QRadialGradient>
 
-NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
+NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
-    , m_contextMenu(0), m_radius(10)
+    , m_contextMenu(0), m_name(name), m_isInput(false), m_isOutput(false)
+    , m_radius(10)
 {
     //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -64,6 +65,40 @@ void NodeItem::removeEdgeItems()
     }
 }
 
+void NodeItem::setName(const QString &name)
+{
+    m_name = name;
+    update();
+}
+
+void NodeItem::setIsInput(bool isInput)
+{
+    m_isInput = isInput;
+    if (m_isOutput) {
+        m_isOutput = false;
+    }
+    update();
+}
+
+void NodeItem::setIsOutput(bool isOutput)
+{
+    m_isOutput = isOutput;
+    if (m_isInput) {
+        m_isInput = false;
+    }
+    update();
+}
+
+void NodeItem::setRadius(qreal radius)
+{
+    m_radius = radius;
+    setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
+    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
+        edgeItem->update();
+    }
+    update();
+}
+
 void NodeItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
     if (!m_contextMenu) {
@@ -88,10 +123,21 @@ QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant &value)
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen p = pen();
+    QBrush b = brush();
     if (isSelected()) {
         p.setColor(Qt::red);
     }
+    if (m_isInput) {
+        b.setColor(QColor(0, 255, 0, 100));
+    }
+    if (m_isOutput) {
+        b.setColor(QColor(255, 0, 0, 100));
+    }
     painter->setPen(p);
+    painter->setBrush(b);
     painter->drawEllipse(rect());
-    //QGraphicsEllipseItem::paint(painter, option, widget);
+    p.setColor(Qt::black);
+    painter->setPen(p);
+    //TODO: Adjust text size to rect()
+    painter->drawText(rect(), Qt::AlignCenter, m_name);
 }
