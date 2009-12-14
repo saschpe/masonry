@@ -45,6 +45,8 @@ public:
     void setIsOutput(bool isOutput);
     bool isOutput() const { return m_isOutput; }
 
+    qreal radius() const { return m_radius; }
+
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -57,6 +59,7 @@ private:
     QString m_name;
     bool m_isInput;
     bool m_isOutput;
+    qreal m_radius;
 };
 
 #endif // NODEITEM_H

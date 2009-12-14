@@ -29,11 +29,11 @@
 
 NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
-    , m_contextMenu(0)
+    , m_contextMenu(0), m_radius(10)
 {
     //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setRect(-15, -15, 30, 30);
+    setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(Qt::white);
 }
@@ -87,17 +87,11 @@ QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant &value)
 
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    /*QRadialGradient gradient(0, 0, 0);
-    gradient.setColorAt(0, QColor::fromRgbF(1, 0.9, 0, 1));
-    gradient.setColorAt(1, QColor::fromRgbF(1, 0.7, 0, 1));
-    QBrush fillBrush(gradient);
-    setBrush(fillBrush);*/
-    QBrush b = brush();
+    QPen p = pen();
     if (isSelected()) {
-        b.setColor(Qt::red);
+        p.setColor(Qt::red);
     }
-    painter->setPen(pen());
-    painter->setBrush(b);
+    painter->setPen(p);
     painter->drawEllipse(rect());
     //QGraphicsEllipseItem::paint(painter, option, widget);
 }

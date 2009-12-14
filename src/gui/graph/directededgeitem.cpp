@@ -72,10 +72,10 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 
     //TODO: Optimise all these computations later on!
     QLineF centerLine(m_startNodeItem->pos(), m_endNodeItem->pos());
-    QPointF p1(m_startNodeItem->pos().x() + 15 * sin(M_PI_2 + centerLine.angle() / 180*M_PI),
-               m_startNodeItem->pos().y() + 15 * cos(M_PI_2 + centerLine.angle() / 180*M_PI));
-    QPointF p2(m_endNodeItem->pos().x() + 15 * sin(centerLine.angle() / 180*M_PI - M_PI_2),
-               m_endNodeItem->pos().y() + 15 * cos(centerLine.angle() / 180*M_PI - M_PI_2));
+    QPointF p1(m_startNodeItem->pos().x() + m_startNodeItem->radius() * sin(M_PI_2 + centerLine.angle() / 180*M_PI),
+               m_startNodeItem->pos().y() + m_startNodeItem->radius() * cos(M_PI_2 + centerLine.angle() / 180*M_PI));
+    QPointF p2(m_endNodeItem->pos().x() + m_endNodeItem->radius() * sin(centerLine.angle() / 180*M_PI - M_PI_2),
+               m_endNodeItem->pos().y() + m_endNodeItem->radius() * cos(centerLine.angle() / 180*M_PI - M_PI_2));
     setLine(QLineF(p1, p2));
 
     QPen p = pen();
