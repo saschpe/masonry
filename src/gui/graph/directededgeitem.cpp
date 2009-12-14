@@ -107,10 +107,10 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
                                             cos(arrowAngle + M_PI - M_PI / 3) * arrowSize);
     m_arrowHead.clear();
     m_arrowHead << line().p1() << arrowP1 << arrowP2;
-
     painter->drawLine(line());
     painter->drawPolygon(m_arrowHead);
 
+    // Make sure that the 'name' text is correctly aligned besides the line
     QPointF middle = l.pointAt(0.5);
     m_textRect = QRectF(middle.x() - 10, middle.y() - 10, 20, 20);
     qreal angle = l.angle();
@@ -119,34 +119,12 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     } else {
         m_textRect.translate(0, -10);
     }
-    if (angle > 30 && angle <= 90 ||
-        angle >= 270 && angle < 330) {
+    if (angle > 30 && angle <= 90 || angle >= 270 && angle < 330) {
         m_textRect.translate(-10, 0);
     }
-    if (angle > 90 && angle < 150 ||
-        angle > 210 && angle < 270) {
+    if (angle > 90 && angle < 150 || angle > 210 && angle < 270) {
         m_textRect.translate(10, 0);
     }
-    /*if (lineAngle > 135 && lineAngle <= 225) {
-        m_textRect.translate(-10, 0);
-    } else if (lineAngle > 315 && lineAngle <= 45) {
-        m_textRect.translate(10, 0);
-    }*/
-    /*if (lineAngle > 45 && lineAngle <= 135) {
-        m_textRect.translate(0, -10);
-    } else*/
-    /*} else if (lineAngle > 225 && lineAngle <= 315) {
-        m_textRect.translate(0, 10);
-    }*/
-
-    /*qDebug() << "line dx:" << line().dx() << "dy:" << line().dy();
-    if (line().dx() > 0) {
-        m_textRect.translate(-10, 0);
-    } else if (line().dx() < 0) {
-        m_textRect.translate(10, 0);
-    }*/
-
-
 
     p.setColor(Qt::black);
     painter->setPen(p);
