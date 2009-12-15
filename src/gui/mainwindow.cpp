@@ -41,6 +41,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupDockWidgets();
     setupToolbars();
     readSettings();
+
     statusBar()->showMessage(tr("Ready"));
 }
 
@@ -106,6 +107,11 @@ void MainWindow::on_aboutQtAction_triggered()
     QApplication::aboutQt();
 }
 
+void MainWindow::zoomToFit()
+{
+    m_graphView->zoomToFit();
+    zoomToFitAction->setChecked(true);
+}
 void MainWindow::uncheckZoomToFitAction()
 {
     zoomToFitAction->setChecked(false);
@@ -169,7 +175,7 @@ void MainWindow::setupActions()
     selectAllAction->setIcon(QIcon::fromTheme("edit-select-all"));
 
     zoomToFitAction->setIcon(QIcon::fromTheme("zoom-fit-best"));
-    connect(zoomToFitAction, SIGNAL(triggered()), m_graphView, SLOT(zoomToFit()));
+    connect(zoomToFitAction, SIGNAL(triggered()), this, SLOT(zoomToFit()));
     connect(m_graphView, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
     zoomInAction->setIcon(QIcon::fromTheme("zoom-in"));
     connect(zoomInAction, SIGNAL(triggered()), m_graphView, SLOT(zoomIn()));
