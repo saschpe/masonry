@@ -38,6 +38,7 @@ public:
     GraphView(GraphScene *scene, QWidget *parent = 0);
 
 public slots:
+    void zoomToFit();
     void zoomIn();
     void zoomOut();
 

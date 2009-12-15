@@ -30,6 +30,11 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 }
 
+void GraphView::zoomToFit()
+{
+    fitInView(m_scene->sceneRect());
+}
+
 void GraphView::zoomIn()
 {
     scale(1.2, 1.2);
