@@ -53,14 +53,15 @@ MainWindow::MainWindow(QWidget *parent)
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
 
-    qDebug() << "Nodes in scene:" << m_graphScene->nodeCount();
-    qDebug() << "Edges in scene:" << m_graphScene->edgeCount();
-
     m_graphScene->addItem(node1);
     m_graphScene->addItem(node2);
     m_graphScene->addItem(node3);
     m_graphScene->addItem(edge1);
     m_graphScene->addItem(edge2);
+
+    qDebug() << "Edges in scene:" << m_graphScene->edgeCount();
+    qDebug() << "Nodes in scene:" << m_graphScene->nodeCount();
+    qDebug() << "Layers in scene:" << m_graphScene->layerCount();
 
     setupActions();
     setupDockWidgets();
