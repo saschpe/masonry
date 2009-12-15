@@ -16,6 +16,7 @@ set(masonry_UIS
 )
 set(masonry_SRCS
     src/gui/configdialog.cpp
+    src/gui/graph/arrowitem.cpp
     src/gui/graph/directededgeitem.cpp
     src/gui/graph/nodeitem.cpp
     src/gui/graph/graphscene.cpp

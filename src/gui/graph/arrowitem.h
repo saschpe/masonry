@@ -17,33 +17,33 @@
     02110-1301, USA.
 */
 
-#ifndef DIRECTEDEDGEITEM_H
-#define DIRECTEDEDGEITEM_H
+#ifndef ARROWITEM_H
+#define ARROWITEM_H
 
-#include "arrowitem.h"
+#include <QGraphicsLineItem>
 
-class NodeItem;
-
-class DirectedEdgeItem : public ArrowItem
+class ArrowItem : public QGraphicsLineItem
 {
 public:
-    enum {Type = UserType + 3};
+    enum {Type = UserType + 2};
 
-    DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
-    virtual ~DirectedEdgeItem();
+    ArrowItem(const QLineF &line, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    ArrowItem(qreal x1, qreal y1, qreal x2, qreal y2, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    virtual ~ArrowItem();
 
-    NodeItem *startNodeItem() const { return m_startNodeItem; }
-    NodeItem *endNodeItem() const { return m_endNodeItem; }
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
-public slots:
-    void updatePosition();
+    void setName(const QString &name);
+    QString name() const { return m_name; }
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    NodeItem *m_startNodeItem;
-    NodeItem *m_endNodeItem;
+    QPolygonF m_arrowHead;
+    QRectF m_textRect;
+    QString m_name;
 };
 
-#endif // DIRECTEDEDGEITEM_H
+#endif // ARROWITEM_H
