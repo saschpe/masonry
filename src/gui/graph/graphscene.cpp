@@ -40,7 +40,6 @@ GraphScene::~GraphScene()
 int GraphScene::nodeCount() const
 {
     int count = 0;
-    //TODO: Fix this!
     foreach (QGraphicsItem *item, items()) {
         if (dynamic_cast<NodeItem *>(item) != 0) {
             count++;
@@ -52,7 +51,6 @@ int GraphScene::nodeCount() const
 int GraphScene::edgeCount() const
 {
     int count = 0;
-    //TODO: Fix this!
     foreach (QGraphicsItem *item, items()) {
         if (dynamic_cast<DirectedEdgeItem *>(item) != 0) {
             count ++;
