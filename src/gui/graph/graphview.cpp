@@ -30,6 +30,18 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
     setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::SmoothPixmapTransform);
 }
 
+void GraphView::zoomIn()
+{
+    scale(1.2, 1.2);
+    emit zoomChanged();
+}
+
+void GraphView::zoomOut()
+{
+    scale(1 / 1.2, 1 / 1.2);
+    emit zoomChanged();
+}
+
 void GraphView::wheelEvent(QWheelEvent *event)
 {
     if (event->delta() > 0) {
@@ -37,6 +49,7 @@ void GraphView::wheelEvent(QWheelEvent *event)
     } else {
         scale(1 / 1.2, 1 / 1.2);
     }
+    emit zoomChanged();
 }
 
 #include "graphview.moc"
