@@ -60,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="quitMenu">
@@ -261,6 +261,12 @@
    <property name="text">
     <string>&amp;Add Layer</string>
    </property>
+   <property name="iconText">
+    <string>Add Layer</string>
+   </property>
+   <property name="toolTip">
+    <string>Add Layer to Mason-Graph</string>
+   </property>
   </action>
   <action name="removeLayerAction">
    <property name="enabled">
@@ -268,6 +274,12 @@
    </property>
    <property name="text">
     <string>&amp;Remove Layer</string>
+   </property>
+   <property name="iconText">
+    <string>Remove Layer</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove Layer from Mason-Graph</string>
    </property>
   </action>
   <action name="configureAction">
@@ -303,8 +315,17 @@
    </property>
   </action>
   <action name="computeAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
-    <string>&amp;Compute...</string>
+    <string>&amp;Compute Signal...</string>
+   </property>
+   <property name="iconText">
+    <string>Compute Signal</string>
+   </property>
+   <property name="toolTip">
+    <string>Compute Signal on Selected Point</string>
    </property>
   </action>
  </widget>

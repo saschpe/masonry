@@ -19,9 +19,6 @@
 
 #include "mainwindow.h"
 #include "configdialog.h"
-#include "graph/arrowitem.h"
-#include "graph/directededgeitem.h"
-#include "graph/nodeitem.h"
 #include "graph/graphscene.h"
 #include "graph/graphview.h"
 #include "widgets/infodockwidget.h"
@@ -39,34 +36,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
     setCentralWidget(m_graphView);
-
-    NodeItem *node1 = new NodeItem;
-    node1->setPos(100, 0);
-    node1->setName("1");
-    node1->setIsOutput(true);
-    NodeItem *node2 = new NodeItem("2");
-    node2->setPos(0, 10);
-    node2->setName("2");
-    NodeItem *node3 = new NodeItem("3");
-    node3->setPos(-100, 50);
-    node3->setRadius(20);
-    node3->setIsInput(true);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
-
-    m_graphScene->addItem(node1);
-    m_graphScene->addItem(node2);
-    m_graphScene->addItem(node3);
-    m_graphScene->addItem(edge1);
-    m_graphScene->addItem(edge2);
-
-    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
-    //arrow1->setPos(-100 0);
-    m_graphScene->addItem(arrow1);
-
-    qDebug() << "Edges in scene:" << m_graphScene->edgeCount();
-    qDebug() << "Nodes in scene:" << m_graphScene->nodeCount();
-    qDebug() << "Layers in scene:" << m_graphScene->layerCount();
 
     setupActions();
     setupDockWidgets();
@@ -197,6 +166,7 @@ void MainWindow::setupActions()
     // Set icons for the actions in the graph menu
     addLayerAction->setIcon(QIcon::fromTheme("list-add"));
     removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
+    computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
     configureAction->setIcon(QIcon::fromTheme("configure"));
@@ -238,6 +208,7 @@ void MainWindow::setupToolbars()
 
     graphToolBar->addAction(addLayerAction);
     graphToolBar->addAction(removeLayerAction);
+    graphToolBar->addAction(computeAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }
 

@@ -30,20 +30,15 @@ class GraphScene : public QGraphicsScene
     Q_OBJECT
 
 public:
-    enum Mode {
-        InsertNode = 1,
-        InsertDirectedEdge,
-        MoveItem,
-    };
-
     GraphScene(QObject *parent = 0);
     virtual ~GraphScene();
 
+    void addGraphLayer();
+    void removeGraphLayer();
+
+    int layerCount() const;
     int nodeCount() const;
     int edgeCount() const;
-
-public slots:
-    void setMode(Mode mode);
 
 signals:
     void edgeInserted(DirectedEdgeItem *);
