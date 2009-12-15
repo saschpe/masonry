@@ -39,8 +39,11 @@ public:
     GraphScene(QObject *parent = 0);
     virtual ~GraphScene();
 
-    int nodeCount() const;
-    int edgeCount() const;
+    void addItem(NodeItem *);
+    void addItem(DirectedEdgeItem *);
+
+    QList<NodeItem *> nodes() const { return m_nodes; }
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
 
 public slots:
     void setMode(Mode mode);
@@ -54,6 +57,10 @@ protected:
     /*void mousePressEvent(QGraphicsSceneMouseEvent *);
     void mouseMoveEvent(QGraphicsSceneMouseEvent *);
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *);*/
+
+private:
+    QList<NodeItem *> m_nodes;
+    QList<DirectedEdgeItem *> m_edges;
 };
 
 #endif // GRAPHSCENE_H

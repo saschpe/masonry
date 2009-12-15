@@ -37,28 +37,20 @@ GraphScene::~GraphScene()
 {
 }
 
-int GraphScene::nodeCount() const
+void GraphScene::addItem(NodeItem *node)
 {
-    int count = 0;
-    //TODO: Fix this!
-    foreach (QGraphicsItem *item, items()) {
-        if (dynamic_cast<NodeItem *>(item) != 0) {
-            count++;
-        }
+    if (node) {
+        m_nodes.append(node);
+        GraphScene::addItem(static_cast<QGraphicsItem *>(node));
     }
-    return count;
 }
 
-int GraphScene::edgeCount() const
+void GraphScene::addItem(DirectedEdgeItem *edge)
 {
-    int count = 0;
-    //TODO: Fix this!
-    foreach (QGraphicsItem *item, items()) {
-        if (dynamic_cast<DirectedEdgeItem *>(item) != 0) {
-            count ++;
-        }
+    if (edge) {
+        m_edges.append(edge);
+        GraphScene::addItem(edge);
     }
-    return count;
 }
 
 void GraphScene::setMode(Mode mode)
