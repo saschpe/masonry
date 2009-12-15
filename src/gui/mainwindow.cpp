@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     node1->setPos(100, 0);
     node1->setName("1");
     node1->setIsOutput(true);
-    NodeItem *node2 = new NodeItem;
+    NodeItem *node2 = new NodeItem("2");
     node2->setPos(0, 10);
     node2->setName("2");
     NodeItem *node3 = new NodeItem("3");
@@ -52,6 +52,9 @@ MainWindow::MainWindow(QWidget *parent)
     node3->setIsInput(true);
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
+
+    qDebug() << "Nodes in scene:" << m_graphScene->nodeCount();
+    qDebug() << "Edges in scene:" << m_graphScene->edgeCount();
 
     m_graphScene->addItem(node1);
     m_graphScene->addItem(node2);
@@ -163,9 +166,10 @@ void MainWindow::setupActions()
 #ifndef Q_WS_X11
     // Set a specific icon theme on non-X11 platforms.
     QStringList themeSearchPaths = QIcon::themeSearchPaths();
-    themeSearchPaths << "data/icons";
+    themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
     QIcon::setThemeName("oxygen");
+    qDebug() << "Non-X11 specfic theme path:" << themeSearchPaths;
 #endif
 
     // Set icons for the actions in the file menu
@@ -185,8 +189,8 @@ void MainWindow::setupActions()
     selectAllAction->setIcon(QIcon::fromTheme("edit-select-all"));
 
     // Set icons for the actions in the graph menu
-    addGraphNodeAction->setIcon(QIcon::fromTheme("format-add-node"));
-    addGraphEdgeAction->setIcon(QIcon::fromTheme("format-add-node"));
+    addLayerAction->setIcon(QIcon::fromTheme("list-add"));
+    removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
 
     // Set icons for the actions in the settings menu
     configureAction->setIcon(QIcon::fromTheme("configure"));
@@ -226,8 +230,8 @@ void MainWindow::setupToolbars()
     editToolBar->addAction(selectAllAction);
     toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
 
-    graphToolBar->addAction(addGraphNodeAction);
-    graphToolBar->addAction(addGraphEdgeAction);
+    graphToolBar->addAction(addLayerAction);
+    graphToolBar->addAction(removeLayerAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }
 

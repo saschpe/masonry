@@ -60,7 +60,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="quitMenu">
@@ -101,8 +101,8 @@
     <property name="title">
      <string>&amp;Graph</string>
     </property>
-    <addaction name="addGraphNodeAction"/>
-    <addaction name="addGraphEdgeAction"/>
+    <addaction name="addLayerAction"/>
+    <addaction name="removeLayerAction"/>
     <addaction name="separator"/>
     <addaction name="computeAction"/>
    </widget>
@@ -257,17 +257,17 @@
     <string>Ctrl+Shift+Z</string>
    </property>
   </action>
-  <action name="addGraphNodeAction">
+  <action name="addLayerAction">
    <property name="text">
-    <string>Add &amp;Node</string>
+    <string>&amp;Add Layer</string>
    </property>
   </action>
-  <action name="addGraphEdgeAction">
+  <action name="removeLayerAction">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>Add &amp;Edge</string>
+    <string>&amp;Remove Layer</string>
    </property>
   </action>
   <action name="configureAction">
