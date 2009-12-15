@@ -31,19 +31,13 @@ class GraphScene : public QGraphicsScene
 
 public:
     GraphScene(QObject *parent = 0);
-    virtual ~GraphScene();
 
-    void addGraphLayer();
-    void removeGraphLayer();
+    void addLayer();
+    void removeLayer();
 
     int layerCount() const;
     int nodeCount() const;
     int edgeCount() const;
-
-signals:
-    void edgeInserted(DirectedEdgeItem *);
-    void nodeInserted(NodeItem *);
-    void itemInserted(QGraphicsItem *);
 
 protected:
     /*void mousePressEvent(QGraphicsSceneMouseEvent *);

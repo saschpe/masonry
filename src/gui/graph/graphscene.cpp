@@ -63,10 +63,6 @@ GraphScene::GraphScene(QObject *parent)
     qDebug() << "Layers in scene:" << layerCount();
 }
 
-GraphScene::~GraphScene()
-{
-}
-
 int GraphScene::layerCount() const
 {
     int count = -1;
