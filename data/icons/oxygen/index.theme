@@ -103,35 +103,30 @@ LockOverlay=lockoverlay
 ShareOverlay=share
 ZipOverlay=zip
 
-DesktopDefault=48
-DesktopSizes=16,22,32,48,64,128,256
+DesktopDefault=32
+DesktopSizes=16,22,32
 ToolbarDefault=22
-ToolbarSizes=16,22,32,48
+ToolbarSizes=16,22,32
 MainToolbarDefault=22
-MainToolbarSizes=16,22,32,48
+MainToolbarSizes=16,22,32
 SmallDefault=16
 SmallSizes=16,22
 PanelDefault=32
-PanelSizes=16,22,32,48,64,128,256
+PanelSizes=16,22,32
 
-Directories=16x16/actions,16x16/status,32x32/actions,32x32/status,
+Directories=16x16/actions,22x22/actions,32x32/actions
 
 [16x16/actions]
 Size=16
 Context=Actions
 Type=Threshold
 
-[16x16/status]
-Size=16
-Context=Status
+[22x22/actions]
+Size=22
+Context=Actions
 Type=Threshold
 
 [32x32/actions]
 Size=32
 Context=Actions
-Type=Threshold
-
-[32x32/status]
-Size=32
-Context=Status
 Type=Threshold
