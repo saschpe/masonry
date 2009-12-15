@@ -106,6 +106,11 @@ void MainWindow::on_aboutQtAction_triggered()
     QApplication::aboutQt();
 }
 
+void MainWindow::uncheckZoomToFitAction()
+{
+    zoomToFitAction->setChecked(false);
+}
+
 void MainWindow::readSettings()
 {
     QSettings settings;
@@ -163,6 +168,14 @@ void MainWindow::setupActions()
     deleteAction->setIcon(QIcon::fromTheme("edit-delete"));
     selectAllAction->setIcon(QIcon::fromTheme("edit-select-all"));
 
+    zoomToFitAction->setIcon(QIcon::fromTheme("zoom-fit-best"));
+    connect(zoomToFitAction, SIGNAL(triggered()), m_graphView, SLOT(zoomToFit()));
+    connect(m_graphView, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
+    zoomInAction->setIcon(QIcon::fromTheme("zoom-in"));
+    connect(zoomInAction, SIGNAL(triggered()), m_graphView, SLOT(zoomIn()));
+    zoomOutAction->setIcon(QIcon::fromTheme("zoom-out"));
+    connect(zoomOutAction, SIGNAL(triggered()), m_graphView, SLOT(zoomOut()));
+
     // Set icons for the actions in the graph menu
     addLayerAction->setIcon(QIcon::fromTheme("list-add"));
     removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
@@ -205,6 +218,11 @@ void MainWindow::setupToolbars()
     editToolBar->addAction(deleteAction);
     editToolBar->addAction(selectAllAction);
     toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
+
+    viewToolBar->addAction(zoomToFitAction);
+    viewToolBar->addAction(zoomInAction);
+    viewToolBar->addAction(zoomOutAction);
+    toolBarsSettingsMenu->addAction(viewToolBar->toggleViewAction());
 
     graphToolBar->addAction(addLayerAction);
     graphToolBar->addAction(removeLayerAction);

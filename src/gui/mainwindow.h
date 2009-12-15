@@ -50,6 +50,8 @@ private slots:
     void on_aboutAction_triggered();
     void on_aboutQtAction_triggered();
 
+    void uncheckZoomToFitAction();
+
 private:
     void readSettings();
     void writeSettings();

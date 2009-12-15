@@ -54,6 +54,17 @@
     <bool>false</bool>
    </attribute>
   </widget>
+  <widget class="QToolBar" name="viewToolBar">
+   <property name="windowTitle">
+    <string>View Toolbar</string>
+   </property>
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
@@ -63,7 +74,7 @@
      <height>22</height>
     </rect>
    </property>
-   <widget class="QMenu" name="quitMenu">
+   <widget class="QMenu" name="fileMenu">
     <property name="title">
      <string>&amp;File</string>
     </property>
@@ -88,7 +99,7 @@
     <addaction name="deleteAction"/>
     <addaction name="selectAllAction"/>
    </widget>
-   <widget class="QMenu" name="menu_Help">
+   <widget class="QMenu" name="helpMenu">
     <property name="title">
      <string>&amp;Help</string>
     </property>
@@ -125,11 +136,20 @@
     <addaction name="separator"/>
     <addaction name="configureAction"/>
    </widget>
-   <addaction name="quitMenu"/>
+   <widget class="QMenu" name="viewMenu">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="zoomToFitAction"/>
+    <addaction name="zoomInAction"/>
+    <addaction name="zoomOutAction"/>
+   </widget>
+   <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
+   <addaction name="viewMenu"/>
    <addaction name="graphMenu"/>
    <addaction name="settingsMenu"/>
-   <addaction name="menu_Help"/>
+   <addaction name="helpMenu"/>
   </widget>
   <action name="helpAction">
    <property name="text">
@@ -242,6 +262,9 @@
    <property name="text">
     <string>&amp;Undo</string>
    </property>
+   <property name="statusTip">
+    <string>Undo Last Action</string>
+   </property>
    <property name="shortcut">
     <string>Ctrl+Z</string>
    </property>
@@ -253,8 +276,11 @@
    <property name="text">
     <string>&amp;Redo</string>
    </property>
+   <property name="statusTip">
+    <string>Redo Last Action</string>
+   </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+Z</string>
+    <string>Ctrl+R</string>
    </property>
   </action>
   <action name="addLayerAction">
@@ -319,13 +345,40 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Compute Signal...</string>
+    <string>&amp;Compute Signal</string>
    </property>
    <property name="iconText">
     <string>Compute Signal</string>
    </property>
    <property name="toolTip">
     <string>Compute Signal on Selected Point</string>
+   </property>
+  </action>
+  <action name="zoomInAction">
+   <property name="text">
+    <string>Zoom &amp;In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl++</string>
+   </property>
+  </action>
+  <action name="zoomOutAction">
+   <property name="text">
+    <string>Zoom &amp;Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="zoomToFitAction">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Zoom to Fit</string>
    </property>
   </action>
  </widget>
