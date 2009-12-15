@@ -39,6 +39,9 @@ public:
     GraphScene(QObject *parent = 0);
     virtual ~GraphScene();
 
+    int nodeCount() const;
+    int edgeCount() const;
+
 public slots:
     void setMode(Mode mode);
 

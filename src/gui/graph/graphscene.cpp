@@ -18,8 +18,11 @@
 */
 
 #include "graphscene.h"
+#include "directededgeitem.h"
+#include "nodeitem.h"
 
 #include <QDebug>
+#include <QList>
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
@@ -32,6 +35,30 @@ GraphScene::GraphScene(QObject *parent)
 
 GraphScene::~GraphScene()
 {
+}
+
+int GraphScene::nodeCount() const
+{
+    int count = 0;
+    //TODO: Fix this!
+    foreach (QGraphicsItem *item, items()) {
+        if (dynamic_cast<NodeItem *>(item) != 0) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int GraphScene::edgeCount() const
+{
+    int count = 0;
+    //TODO: Fix this!
+    foreach (QGraphicsItem *item, items()) {
+        if (dynamic_cast<DirectedEdgeItem *>(item) != 0) {
+            count ++;
+        }
+    }
+    return count;
 }
 
 void GraphScene::setMode(Mode mode)
