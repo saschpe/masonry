@@ -19,6 +19,7 @@
 
 #include "mainwindow.h"
 #include "configdialog.h"
+#include "graph/arrowitem.h"
 #include "graph/directededgeitem.h"
 #include "graph/nodeitem.h"
 #include "graph/graphscene.h"
@@ -58,6 +59,10 @@ MainWindow::MainWindow(QWidget *parent)
     m_graphScene->addItem(node3);
     m_graphScene->addItem(edge1);
     m_graphScene->addItem(edge2);
+
+    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
+    //arrow1->setPos(-100 0);
+    m_graphScene->addItem(arrow1);
 
     qDebug() << "Edges in scene:" << m_graphScene->edgeCount();
     qDebug() << "Nodes in scene:" << m_graphScene->nodeCount();
