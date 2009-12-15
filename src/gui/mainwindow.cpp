@@ -171,8 +171,6 @@ void MainWindow::setupActions()
     cutAction->setIcon(QIcon::fromTheme("edit-cut"));
     copyAction->setIcon(QIcon::fromTheme("edit-copy"));
     pasteAction->setIcon(QIcon::fromTheme("edit-paste"));
-    deleteAction->setIcon(QIcon::fromTheme("edit-delete"));
-    selectAllAction->setIcon(QIcon::fromTheme("edit-select-all"));
 
     zoomToFitAction->setIcon(QIcon::fromTheme("zoom-fit-best"));
     connect(zoomToFitAction, SIGNAL(triggered()), this, SLOT(zoomToFit()));
@@ -221,8 +219,6 @@ void MainWindow::setupToolbars()
     editToolBar->addAction(cutAction);
     editToolBar->addAction(copyAction);
     editToolBar->addAction(pasteAction);
-    editToolBar->addAction(deleteAction);
-    editToolBar->addAction(selectAllAction);
     toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
 
     viewToolBar->addAction(zoomToFitAction);

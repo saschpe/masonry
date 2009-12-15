@@ -96,8 +96,6 @@
     <addaction name="cutAction"/>
     <addaction name="copyAction"/>
     <addaction name="pasteAction"/>
-    <addaction name="deleteAction"/>
-    <addaction name="selectAllAction"/>
    </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
@@ -211,17 +209,6 @@
     <string>Ctrl+S</string>
    </property>
   </action>
-  <action name="selectAllAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>Select &amp;All</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+A</string>
-   </property>
-  </action>
   <action name="cutAction">
    <property name="enabled">
     <bool>false</bool>
@@ -314,17 +301,6 @@
    </property>
    <property name="toolTip">
     <string>Configure Masonry</string>
-   </property>
-  </action>
-  <action name="deleteAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Delete</string>
-   </property>
-   <property name="shortcut">
-    <string>Del</string>
    </property>
   </action>
   <action name="saveAction">
