@@ -43,9 +43,9 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="graphToolBar">
+  <widget class="QToolBar" name="viewToolBar">
    <property name="windowTitle">
-    <string>Graph Toolbar</string>
+    <string>View Toolbar</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -54,9 +54,9 @@
     <bool>false</bool>
    </attribute>
   </widget>
-  <widget class="QToolBar" name="viewToolBar">
+  <widget class="QToolBar" name="graphToolBar">
    <property name="windowTitle">
-    <string>View Toolbar</string>
+    <string>Graph Toolbar</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>

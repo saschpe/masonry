@@ -204,7 +204,7 @@ void MainWindow::setupDockWidgets()
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, m_editDockWidget);
-    dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
+    //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
     m_outputDockWidget = new OutputDockWidget(this);
