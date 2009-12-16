@@ -34,15 +34,14 @@ public:
     int nodeCount() const;
     int edgeCount() const;
 
+signals:
+    void graphChanged();
+
 public slots:
     void init();
     void readSettings();
-
     void addLayer();
     void removeLayer();
-
-signals:
-    void graphChanged();
 };
 
 #endif // GRAPHSCENE_H
