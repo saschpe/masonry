@@ -29,6 +29,9 @@
 
 #include <QCloseEvent>
 #include <QDebug>
+#ifndef Q_WS_X11
+#include <QDir>
+#endif
 #include <QDockWidget>
 #include <QMessageBox>
 #include <QSettings>
@@ -189,7 +192,6 @@ void MainWindow::setupActions()
     themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
     QIcon::setThemeName("oxygen");
-    qDebug() << "Non-X11 specfic theme path:" << themeSearchPaths;
 #endif
 
     // Set icons for the actions in the file menu
