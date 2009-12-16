@@ -26,7 +26,6 @@ TransmitterItem::TransmitterItem(const QString &name, QGraphicsItem *parent, QGr
     : QGraphicsRectItem(parent, scene)
     , m_name(name)
 {
-    setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-15, -50, 30, 100);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));

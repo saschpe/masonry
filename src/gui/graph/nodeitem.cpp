@@ -29,7 +29,6 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
     : QGraphicsEllipseItem(parent, scene)
     , m_contextMenu(0), m_name(name), m_radius(10)
 {
-    //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
