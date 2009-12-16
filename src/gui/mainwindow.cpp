@@ -98,6 +98,7 @@ void MainWindow::on_configureAction_triggered()
 {
     ConfigDialog dialog(this);
     dialog.exec();
+    readSettings();
 }
 
 void MainWindow::on_helpAction_triggered()
