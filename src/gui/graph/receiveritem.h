@@ -27,7 +27,7 @@ class ReceiverItem : public QGraphicsRectItem
 public:
     enum {Type = UserType + 5};
 
-    ReceiverItem(const QRectF &rect, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    ReceiverItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~ReceiverItem();
 
     QRectF boundingRect() const;
@@ -40,6 +40,9 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
+    QRectF m_nameRect;
+    QVector<QLineF> m_lines;
+    QVector<QRectF> m_dotRects;
     QString m_name;
 };
 

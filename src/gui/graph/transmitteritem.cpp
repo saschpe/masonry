@@ -22,13 +22,19 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-TransmitterItem::TransmitterItem(const QRectF &rect, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(rect, parent, scene)
+TransmitterItem::TransmitterItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+    : QGraphicsRectItem(parent, scene)
     , m_name(name)
 {
+    setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setRect(-15, -50, 30, 100);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    setBrush(Qt::white);
+    setBrush(QColor(0, 0, 255, 10));
+
+    m_lines << QLineF(15, -40, 25, -40) << QLineF(15, 40, 25, 40)
+            << QLineF(-25, -40, -15, -40) << QLineF(-25, 40, -15, 40);
+    m_dotRects << QRectF(-30, -42, 4, 4) << QRectF(-30, 38, 4, 4);
 }
 
 TransmitterItem::~TransmitterItem()
@@ -38,13 +44,21 @@ TransmitterItem::~TransmitterItem()
 
 QRectF TransmitterItem::boundingRect() const
 {
-    QRectF boundingRect = rect();
-    return boundingRect;
+    QRectF rectLinesAndDots = QRectF(-31, -51, 62, 102);
+    return rectLinesAndDots.united(m_nameRect);
 }
 
 QPainterPath TransmitterItem::shape() const
 {
     QPainterPath path = QGraphicsRectItem::shape();
+    path.addRect(m_nameRect);
+    foreach (QLineF line, m_lines) {
+        path.moveTo(line.p1());
+        path.lineTo(line.p2());
+    }
+    foreach (QRectF dotRect, m_dotRects) {
+        path.addRect(dotRect);
+    }
     return path;
 }
 
@@ -60,14 +74,19 @@ void TransmitterItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *o
     QBrush b = brush();
     if (isSelected()) {
         p.setColor(Qt::red);
-        //b.setColor(Qt::red);
     }
     painter->setPen(p);
     painter->setBrush(b);
-
     painter->drawRect(rect());
+
+    painter->drawLines(m_lines);
+    foreach (QRectF dotRect, m_dotRects) {
+        painter->drawEllipse(dotRect);
+    }
 
     p.setColor(Qt::black);
     painter->setPen(p);
-    painter->drawText(rect(), Qt::AlignCenter, m_name);
+    painter->drawText(rect(), Qt::AlignCenter, "F");
+    m_nameRect = QRectF(-40, -10, 20, 20);
+    painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
 }
