@@ -35,21 +35,7 @@ GraphScene::GraphScene(QObject *parent)
 {
     setBackgroundBrush(Qt::white);
 
-    TransmitterItem *tm = new TransmitterItem("u(t)", NULL, this);
-    tm->setPos(-200, 0);
-    ReceiverItem *rc = new ReceiverItem("s(t)", NULL, this);
-    rc->setPos(200, 0);
-
-    //NOTE: This is test-only code that is going to be removed soon!
-    NodeItem *node1 = new NodeItem("1", NULL, this);
-    node1->setPos(100, 0);
-    NodeItem *node2 = new NodeItem("2", NULL, this);
-    node2->setPos(0, 10);
-    NodeItem *node3 = new NodeItem("3", NULL, this);
-    node3->setPos(-100, 50);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a", NULL, this);
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b", NULL, this);
-    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
+    init();
 }
 
 int GraphScene::layerCount() const
@@ -79,6 +65,55 @@ int GraphScene::edgeCount() const
         }
     }
     return count;
+}
+
+void GraphScene::setGraphItemsMovable(bool movable) const
+{
+
+    /*settings.beginGroup("view");
+    settings.beginGroup("advanced");
+    m_scene->setGraphItemsMovable(settings.value("graphItemsMovable").toBool());
+    settings.endGroup();
+    settings.endGroup();*/
+    /*qDebug() << "graphItemsMovable true";
+    foreach (QGraphicsItem *item, m_scene->items()) {
+        item->setFlag(QGraphicsItem::ItemIsMovable, true);
+    }
+    qDebug() << "graphItemsMovable false";
+    foreach (QGraphicsItem *item, m_scene->items()) {
+        item->setFlag(QGraphicsItem::ItemIsMovable, false);
+    }*/
+}
+
+void GraphScene::init()
+{
+    foreach (QGraphicsItem *item, items()) {
+        delete item;
+    }
+
+    TransmitterItem *tm = new TransmitterItem("u(t)", NULL, this);
+    tm->setPos(-200, 0);
+    ReceiverItem *rc = new ReceiverItem("s(t)", NULL, this);
+    rc->setPos(200, 0);
+
+    //NOTE: This is test-only code that is going to be removed soon!
+    NodeItem *node1 = new NodeItem("1", NULL, this);
+    node1->setPos(100, 0);
+    NodeItem *node2 = new NodeItem("2", NULL, this);
+    node2->setPos(0, 10);
+    NodeItem *node3 = new NodeItem("3", NULL, this);
+    node3->setPos(-100, 50);
+    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a", NULL, this);
+    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b", NULL, this);
+    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
+}
+
+void GraphScene::addLayer()
+{
+}
+
+void GraphScene::removeLayer()
+{
 }
 
 #include "graphscene.moc"

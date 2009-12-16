@@ -29,12 +29,16 @@ class GraphScene : public QGraphicsScene
 public:
     GraphScene(QObject *parent = 0);
 
-    void addLayer();
-    void removeLayer();
-
     int layerCount() const;
     int nodeCount() const;
     int edgeCount() const;
+
+    void setGraphItemsMovable(bool movable) const;
+
+public slots:
+    void init();
+    void addLayer();
+    void removeLayer();
 
 signals:
     void graphChanged();
