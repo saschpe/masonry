@@ -21,6 +21,8 @@
 #include "arrowitem.h"
 #include "directededgeitem.h"
 #include "nodeitem.h"
+#include "receiveritem.h"
+#include "transmitteritem.h"
 
 #include <QDebug>
 #include <QList>
@@ -37,14 +39,12 @@ GraphScene::GraphScene(QObject *parent)
     NodeItem *node1 = new NodeItem;
     node1->setPos(100, 0);
     node1->setName("1");
-    node1->setIsOutput(true);
     NodeItem *node2 = new NodeItem("2");
     node2->setPos(0, 10);
     node2->setName("2");
     NodeItem *node3 = new NodeItem("3");
     node3->setPos(-100, 50);
     node3->setRadius(20);
-    node3->setIsInput(true);
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
 
@@ -57,10 +57,6 @@ GraphScene::GraphScene(QObject *parent)
     ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
     //arrow1->setPos(-100 0);
     addItem(arrow1);
-
-    qDebug() << "Edges in scene:" << edgeCount();
-    qDebug() << "Nodes in scene:" << nodeCount();
-    qDebug() << "Layers in scene:" << layerCount();
 }
 
 int GraphScene::layerCount() const
