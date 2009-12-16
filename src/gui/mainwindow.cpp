@@ -21,6 +21,7 @@
 #include "configdialog.h"
 #include "graph/graphscene.h"
 #include "graph/graphview.h"
+#include "widgets/editdockwidget.h"
 #include "widgets/infodockwidget.h"
 #include "widgets/outputdockwidget.h"
 
@@ -199,6 +200,11 @@ void MainWindow::setupDockWidgets()
     m_infoDockWidget = new InfoDockWidget(this);
     addDockWidget(Qt::RightDockWidgetArea, m_infoDockWidget);
     dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
+
+    // Edit dock widget
+    m_editDockWidget = new EditDockWidget(this);
+    addDockWidget(Qt::RightDockWidgetArea, m_editDockWidget);
+    dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
     m_outputDockWidget = new OutputDockWidget(this);

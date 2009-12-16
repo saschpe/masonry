@@ -65,6 +65,7 @@ private:
     GraphScene *m_graphScene;
     GraphView *m_graphView;
 
+    QDockWidget *m_editDockWidget;
     QDockWidget *m_infoDockWidget;
     QDockWidget *m_outputDockWidget;
 };
