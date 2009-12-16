@@ -22,9 +22,6 @@
 
 #include <QGraphicsScene>
 
-class DirectedEdgeItem;
-class NodeItem;
-
 class GraphScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -39,10 +36,8 @@ public:
     int nodeCount() const;
     int edgeCount() const;
 
-protected:
-    /*void mousePressEvent(QGraphicsSceneMouseEvent *);
-    void mouseMoveEvent(QGraphicsSceneMouseEvent *);
-    void mouseReleaseEvent(QGraphicsSceneMouseEvent *);*/
+signals:
+    void graphChanged();
 };
 
 #endif // GRAPHSCENE_H

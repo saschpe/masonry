@@ -47,6 +47,9 @@ GraphScene::GraphScene(QObject *parent)
     node3->setRadius(20);
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
+    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
+    //arrow1->setPos(-100 0);
+    addItem(arrow1);
 
     addItem(node1);
     addItem(node2);
@@ -54,9 +57,11 @@ GraphScene::GraphScene(QObject *parent)
     addItem(edge1);
     addItem(edge2);
 
-    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
-    //arrow1->setPos(-100 0);
-    addItem(arrow1);
+    TransmitterItem *tm = new TransmitterItem(QRectF(-250, -100, -200, 100), "A");
+    ReceiverItem *rc = new ReceiverItem(QRectF(200, -100, 250, 100), "B");
+
+    addItem(tm);
+    addItem(rc);
 }
 
 int GraphScene::layerCount() const
@@ -87,20 +92,5 @@ int GraphScene::edgeCount() const
     }
     return count;
 }
-
-/*void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
-{
-
-}
-
-void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
-{
-
-}
-
-void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
-{
-
-}*/
 
 #include "graphscene.moc"
