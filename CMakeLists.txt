@@ -22,6 +22,8 @@ set(masonry_SRCS
     src/gui/graph/nodeitem.cpp
     src/gui/graph/graphscene.cpp
     src/gui/graph/graphview.cpp
+    src/gui/graph/receiveritem.cpp
+    src/gui/graph/transmitteritem.cpp
     src/gui/mainwindow.cpp
     src/gui/widgets/editdockwidget.cpp
     src/gui/widgets/infodockwidget.cpp
