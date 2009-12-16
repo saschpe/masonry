@@ -28,7 +28,7 @@
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
-    , m_contextMenu(0), m_name(name), m_isInput(false), m_isOutput(false), m_radius(10)
+    , m_contextMenu(0), m_name(name), m_radius(10)
 {
     //setFlag(QGraphicsItem::ItemIsMovable, true);
     setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -69,24 +69,6 @@ void NodeItem::setName(const QString &name)
     update();
 }
 
-void NodeItem::setIsInput(bool isInput)
-{
-    m_isInput = isInput;
-    if (m_isOutput) {
-        m_isOutput = false;
-    }
-    update();
-}
-
-void NodeItem::setIsOutput(bool isOutput)
-{
-    m_isOutput = isOutput;
-    if (m_isInput) {
-        m_isInput = false;
-    }
-    update();
-}
-
 void NodeItem::setRadius(qreal radius)
 {
     m_radius = radius;
@@ -124,12 +106,6 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     QBrush b = brush();
     if (isSelected()) {
         p.setColor(Qt::red);
-    }
-    if (m_isInput) {
-        b.setColor(QColor(0, 255, 0, 100));
-    }
-    if (m_isOutput) {
-        b.setColor(QColor(255, 0, 0, 100));
     }
     painter->setPen(p);
     painter->setBrush(b);
