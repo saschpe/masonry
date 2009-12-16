@@ -1,4 +1,5 @@
 /*
+    Copyright (c) 2009 ifak - Institut für Automation und Kommunikation e.V.
     Copyright (c) 2009 Sascha Peilicke <sasch.pe@gmx.de>
 
     This application is free software; you can redistribute it and/or modify it
