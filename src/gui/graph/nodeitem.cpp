@@ -33,7 +33,7 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    setBrush(Qt::white);
+    setBrush(QColor(0, 0, 255, 10));
 }
 
 NodeItem::~NodeItem()
