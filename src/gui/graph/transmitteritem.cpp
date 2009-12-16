@@ -20,10 +20,15 @@
 #include "transmitteritem.h"
 
 #include <QGraphicsScene>
+#include <QPainter>
 
-TransmitterItem::TransmitterItem(QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
+TransmitterItem::TransmitterItem(const QRectF &rect, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+    : QGraphicsRectItem(rect, parent, scene)
+    , m_name(name)
 {
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setBrush(Qt::white);
 }
 
 TransmitterItem::~TransmitterItem()
@@ -33,14 +38,13 @@ TransmitterItem::~TransmitterItem()
 
 QRectF TransmitterItem::boundingRect() const
 {
-    QRectF boundingRect;
+    QRectF boundingRect = rect();
     return boundingRect;
 }
 
 QPainterPath TransmitterItem::shape() const
 {
     QPainterPath path = QGraphicsRectItem::shape();
-    //TODO: Add something
     return path;
 }
 
@@ -52,4 +56,18 @@ void TransmitterItem::setName(const QString &name)
 
 void TransmitterItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    QPen p = pen();
+    QBrush b = brush();
+    if (isSelected()) {
+        p.setColor(Qt::red);
+        //b.setColor(Qt::red);
+    }
+    painter->setPen(p);
+    painter->setBrush(b);
+
+    painter->drawRect(rect());
+
+    p.setColor(Qt::black);
+    painter->setPen(p);
+    painter->drawText(rect(), Qt::AlignCenter, m_name);
 }

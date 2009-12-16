@@ -27,7 +27,7 @@ class TransmitterItem : public QGraphicsRectItem
 public:
     enum {Type = UserType + 4};
 
-    TransmitterItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    TransmitterItem(const QRectF &rect, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~TransmitterItem();
 
     QRectF boundingRect() const;

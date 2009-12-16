@@ -22,9 +22,13 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-ReceiverItem::ReceiverItem(QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
+ReceiverItem::ReceiverItem(const QRectF &rect, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+    : QGraphicsRectItem(rect, parent, scene)
+    , m_name(name)
 {
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setBrush(Qt::white);
 }
 
 ReceiverItem::~ReceiverItem()
@@ -41,7 +45,6 @@ QRectF ReceiverItem::boundingRect() const
 QPainterPath ReceiverItem::shape() const
 {
     QPainterPath path = QGraphicsRectItem::shape();
-    //TODO: Add something
     return path;
 }
 
@@ -54,14 +57,13 @@ void ReceiverItem::setName(const QString &name)
 void ReceiverItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen p = pen();
-    QBrush b(Qt::black);
+    QBrush b = brush();
     if (isSelected()) {
         p.setColor(Qt::red);
-        b.setColor(Qt::red);
+        //b.setColor(Qt::red);
     }
     painter->setPen(p);
     painter->setBrush(b);
-
     painter->drawRect(rect());
 
     p.setColor(Qt::black);

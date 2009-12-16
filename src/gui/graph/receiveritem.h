@@ -27,7 +27,7 @@ class ReceiverItem : public QGraphicsRectItem
 public:
     enum {Type = UserType + 5};
 
-    ReceiverItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    ReceiverItem(const QRectF &rect, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~ReceiverItem();
 
     QRectF boundingRect() const;
