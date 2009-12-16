@@ -57,6 +57,9 @@ void ConfigDialog::readSettings()
     settings.endGroup();
 
     settings.beginGroup("view");
+    settings.beginGroup("advanced");
+    graphItemsMovableCheckBox->setChecked(settings.value("graphItemsMovable", false).toBool());
+    settings.endGroup();
     settings.endGroup();
 
     settings.beginGroup("backend");
@@ -79,6 +82,9 @@ void ConfigDialog::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("view");
+    settings.beginGroup("advanced");
+    settings.setValue("graphItemsMovable", graphItemsMovableCheckBox->isChecked());
+    settings.endGroup();
     settings.endGroup();
 
     settings.beginGroup("backend");
