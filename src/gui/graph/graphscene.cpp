@@ -30,6 +30,7 @@
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QSettings>
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
@@ -68,24 +69,6 @@ int GraphScene::edgeCount() const
     return count;
 }
 
-void GraphScene::setGraphItemsMovable(bool movable) const
-{
-
-    /*settings.beginGroup("view");
-    settings.beginGroup("advanced");
-    m_scene->setGraphItemsMovable(settings.value("graphItemsMovable").toBool());
-    settings.endGroup();
-    settings.endGroup();*/
-    /*qDebug() << "graphItemsMovable true";
-    foreach (QGraphicsItem *item, m_scene->items()) {
-        item->setFlag(QGraphicsItem::ItemIsMovable, true);
-    }
-    qDebug() << "graphItemsMovable false";
-    foreach (QGraphicsItem *item, m_scene->items()) {
-        item->setFlag(QGraphicsItem::ItemIsMovable, false);
-    }*/
-}
-
 void GraphScene::init()
 {
     foreach (QGraphicsItem *item, items()) {
@@ -107,6 +90,23 @@ void GraphScene::init()
     DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a", NULL, this);
     DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b", NULL, this);
     ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
+
+    readSettings();
+}
+
+void GraphScene::readSettings()
+{
+    QSettings settings;
+
+    // Load graphics view stuff
+    settings.beginGroup("view");
+    settings.beginGroup("advanced");
+    bool movable = settings.value("graphItemsMovable").toBool();
+    foreach (QGraphicsItem *item, items()) {
+        item->setFlag(QGraphicsItem::ItemIsMovable, movable);
+    }
+    settings.endGroup();
+    settings.endGroup();
 }
 
 void GraphScene::addLayer()

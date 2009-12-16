@@ -34,10 +34,10 @@ public:
     int nodeCount() const;
     int edgeCount() const;
 
-    void setGraphItemsMovable(bool movable) const;
-
 public slots:
     void init();
+    void readSettings();
+
     void addLayer();
     void removeLayer();
 
