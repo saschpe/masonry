@@ -35,33 +35,21 @@ GraphScene::GraphScene(QObject *parent)
 {
     setBackgroundBrush(Qt::white);
 
+    TransmitterItem *tm = new TransmitterItem("u(t)", NULL, this);
+    tm->setPos(-200, 0);
+    ReceiverItem *rc = new ReceiverItem("s(t)", NULL, this);
+    rc->setPos(200, 0);
+
     //NOTE: This is test-only code that is going to be removed soon!
-    NodeItem *node1 = new NodeItem;
+    NodeItem *node1 = new NodeItem("1", NULL, this);
     node1->setPos(100, 0);
-    node1->setName("1");
-    NodeItem *node2 = new NodeItem("2");
+    NodeItem *node2 = new NodeItem("2", NULL, this);
     node2->setPos(0, 10);
-    node2->setName("2");
-    NodeItem *node3 = new NodeItem("3");
+    NodeItem *node3 = new NodeItem("3", NULL, this);
     node3->setPos(-100, 50);
-    node3->setRadius(20);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a");
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b");
-    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1");
-    //arrow1->setPos(-100 0);
-    addItem(arrow1);
-
-    addItem(node1);
-    addItem(node2);
-    addItem(node3);
-    addItem(edge1);
-    addItem(edge2);
-
-    TransmitterItem *tm = new TransmitterItem(QRectF(-250, -100, -200, 100), "A");
-    ReceiverItem *rc = new ReceiverItem(QRectF(200, -100, 250, 100), "B");
-
-    addItem(tm);
-    addItem(rc);
+    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a", NULL, this);
+    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b", NULL, this);
+    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
 }
 
 int GraphScene::layerCount() const
