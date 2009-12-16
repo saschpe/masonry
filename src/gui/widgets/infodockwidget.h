@@ -26,7 +26,6 @@
 
 /**
  * @author Sascha Peilicke <sasch.pe@gmx.de>
- * @since 0.1
  */
 class InfoDockWidget : public QDockWidget, private Ui::InfoDockWidget
 {
