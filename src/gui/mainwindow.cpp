@@ -86,9 +86,11 @@ void MainWindow::on_saveAsAction_triggered()
 
 void MainWindow::on_computeAction_triggered()
 {
+    statusBar()->showMessage(tr("Running Mason-graph computation ..."));
     qDebug() << "Run computation of Mason graph...";
     //TODO: Convert graph into suitable representation
     //      and feed it to Matlab/Octave/...
+    statusBar()->showMessage(tr("Done"), 3000);
 }
 
 void MainWindow::on_configureAction_triggered()
@@ -116,6 +118,7 @@ void MainWindow::zoomToFit()
 {
     m_graphView->zoomToFit();
     zoomToFitAction->setChecked(true);
+    statusBar()->showMessage(tr("Zoomed to fit Mason-graph in view."), 2000);
 }
 void MainWindow::uncheckZoomToFitAction()
 {
