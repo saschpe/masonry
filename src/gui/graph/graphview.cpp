@@ -32,7 +32,7 @@ GraphView::GraphView(GraphScene *scene, QWidget *parent)
 
 void GraphView::zoomToFit()
 {
-    fitInView(m_scene->sceneRect());
+    fitInView(m_scene->sceneRect(), Qt::KeepAspectRatio);
 }
 
 void GraphView::zoomIn()
