@@ -43,6 +43,10 @@ MainWindow::MainWindow(QWidget *parent)
     setupToolbars();
     readSettings();
 
+    connect(m_graphView, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
+    //TODO: Implement this somehow:
+    //connect(m_graphView, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
+
     statusBar()->showMessage(tr("Ready"));
 }
 
@@ -175,7 +179,6 @@ void MainWindow::setupActions()
 
     zoomToFitAction->setIcon(QIcon::fromTheme("zoom-fit-best"));
     connect(zoomToFitAction, SIGNAL(triggered()), this, SLOT(zoomToFit()));
-    connect(m_graphView, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
     zoomInAction->setIcon(QIcon::fromTheme("zoom-in"));
     connect(zoomInAction, SIGNAL(triggered()), m_graphView, SLOT(zoomIn()));
     zoomOutAction->setIcon(QIcon::fromTheme("zoom-out"));
@@ -197,7 +200,7 @@ void MainWindow::setupActions()
 void MainWindow::setupDockWidgets()
 {
     // Info dock widget
-    m_infoDockWidget = new InfoDockWidget(this);
+    m_infoDockWidget = new InfoDockWidget(m_graphScene, this);
     addDockWidget(Qt::RightDockWidgetArea, m_infoDockWidget);
     dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
 

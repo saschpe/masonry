@@ -24,6 +24,8 @@
 
 #include <QDockWidget>
 
+class GraphScene;
+
 /**
  * @author Sascha Peilicke <sasch.pe@gmx.de>
  */
@@ -32,8 +34,13 @@ class InfoDockWidget : public QDockWidget, private Ui::InfoDockWidget
     Q_OBJECT
 
 public:
-    InfoDockWidget(QWidget *parent = 0);
+    InfoDockWidget(GraphScene *graphScene, QWidget *parent = 0);
 
+private slots:
+    void updateInfo();
+
+private:
+    GraphScene *m_graphScene;
 };
 
 #endif // INFODOCKWIDGET_H
