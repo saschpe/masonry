@@ -6,7 +6,7 @@ set(CMAKE_MODULE_PATH "${masonry_SOURCE_DIR}/cmake/modules")
 find_package(Qt4 4.6 COMPONENTS QtCore QtGui REQUIRED)
 
 include(${QT_USE_FILE})
-include_directories(${QT_INCLUDE_DIR})
+include_directories(${QT_INCLUDE_DIR} "src/")
 
 set(masonry_UIS
     src/gui/configdialog.ui
