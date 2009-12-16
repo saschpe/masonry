@@ -34,19 +34,19 @@
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
-    , m_graphScene(new GraphScene), m_graphView(new GraphView(m_graphScene))
+    , m_scene(new GraphScene), m_view(new GraphView(m_scene))
 {
     setupUi(this);
-    setCentralWidget(m_graphView);
+    setCentralWidget(m_view);
 
     setupActions();
     setupDockWidgets();
     setupToolbars();
     readSettings();
 
-    connect(m_graphView, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
+    connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
     //TODO: Implement this somehow:
-    //connect(m_graphView, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
+    //connect(m_view, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
 
     statusBar()->showMessage(tr("Ready"));
 }
@@ -118,7 +118,7 @@ void MainWindow::on_aboutQtAction_triggered()
 
 void MainWindow::zoomToFit()
 {
-    m_graphView->zoomToFit();
+    m_view->zoomToFit();
     zoomToFitAction->setChecked(true);
     statusBar()->showMessage(tr("Zoomed to fit Mason-graph in view."), 2000);
 }
@@ -185,9 +185,9 @@ void MainWindow::setupActions()
     zoomToFitAction->setIcon(QIcon::fromTheme("zoom-fit-best"));
     connect(zoomToFitAction, SIGNAL(triggered()), this, SLOT(zoomToFit()));
     zoomInAction->setIcon(QIcon::fromTheme("zoom-in"));
-    connect(zoomInAction, SIGNAL(triggered()), m_graphView, SLOT(zoomIn()));
+    connect(zoomInAction, SIGNAL(triggered()), m_view, SLOT(zoomIn()));
     zoomOutAction->setIcon(QIcon::fromTheme("zoom-out"));
-    connect(zoomOutAction, SIGNAL(triggered()), m_graphView, SLOT(zoomOut()));
+    connect(zoomOutAction, SIGNAL(triggered()), m_view, SLOT(zoomOut()));
 
     // Set icons for the actions in the graph menu
     addLayerAction->setIcon(QIcon::fromTheme("list-add"));
@@ -205,7 +205,7 @@ void MainWindow::setupActions()
 void MainWindow::setupDockWidgets()
 {
     // Info dock widget
-    m_infoDockWidget = new InfoDockWidget(m_graphScene, this);
+    m_infoDockWidget = new InfoDockWidget(m_scene, this);
     addDockWidget(Qt::RightDockWidgetArea, m_infoDockWidget);
     dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
 

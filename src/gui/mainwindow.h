@@ -62,8 +62,8 @@ private:
     void setupDockWidgets();
     void setupToolbars();
 
-    GraphScene *m_graphScene;
-    GraphView *m_graphView;
+    GraphScene *m_scene;
+    GraphView *m_view;
 
     QDockWidget *m_editDockWidget;
     QDockWidget *m_infoDockWidget;

@@ -20,22 +20,22 @@
 #include "infodockwidget.h"
 #include "gui/graph/graphscene.h"
 
-InfoDockWidget::InfoDockWidget(GraphScene *graphScene, QWidget *parent)
+InfoDockWidget::InfoDockWidget(GraphScene *scene, QWidget *parent)
     : QDockWidget(parent)
-    , m_graphScene(graphScene)
+    , m_scene(scene)
 {
     setupUi(this);
 
-    connect(m_graphScene, SIGNAL(graphChanged()), this, SLOT(updateInfo()));
+    connect(m_scene, SIGNAL(graphChanged()), this, SLOT(updateInfo()));
 
     updateInfo();
 }
 
 void InfoDockWidget::updateInfo()
 {
-    edgeCountLineEdit->setText(QString::number(m_graphScene->edgeCount()));
-    nodeCountLineEdit->setText(QString::number(m_graphScene->nodeCount()));
-    layerCountLineEdit->setText(QString::number(m_graphScene->layerCount()));
+    edgeCountLineEdit->setText(QString::number(m_scene->edgeCount()));
+    nodeCountLineEdit->setText(QString::number(m_scene->nodeCount()));
+    layerCountLineEdit->setText(QString::number(m_scene->layerCount()));
 }
 
 #include "infodockwidget.moc"

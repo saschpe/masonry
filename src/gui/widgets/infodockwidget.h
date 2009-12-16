@@ -34,13 +34,13 @@ class InfoDockWidget : public QDockWidget, private Ui::InfoDockWidget
     Q_OBJECT
 
 public:
-    InfoDockWidget(GraphScene *graphScene, QWidget *parent = 0);
+    InfoDockWidget(GraphScene *scene, QWidget *parent = 0);
 
 private slots:
     void updateInfo();
 
 private:
-    GraphScene *m_graphScene;
+    GraphScene *m_scene;
 };
 
 #endif // INFODOCKWIDGET_H
