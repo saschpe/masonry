@@ -29,6 +29,7 @@
 #include <QCloseEvent>
 #include <QDebug>
 #include <QDockWidget>
+#include <QMessageBox>
 #include <QSettings>
 #include <QToolBar>
 
@@ -67,7 +68,26 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_newAction_triggered()
 {
-    qDebug() << "New graph";
+    qDebug() << "MainWindow::on_newAction_triggered()";
+    if (maybeSave()) {
+        QMessageBox box;
+        box.setText(tr("This graph has been modfied."));
+        box.setInformativeText(tr("Do you want to save your changes?"));
+        box.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
+
+        int ret = box.exec();
+        switch (ret) {
+            case QMessageBox::Save:
+                qDebug() << "TODO: save stuff";
+                break;
+            case QMessageBox::Discard:
+                break;
+            case QMessageBox::Cancel:
+                return;
+                break;
+        }
+    }
+    m_scene->init();
 }
 
 void MainWindow::on_loadAction_triggered()
@@ -137,6 +157,13 @@ void MainWindow::readSettings()
     resize(settings.value("size", QSize(800, 600)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     restoreState(settings.value("windowState").toByteArray());
+    settings.endGroup();
+
+    // Load graphics view stuff
+    settings.beginGroup("view");
+    settings.beginGroup("advanced");
+    m_scene->setGraphItemsMovable(settings.value("graphItemsMovable").toBool());
+    settings.endGroup();
     settings.endGroup();
 }
 
