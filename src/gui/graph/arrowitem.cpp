@@ -21,7 +21,6 @@
 
 #include <QGraphicsScene>
 #include <QPainter>
-#include <QPen>
 
 #include <cmath>
 

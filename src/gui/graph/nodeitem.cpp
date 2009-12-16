@@ -24,7 +24,6 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QPainter>
-#include <QPen>
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsEllipseItem(parent, scene)
