@@ -18,7 +18,8 @@
 */
 
 #include "mainwindow.h"
-#include "configdialog.h"
+#include "dialogs/aboutdialog.h"
+#include "dialogs/configdialog.h"
 #include "graph/graphscene.h"
 #include "graph/graphview.h"
 #include "widgets/editdockwidget.h"
@@ -106,7 +107,8 @@ void MainWindow::on_helpAction_triggered()
 
 void MainWindow::on_aboutAction_triggered()
 {
-    qDebug() << "TODO: Show about screen";
+    AboutDialog dialog(this);
+    dialog.exec();
 }
 
 void MainWindow::on_aboutQtAction_triggered()

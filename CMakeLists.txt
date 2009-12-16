@@ -9,19 +9,21 @@ include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR} "src/")
 
 set(masonry_UIS
-    src/gui/configdialog.ui
+    src/gui/dialogs/aboutdialog.ui
+    src/gui/dialogs/configdialog.ui
     src/gui/mainwindow.ui
     src/gui/widgets/editdockwidget.ui
     src/gui/widgets/infodockwidget.ui
     src/gui/widgets/outputdockwidget.ui
 )
 set(masonry_SRCS
-    src/gui/configdialog.cpp
+    src/gui/dialogs/aboutdialog.cpp
+    src/gui/dialogs/configdialog.cpp
     src/gui/graph/arrowitem.cpp
     src/gui/graph/directededgeitem.cpp
-    src/gui/graph/nodeitem.cpp
     src/gui/graph/graphscene.cpp
     src/gui/graph/graphview.cpp
+    src/gui/graph/nodeitem.cpp
     src/gui/graph/receiveritem.cpp
     src/gui/graph/transmitteritem.cpp
     src/gui/mainwindow.cpp
