@@ -118,8 +118,11 @@ void MainWindow::on_computeAction_triggered()
 void MainWindow::on_configureAction_triggered()
 {
     ConfigDialog dialog(this);
+    connect(&dialog, SIGNAL(settingsChanged()), this, SLOT(readSettings()));
+    connect(&dialog, SIGNAL(settingsChanged()), m_scene, SLOT(readSettings()));
     dialog.exec();
-    readSettings();
+    disconnect(&dialog, 0, 0, 0);
+    disconnect(&dialog, 0, 0, 0);
 }
 
 void MainWindow::on_helpAction_triggered()
@@ -158,13 +161,6 @@ void MainWindow::readSettings()
     resize(settings.value("size", QSize(800, 600)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     restoreState(settings.value("windowState").toByteArray());
-    settings.endGroup();
-
-    // Load graphics view stuff
-    settings.beginGroup("view");
-    settings.beginGroup("advanced");
-    m_scene->setGraphItemsMovable(settings.value("graphItemsMovable").toBool());
-    settings.endGroup();
     settings.endGroup();
 }
 
