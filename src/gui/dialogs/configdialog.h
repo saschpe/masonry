@@ -32,9 +32,6 @@ class ConfigDialog : public QDialog, private Ui::ConfigDialog
 public:
     ConfigDialog(QWidget *parent = 0);
 
-signals:
-    void settingsChanged();
-
 private slots:
     void clicked(QAbstractButton *);
     void readSettings();

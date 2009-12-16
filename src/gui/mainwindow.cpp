@@ -118,11 +118,10 @@ void MainWindow::on_computeAction_triggered()
 void MainWindow::on_configureAction_triggered()
 {
     ConfigDialog dialog(this);
-    connect(&dialog, SIGNAL(settingsChanged()), this, SLOT(readSettings()));
-    connect(&dialog, SIGNAL(settingsChanged()), m_scene, SLOT(readSettings()));
-    dialog.exec();
-    disconnect(&dialog, 0, 0, 0);
-    disconnect(&dialog, 0, 0, 0);
+    if (dialog.exec() == QDialog::Accepted) {
+        readSettings();
+        m_scene->readSettings();
+    }
 }
 
 void MainWindow::on_helpAction_triggered()

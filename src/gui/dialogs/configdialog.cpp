@@ -44,7 +44,6 @@ void ConfigDialog::clicked(QAbstractButton *button)
 {
     if (button == buttonBox->button(QDialogButtonBox::Ok)) {
         writeSettings();
-        emit settingsChanged();
     } else if (button == buttonBox->button(QDialogButtonBox::Reset)) {
         QSettings settings;
         settings.clear();
