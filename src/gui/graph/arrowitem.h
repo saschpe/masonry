@@ -42,7 +42,7 @@ protected:
 
 private:
     QPolygonF m_arrowHead;
-    QRectF m_textRect;
+    QRectF m_nameRect;
     QString m_name;
 };
 
