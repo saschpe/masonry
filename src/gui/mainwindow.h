@@ -54,9 +54,10 @@ private slots:
     void zoomToFit();
     void uncheckZoomToFitAction();
 
-private:
     void readSettings();
     void writeSettings();
+
+private:
     bool maybeSave();
 
     void setupActions();
