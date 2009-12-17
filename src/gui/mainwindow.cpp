@@ -56,10 +56,6 @@ MainWindow::MainWindow(QWidget *parent)
     statusBar()->showMessage(tr("Ready"));
 }
 
-MainWindow::~MainWindow()
-{
-}
-
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
@@ -175,15 +171,6 @@ void MainWindow::graphChanged()
     //setWindow
 }
 
-/*void MainWindow::graphChangesUnsaved(bool unsaved)
-{
-    if (unsaved) {
-        m_graphChangesUnsaved = true;
-    } else {
-        m_graphChangesUnsaved = false;
-    }
-}*/
-
 void MainWindow::graphSelectionChanged()
 {
     qDebug() << "MainWindow::graphSelectionChanged() TODO: Implement";
@@ -226,13 +213,10 @@ void MainWindow::writeSettings()
 
 void MainWindow::setupActions()
 {
-#ifndef Q_WS_X11
-    // Set a specific icon theme on non-X11 platforms.
     QStringList themeSearchPaths = QIcon::themeSearchPaths();
     themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
     QIcon::setThemeName("oxygen");
-#endif
 
     // Set icons for the actions in the file menu
     newAction->setIcon(QIcon::fromTheme("document-new"));

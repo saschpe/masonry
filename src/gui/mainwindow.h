@@ -35,7 +35,6 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 
 public:
     MainWindow(QWidget *parent = 0);
-    virtual ~MainWindow();
 
 protected:
     void closeEvent(QCloseEvent *event);
@@ -51,7 +50,6 @@ private slots:
     void on_aboutAction_triggered();
     void on_aboutQtAction_triggered();
     void graphChanged();
-    //void graphChangesUnsaved(bool unsaved);
     void graphSelectionChanged();
 
     void zoomToFit();
