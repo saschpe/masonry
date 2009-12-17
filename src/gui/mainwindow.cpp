@@ -39,7 +39,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
-    , m_graphChangesUnsaved(true) // Initially true, because we created a fresh Graph
+    , m_graphChangesUnsaved(false) // Initially true, because we created a fresh Graph
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -82,6 +82,7 @@ int MainWindow::checkForUnsavedChanges()
     int ret = -1;
     if (m_graphChangesUnsaved) {
         QMessageBox box;
+        box.setWindowTitle(tr("Masonry"));
         box.setText(tr("This graph has been modfied."));
         box.setInformativeText(tr("Do you want to save your changes?"));
         box.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
