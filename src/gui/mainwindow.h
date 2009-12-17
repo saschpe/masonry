@@ -50,6 +50,9 @@ private slots:
     void on_helpAction_triggered();
     void on_aboutAction_triggered();
     void on_aboutQtAction_triggered();
+    void graphChanged();
+    //void graphChangesUnsaved(bool unsaved);
+    void graphSelectionChanged();
 
     void zoomToFit();
     void uncheckZoomToFitAction();
@@ -58,14 +61,15 @@ private slots:
     void writeSettings();
 
 private:
-    bool maybeSave();
-
+    int checkForUnsavedChanges();
     void setupActions();
     void setupDockWidgets();
     void setupToolbars();
 
     GraphScene *m_scene;
     GraphView *m_view;
+    bool m_graphChangesUnsaved;
+    QString m_lastFileName;
 
     QDockWidget *m_editDockWidget;
     QDockWidget *m_infoDockWidget;

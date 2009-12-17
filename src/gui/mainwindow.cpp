@@ -29,10 +29,9 @@
 
 #include <QCloseEvent>
 #include <QDebug>
-#ifndef Q_WS_X11
 #include <QDir>
-#endif
 #include <QDockWidget>
+#include <QFileDialog>
 #include <QMessageBox>
 #include <QSettings>
 #include <QToolBar>
@@ -40,6 +39,7 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
+    , m_graphChangesUnsaved(true) // Initially true, because we created a fresh Graph
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -49,9 +49,9 @@ MainWindow::MainWindow(QWidget *parent)
     setupToolbars();
     readSettings();
 
+    connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
+    connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
-    //TODO: Implement this somehow:
-    //connect(m_view, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
 
     statusBar()->showMessage(tr("Ready"));
 }
@@ -62,8 +62,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (maybeSave()) {
-        writeSettings();
+    if (checkForUnsavedChanges() != QMessageBox::Cancel) {
         event->accept();
     } else {
         event->ignore();
@@ -72,41 +71,67 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::on_newAction_triggered()
 {
-    qDebug() << "MainWindow::on_newAction_triggered()";
-    if (maybeSave()) {
+    if (checkForUnsavedChanges() != QMessageBox::Cancel) {
+        m_scene->init();
+        m_lastFileName = "";
+    }
+}
+
+int MainWindow::checkForUnsavedChanges()
+{
+    int ret = -1;
+    if (m_graphChangesUnsaved) {
         QMessageBox box;
         box.setText(tr("This graph has been modfied."));
         box.setInformativeText(tr("Do you want to save your changes?"));
         box.setStandardButtons(QMessageBox::Save | QMessageBox::Discard | QMessageBox::Cancel);
 
-        int ret = box.exec();
+        ret = box.exec();
         switch (ret) {
             case QMessageBox::Save:
                 qDebug() << "TODO: save stuff";
+                m_graphChangesUnsaved = false;
                 break;
             case QMessageBox::Discard:
+                m_graphChangesUnsaved = false;
                 break;
             case QMessageBox::Cancel:
-                return;
                 break;
         }
     }
-    m_scene->init();
+    return ret;
 }
 
 void MainWindow::on_loadAction_triggered()
 {
-    qDebug() << "Load graph";
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Open Masonry Graph File"),
+        QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
+        tr("Masonry Graph Files (*.masonry)"));
+    m_scene->loadFrom(fileName);
+    m_lastFileName = fileName;
 }
 
 void MainWindow::on_saveAction_triggered()
 {
-    qDebug() << "Save graph";
+    if (m_lastFileName.isEmpty()) {
+        on_saveAsAction_triggered();
+    } else {
+        m_scene->saveTo(m_lastFileName);
+        m_graphChangesUnsaved = false;
+    }
 }
 
 void MainWindow::on_saveAsAction_triggered()
 {
-    qDebug() << "Save graph as...";
+    QString fileName = QFileDialog::getSaveFileName(this,
+        tr("Save Masonry Graph File"),
+        QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
+            QDir::separator() + "untitled",
+        tr("Masonry Graph Files (*.masonry)"));
+    m_scene->saveTo(fileName);
+    m_graphChangesUnsaved = false;
+    m_lastFileName = fileName;
 }
 
 void MainWindow::on_computeAction_triggered()
@@ -143,6 +168,26 @@ void MainWindow::on_aboutQtAction_triggered()
     QApplication::aboutQt();
 }
 
+void MainWindow::graphChanged()
+{
+    m_graphChangesUnsaved = true;
+    //setWindow
+}
+
+/*void MainWindow::graphChangesUnsaved(bool unsaved)
+{
+    if (unsaved) {
+        m_graphChangesUnsaved = true;
+    } else {
+        m_graphChangesUnsaved = false;
+    }
+}*/
+
+void MainWindow::graphSelectionChanged()
+{
+    qDebug() << "MainWindow::graphSelectionChanged() TODO: Implement";
+}
+
 void MainWindow::zoomToFit()
 {
     m_view->zoomToFit();
@@ -176,12 +221,6 @@ void MainWindow::writeSettings()
     settings.setValue("pos", pos());
     settings.setValue("windowState", saveState());
     settings.endGroup();
-}
-
-bool MainWindow::maybeSave()
-{
-    //TODO: If graph has unsafed modifications return false
-    return true;
 }
 
 void MainWindow::setupActions()
@@ -250,7 +289,7 @@ void MainWindow::setupToolbars()
 {
     fileToolBar->addAction(newAction);
     fileToolBar->addAction(loadAction);
-    fileToolBar->addAction(saveAsAction);
+    fileToolBar->addAction(saveAction);
     toolBarsSettingsMenu->addAction(fileToolBar->toggleViewAction());
 
     editToolBar->addAction(undoAction);

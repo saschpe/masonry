@@ -115,6 +115,14 @@
     <addaction name="separator"/>
     <addaction name="computeAction"/>
    </widget>
+   <widget class="QMenu" name="viewMenu">
+    <property name="title">
+     <string>&amp;View</string>
+    </property>
+    <addaction name="zoomToFitAction"/>
+    <addaction name="zoomInAction"/>
+    <addaction name="zoomOutAction"/>
+   </widget>
    <widget class="QMenu" name="settingsMenu">
     <property name="title">
      <string>&amp;Settings</string>
@@ -133,14 +141,6 @@
     <addaction name="dockersSettingsMenu"/>
     <addaction name="separator"/>
     <addaction name="configureAction"/>
-   </widget>
-   <widget class="QMenu" name="viewMenu">
-    <property name="title">
-     <string>&amp;View</string>
-    </property>
-    <addaction name="zoomToFitAction"/>
-    <addaction name="zoomInAction"/>
-    <addaction name="zoomOutAction"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -196,9 +196,6 @@
    </property>
   </action>
   <action name="saveAsAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>Save &amp;As...</string>
    </property>
@@ -304,9 +301,6 @@
    </property>
   </action>
   <action name="saveAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>&amp;Save</string>
    </property>
@@ -317,9 +311,6 @@
    </property>
   </action>
   <action name="computeAction">
-   <property name="enabled">
-    <bool>false</bool>
-   </property>
    <property name="text">
     <string>&amp;Compute Signal</string>
    </property>
