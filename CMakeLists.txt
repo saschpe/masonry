@@ -40,4 +40,5 @@ qt4_automoc(${masonry_SRCS})
 add_executable(masonry ${masonry_SRCS} ${masonry_UIS})
 target_link_libraries(masonry ${QT_LIBRARIES})
 
-#install(TARGETS masonry DESTINATION ${INSTALL_TARGETS_DEFAULT_ARGS})
+install(TARGETS masonry DESTINATION ${CMAKE_INSTALL_PREFIX})
+install(DIRECTORY data/ DESTINATION ${CMAKE_INSTALL_PREFIX}/data)
