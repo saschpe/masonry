@@ -24,6 +24,11 @@
 #include <QGraphicsScene>
 
 #include <cmath>
+#ifdef Q_OS_WIN
+// VC++-2008 does not recognise those (standard) constants
+#define M_PI   3.14159265358979323846
+#define M_PI_2 1.57079632679489661923
+#endif
 
 DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
     : ArrowItem(QLineF(startNodeItem->pos(), endNodeItem->pos()), name, parent, scene)
