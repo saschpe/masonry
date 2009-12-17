@@ -214,7 +214,8 @@ void MainWindow::writeSettings()
 void MainWindow::setupActions()
 {
     QStringList themeSearchPaths = QIcon::themeSearchPaths();
-    themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "icons";
+    themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" +
+                        QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
     QIcon::setThemeName("oxygen");
 
@@ -255,19 +256,19 @@ void MainWindow::setupActions()
 void MainWindow::setupDockWidgets()
 {
     // Info dock widget
-    m_infoDockWidget = new InfoDockWidget(m_scene, this);
-    addDockWidget(Qt::BottomDockWidgetArea, m_infoDockWidget);
-    dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
+    QDockWidget *infoDockWidget = new InfoDockWidget(m_scene, this);
+    addDockWidget(Qt::BottomDockWidgetArea, infoDockWidget);
+    dockersSettingsMenu->addAction(infoDockWidget->toggleViewAction());
 
     // Edit dock widget
-    m_editDockWidget = new EditDockWidget(this);
-    addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
+    QDockWidget *editDockWidget = new EditDockWidget(this);
+    addDockWidget(Qt::BottomDockWidgetArea, editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
-    m_outputDockWidget = new OutputDockWidget(this);
-    addDockWidget(Qt::BottomDockWidgetArea, m_outputDockWidget);
-    dockersSettingsMenu->addAction(m_outputDockWidget->toggleViewAction());
+    QDockWidget *outputDockWidget = new OutputDockWidget(this);
+    addDockWidget(Qt::BottomDockWidgetArea, outputDockWidget);
+    dockersSettingsMenu->addAction(outputDockWidget->toggleViewAction());
 }
 
 void MainWindow::setupToolbars()

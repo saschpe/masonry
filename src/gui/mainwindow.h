@@ -27,7 +27,6 @@
 
 class GraphScene;
 class GraphView;
-class QDockWidget;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -68,10 +67,6 @@ private:
     GraphView *m_view;
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
-
-    QDockWidget *m_editDockWidget;
-    QDockWidget *m_infoDockWidget;
-    QDockWidget *m_outputDockWidget;
 };
 
 #endif // MAINWINDOW_H
