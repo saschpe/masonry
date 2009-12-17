@@ -32,6 +32,13 @@ this (in a terminal)::
     $ cd build/
     $ cmake ..
 
+If you want to specify an installation target and an optimised build, the
+following commands could be used instead:
+
+    $ mkdir build/ dist/
+    $ cd build/
+    $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../dist ..
+
 You should now have either a Makefile on Unix-like operating systems or a
 Visual Studio project on Windows. You can now build the project by using Visual
 Studio (on Windows) or by issuing the following (on Unix)::
