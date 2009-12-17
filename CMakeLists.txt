@@ -5,6 +5,8 @@ set(CMAKE_MODULE_PATH "${masonry_SOURCE_DIR}/cmake/modules")
 
 find_package(Qt4 4.6 COMPONENTS QtCore QtGui REQUIRED)
 
+option(INSTALL_SYSTEM_LIBS "Install required system libraries too (only in shared mode)" OFF)
+
 include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR} "src/")
 
@@ -42,3 +44,20 @@ target_link_libraries(masonry ${QT_LIBRARIES})
 
 install(TARGETS masonry DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY data/ DESTINATION ${CMAKE_INSTALL_PREFIX}/data)
+
+# install required shared libraries
+if(WIN32 AND INSTALL_SYSTEM_LIBS)
+    set(QT_QTCORE_LIBRARY ${QT_LIBRARY_DIR}/../bin/QtCore4.dll)
+    set(QT_QTGUI_LIBRARY ${QT_LIBRARY_DIR}/../bin/QtGui4.dll)
+    set(QT_QTNETWORK_LIBRARY ${QT_LIBRARY_DIR}/../bin/QtNetwork4.dll)
+    install_files(FILES ${QT_QTCORE_LIBRARY})
+    install_files(FILES ${QT_QTGUI_LIBRARY})
+    install_files(FILES ${QT_QTNETWORK_LIBRARY})
+
+    if (MINGW)
+        find_file(MINGW_DLL mingwm10.dll)
+        install_files(FILES  ${MINGW_DLL})
+    else()
+        include(InstallRequiredSystemLibraries)
+    endif()
+endif()
