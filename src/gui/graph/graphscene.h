@@ -30,6 +30,9 @@ class GraphScene : public QGraphicsScene
 public:
     GraphScene(QObject *parent = 0);
 
+    void loadFrom(const QString &fileName);
+    void saveTo(const QString &fileName);
+
     int layerCount() const;
     int nodeCount() const;
     int edgeCount() const;

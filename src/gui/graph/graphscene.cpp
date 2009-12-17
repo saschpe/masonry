@@ -40,6 +40,17 @@ GraphScene::GraphScene(QObject *parent)
     init();
 }
 
+void GraphScene::loadFrom(const QString &fileName)
+{
+    qDebug() << "GraphScene::loadFrom()" << "TODO: implement!";
+    emit graphChanged();
+}
+
+void GraphScene::saveTo(const QString &fileName)
+{
+    qDebug() << "GraphScene::saveTo()" << "TODO: implement!";
+}
+
 int GraphScene::layerCount() const
 {
     int count = -1;
@@ -92,6 +103,7 @@ void GraphScene::init()
     ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
 
     readSettings();
+    emit graphChanged();
 }
 
 void GraphScene::readSettings()
@@ -111,10 +123,12 @@ void GraphScene::readSettings()
 
 void GraphScene::addLayer()
 {
+    emit graphChanged();
 }
 
 void GraphScene::removeLayer()
 {
+    emit graphChanged();
 }
 
 #include "graphscene.moc"
