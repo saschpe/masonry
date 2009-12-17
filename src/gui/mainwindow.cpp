@@ -272,12 +272,12 @@ void MainWindow::setupDockWidgets()
 {
     // Info dock widget
     m_infoDockWidget = new InfoDockWidget(m_scene, this);
-    addDockWidget(Qt::RightDockWidgetArea, m_infoDockWidget);
+    addDockWidget(Qt::BottomDockWidgetArea, m_infoDockWidget);
     dockersSettingsMenu->addAction(m_infoDockWidget->toggleViewAction());
 
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(this);
-    addDockWidget(Qt::RightDockWidgetArea, m_editDockWidget);
+    addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
