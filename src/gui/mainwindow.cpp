@@ -33,13 +33,14 @@
 #include <QDockWidget>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QProcess>
 #include <QSettings>
 #include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
-    , m_graphChangesUnsaved(false) // Initially true, because we created a fresh Graph
+    , m_process(0), m_graphChangesUnsaved(false)
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -134,11 +135,18 @@ void MainWindow::on_saveAsAction_triggered()
 
 void MainWindow::on_computeAction_triggered()
 {
+    if (!m_process) {
+        m_process = new QProcess(this);
+    }
+    //TODO: Rename "Output" in "BackendOutput"
+
     statusBar()->showMessage(tr("Running graph computation..."));
     qDebug() << "Run computation of Mason graph...";
+    //TODO: Insert parameters
+    m_process->start(m_backendString);
     //TODO: Convert graph into suitable representation
     //      and feed it to Matlab/Octave/...
-    statusBar()->showMessage(tr("Done"), 3000);
+    //statusBar()->showMessage(tr("Done"), 3000);
 }
 
 void MainWindow::on_configureAction_triggered()
@@ -198,6 +206,16 @@ void MainWindow::readSettings()
     resize(settings.value("size", QSize(800, 600)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     restoreState(settings.value("windowState").toByteArray());
+    settings.endGroup();
+
+    settings.beginGroup("backend");
+    if (settings.value("current").toString() == "octave") {
+        settings.beginGroup("octave");
+    } else {
+        settings.beginGroup("matlab");
+    }
+    m_backendString = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
+    settings.endGroup();
     settings.endGroup();
 }
 

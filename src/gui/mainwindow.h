@@ -27,6 +27,7 @@
 
 class GraphScene;
 class GraphView;
+class QProcess;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -65,8 +66,10 @@ private:
 
     GraphScene *m_scene;
     GraphView *m_view;
+    QProcess *m_process;
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
+    QString m_backendString;
 };
 
 #endif // MAINWINDOW_H
