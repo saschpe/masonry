@@ -150,6 +150,9 @@
    <addaction name="helpMenu"/>
   </widget>
   <action name="helpAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Help</string>
    </property>
