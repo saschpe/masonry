@@ -59,6 +59,7 @@ MainWindow::MainWindow(QWidget *parent)
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
+        writeSettings();
         event->accept();
     } else {
         event->ignore();
