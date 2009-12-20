@@ -33,7 +33,10 @@ public:
     ConfigDialog(QWidget *parent = 0);
 
 private slots:
+    void on_octaveExecutableChooseButton_clicked();
+    void on_matlabExecutableChooseButton_clicked();
     void clicked(QAbstractButton *);
+
     void readSettings();
     void writeSettings();
 };

@@ -21,6 +21,7 @@
 #include "configdialog.h"
 
 #include <QCloseEvent>
+#include <QFileDialog>
 #include <QPushButton>
 #include <QSettings>
 
@@ -38,6 +39,28 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 
     readSettings();
+}
+
+void ConfigDialog::on_octaveExecutableChooseButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Please Select Octave Executable"),
+        QDir::rootPath(),
+        tr("Octave Executable (octave)"));
+    if (!fileName.isEmpty()) {
+        octaveExecutableLineEdit->setText(fileName);
+    }
+}
+
+void ConfigDialog::on_matlabExecutableChooseButton_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Please Select Matlab Executable"),
+        QDir::rootPath(),
+        tr("Matlab Executable (matlab)"));
+    if (!fileName.isEmpty()) {
+        matlabExecutableLineEdit->setText(fileName);
+    }
 }
 
 void ConfigDialog::clicked(QAbstractButton *button)
@@ -64,6 +87,11 @@ void ConfigDialog::readSettings()
     settings.endGroup();
 
     settings.beginGroup("backend");
+    if (settings.value("current", "octave").toString() == "octave") {
+        backendComboBox->setCurrentIndex(0);
+    } else {
+        backendComboBox->setCurrentIndex(1);
+    }
     settings.beginGroup("octave");
     octaveExecutableLineEdit->setText(settings.value("executable", "octave").toString());
     octaveParameterLineEdit->setText(settings.value("parameters", "--silent --eval \"%1;\"").toString());
@@ -89,6 +117,11 @@ void ConfigDialog::writeSettings()
     settings.endGroup();
 
     settings.beginGroup("backend");
+    if (backendComboBox->currentText().contains("Octave")) {
+        settings.setValue("current", "octave");
+    } else {
+        settings.setValue("current", "matlab");
+    }
     settings.beginGroup("octave");
     settings.setValue("executable", octaveExecutableLineEdit->text());
     settings.setValue("parameters", octaveParameterLineEdit->text());
