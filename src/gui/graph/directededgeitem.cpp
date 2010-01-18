@@ -53,12 +53,18 @@ void DirectedEdgeItem::updatePosition()
 void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QLineF l(m_startGraphItem->inputPos(), m_endGraphItem->outputPos());
-    /*QPointF p1(m_startGraphItem->pos().x() + m_startGraphItem->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
-               m_startGraphItem->pos().y() + m_startGraphItem->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
-    QPointF p2(m_endGraphItem->pos().x() + m_endGraphItem->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
-               m_endGraphItem->pos().y() + m_endGraphItem->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
-    l.setP1(p1);
-    l.setP2(p2);*/
+
+     NodeItem *node;
+    if ((node = dynamic_cast<NodeItem *>(m_startGraphItem)) != NULL) {
+        QPointF p1(node->pos().x() + node->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
+                   node->pos().y() + node->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
+        l.setP1(p1);
+    }
+    if ((node = dynamic_cast<NodeItem *>(m_endGraphItem)) != NULL) {
+        QPointF p2(node->pos().x() + node->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
+                   node->pos().y() + node->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
+        l.setP2(p2);
+    }
     setLine(l);
     ArrowItem::paint(painter, option, widget);
 }
