@@ -192,6 +192,7 @@ void MainWindow::zoomToFit()
     zoomToFitAction->setChecked(true);
     statusBar()->showMessage(tr("Zoomed to fit graph in view"), 2000);
 }
+
 void MainWindow::uncheckZoomToFitAction()
 {
     zoomToFitAction->setChecked(false);
