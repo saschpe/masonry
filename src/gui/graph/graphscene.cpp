@@ -19,7 +19,6 @@
 */
 
 #include "graphscene.h"
-#include "arrowitem.h"
 #include "directededgeitem.h"
 #include "nodeitem.h"
 #include "receiveritem.h"
@@ -98,9 +97,13 @@ void GraphScene::init()
     node2->setPos(0, 10);
     NodeItem *node3 = new NodeItem("3", NULL, this);
     node3->setPos(-100, 50);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "a", NULL, this);
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "b", NULL, this);
-    ArrowItem *arrow1 = new ArrowItem(0, -100, 100, -50, "a1", NULL, this);
+    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "12", NULL, this);
+    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "23", NULL, this);
+
+    DirectedEdgeItem *tre1 = new DirectedEdgeItem(tm, node1, "t1", NULL, this);
+    //DirectedEdgeItem *tre2 = new DirectedEdgeItem(node3, tm, "3t", NULL, this);
+
+    ArrowItem *a1 = new ArrowItem(0, 0, 0, -50, "a1", NULL, this);
 
     readSettings();
     emit graphChanged();
