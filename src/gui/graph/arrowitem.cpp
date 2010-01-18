@@ -84,15 +84,15 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(p);
     painter->setBrush(b);
 
-    double arrowAngle = ::asin(line().dx() / line().length());
+    double arrowAngle = ::acos(line().dx() / line().length());
     if (line().dy() >= 0) {
         arrowAngle = (M_PI * 2) - arrowAngle;
     }
     qreal arrowSize = 7;
-    QPointF arrowP1 = line().p2() + QPointF(cos(arrowAngle + M_PI / 3) * arrowSize,
-                                            sin(arrowAngle + M_PI / 3) * arrowSize);
-    QPointF arrowP2 = line().p2() + QPointF(cos(arrowAngle + M_PI - M_PI / 3) * arrowSize,
-                                            sin(arrowAngle + M_PI - M_PI / 3) * arrowSize);
+    QPointF arrowP1 = line().p2() - QPointF(sin(arrowAngle + M_PI / 3) * arrowSize,
+                                            cos(arrowAngle + M_PI / 3) * arrowSize);
+    QPointF arrowP2 = line().p2() - QPointF(sin(arrowAngle + M_PI - M_PI / 3) * arrowSize,
+                                            cos(arrowAngle + M_PI - M_PI / 3) * arrowSize);
     m_arrowHead.clear();
     m_arrowHead << line().p2() << arrowP1 << arrowP2;
     painter->drawLine(line());
