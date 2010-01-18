@@ -22,15 +22,12 @@
 #include "directededgeitem.h"
 
 #include <QGraphicsScene>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QMenu>
 #include <QPainter>
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
-    , m_contextMenu(0), m_name(name), m_radius(10)
+    : GraphItem(name, parent, scene)
+    , m_radius(10)
 {
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(QColor(0, 0, 255, 10));
@@ -38,29 +35,7 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
 
 NodeItem::~NodeItem()
 {
-    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-        delete edgeItem;
-    }
     scene()->removeItem(this);
-}
-
-void NodeItem::addEdgeItem(DirectedEdgeItem *item)
-{
-    m_edgeItems.append(item);
-};
-
-void NodeItem::removeEdgeItem(DirectedEdgeItem *item)
-{
-    int index = m_edgeItems.indexOf(item);
-    if (index != -1 ) {
-        m_edgeItems.removeAt(index);
-    }
-}
-
-void NodeItem::setName(const QString &name)
-{
-    m_name = name;
-    update();
 }
 
 void NodeItem::setRadius(qreal radius)
@@ -71,27 +46,6 @@ void NodeItem::setRadius(qreal radius)
         edgeItem->update();
     }
     update();
-}
-
-void NodeItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
-{
-    if (!m_contextMenu) {
-        return;
-    }
-
-    scene()->clearSelection();
-    setSelected(true);
-    m_contextMenu->exec(event->screenPos());
-}
-
-QVariant NodeItem::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-    if (change == QGraphicsItem::ItemPositionChange) {
-        foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-            edgeItem->updatePosition();
-        }
-    }
-    return value;
 }
 
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

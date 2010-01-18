@@ -24,10 +24,8 @@
 #include <QPainter>
 
 ReceiverItem::ReceiverItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
-    , m_name(name)
+    : GraphItem(name, parent, scene)
 {
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-15, -50, 30, 100);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(QColor(0, 0, 255, 10));
@@ -62,15 +60,9 @@ QPainterPath ReceiverItem::shape() const
     return path;
 }
 
-void ReceiverItem::setName(const QString &name)
-{
-    m_name = name;
-    update();
-}
-
 QPointF ReceiverItem::inputPos() const
 {
-    return QPointF(-25, 40) + pos();
+    return QPointF(-25, -40) + pos();
 }
 
 QPointF ReceiverItem::outputPos() const

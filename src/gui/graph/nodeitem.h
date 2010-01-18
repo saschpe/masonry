@@ -21,11 +21,9 @@
 #ifndef NODEITEM_H
 #define NODEITEM_H
 
-#include <QGraphicsRectItem>
+#include "graphitem.h"
 
-class DirectedEdgeItem;
-
-class NodeItem : public QGraphicsRectItem
+class NodeItem : public GraphItem
 {
 public:
     enum {Type = UserType + 1};
@@ -33,25 +31,13 @@ public:
     NodeItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~NodeItem();
 
-    void setContextMenu(QMenu *contextMenu) { m_contextMenu = contextMenu; }
-
-    void addEdgeItem(DirectedEdgeItem *item);
-    void removeEdgeItem(DirectedEdgeItem *item);
-
-    void setName(const QString &name);
-    QString name() const { return m_name; }
     void setRadius(qreal radius);
     qreal radius() const { return m_radius; }
 
 protected:
-    void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    QMenu *m_contextMenu;
-    QList<DirectedEdgeItem *> m_edgeItems;
-    QString m_name;
     qreal m_radius;
 };
 

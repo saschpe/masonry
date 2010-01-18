@@ -18,33 +18,39 @@
     02110-1301, USA.
 */
 
-#ifndef DIRECTEDEDGEITEM_H
-#define DIRECTEDEDGEITEM_H
+#ifndef GRAPHITEM_H
+#define GRAPHITEM_H
 
-#include "arrowitem.h"
+#include <QGraphicsRectItem>
 
-class GraphItem;
+class DirectedEdgeItem;
 
-class DirectedEdgeItem : public ArrowItem
+class GraphItem : public QGraphicsRectItem
 {
 public:
-    enum {Type = UserType + 3};
+    enum {Type = UserType + 100};
 
-    DirectedEdgeItem(GraphItem *startGraphItem, GraphItem *endGraphItem, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
-    virtual ~DirectedEdgeItem();
+    GraphItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    virtual ~GraphItem();
 
-    GraphItem *startGraphItem() const { return m_startGraphItem; }
-    GraphItem *endGraphItem() const { return m_endGraphItem; }
+    void setContextMenu(QMenu *contextMenu);
 
-public slots:
-    void updatePosition();
+    void addEdgeItem(DirectedEdgeItem *item);
+    void removeEdgeItem(DirectedEdgeItem *item);
+
+    void setName(const QString &name);
+    QString name() const { return m_name; }
+
+    virtual QPointF inputPos() const;
+    virtual QPointF outputPos() const;
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-private:
-    GraphItem *m_startGraphItem;
-    GraphItem *m_endGraphItem;
+    QList<DirectedEdgeItem *> m_edgeItems;
+    QMenu *m_contextMenu;
+    QString m_name;
 };
 
-#endif // DIRECTEDEDGEITEM_H
+#endif // GRAPHITEM_H
