@@ -21,6 +21,7 @@ set(masonry_SRCS
     src/gui/dialogs/configdialog.cpp
     src/gui/graph/arrowitem.cpp
     src/gui/graph/directededgeitem.cpp
+    src/gui/graph/graphitem.cpp
     src/gui/graph/graphscene.cpp
     src/gui/graph/graphview.cpp
     src/gui/graph/nodeitem.cpp
