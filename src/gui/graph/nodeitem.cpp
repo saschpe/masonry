@@ -38,7 +38,9 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
 
 NodeItem::~NodeItem()
 {
-    removeEdgeItems();
+    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
+        delete edgeItem;
+    }
     scene()->removeItem(this);
 }
 
@@ -52,13 +54,6 @@ void NodeItem::removeEdgeItem(DirectedEdgeItem *item)
     int index = m_edgeItems.indexOf(item);
     if (index != -1 ) {
         m_edgeItems.removeAt(index);
-    }
-}
-
-void NodeItem::removeEdgeItems()
-{
-    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-        delete edgeItem;
     }
 }
 
