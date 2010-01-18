@@ -26,7 +26,7 @@
 class ArrowItem : public QGraphicsLineItem
 {
 public:
-    enum {Type = UserType + 2};
+    enum {Type = UserType + 200};
 
     ArrowItem(const QLineF &line, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     ArrowItem(qreal x1, qreal y1, qreal x2, qreal y2, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);

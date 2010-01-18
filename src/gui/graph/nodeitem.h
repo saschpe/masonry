@@ -26,7 +26,7 @@
 class NodeItem : public GraphItem
 {
 public:
-    enum {Type = UserType + 1};
+    enum {Type = UserType + 101};
 
     NodeItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~NodeItem();

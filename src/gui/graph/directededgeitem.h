@@ -28,7 +28,7 @@ class GraphItem;
 class DirectedEdgeItem : public ArrowItem
 {
 public:
-    enum {Type = UserType + 3};
+    enum {Type = UserType + 201};
 
     DirectedEdgeItem(GraphItem *startGraphItem, GraphItem *endGraphItem, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~DirectedEdgeItem();

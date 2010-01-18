@@ -26,7 +26,7 @@
 class TransmitterItem : public GraphItem
 {
 public:
-    enum {Type = UserType + 4};
+    enum {Type = UserType + 102};
 
     TransmitterItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~TransmitterItem();
