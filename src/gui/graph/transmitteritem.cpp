@@ -24,10 +24,8 @@
 #include <QPainter>
 
 TransmitterItem::TransmitterItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
-    , m_name(name)
+    : GraphItem(name, parent, scene)
 {
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
     setRect(-15, -50, 30, 100);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(QColor(0, 0, 255, 10));
@@ -60,12 +58,6 @@ QPainterPath TransmitterItem::shape() const
         path.addRect(dotRect);
     }
     return path;
-}
-
-void TransmitterItem::setName(const QString &name)
-{
-    m_name = name;
-    update();
 }
 
 QPointF TransmitterItem::inputPos() const

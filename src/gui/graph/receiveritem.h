@@ -21,9 +21,9 @@
 #ifndef RECEIVERITEM_H
 #define RECEIVERITEM_H
 
-#include <QGraphicsRectItem>
+#include "graphitem.h"
 
-class ReceiverItem : public QGraphicsRectItem
+class ReceiverItem : public GraphItem
 {
 public:
     enum {Type = UserType + 5};
@@ -33,9 +33,6 @@ public:
 
     QRectF boundingRect() const;
     QPainterPath shape() const;
-
-    void setName(const QString &name);
-    QString name() const { return m_name; }
 
     QPointF inputPos() const;
     QPointF outputPos() const;
@@ -47,7 +44,6 @@ private:
     QRectF m_nameRect;
     QVector<QLineF> m_lines;
     QVector<QRectF> m_dotRects;
-    QString m_name;
 };
 
 #endif // RECEIVERITEM_H
