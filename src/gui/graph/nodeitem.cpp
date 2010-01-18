@@ -27,7 +27,7 @@
 #include <QPainter>
 
 NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsEllipseItem(parent, scene)
+    : QGraphicsRectItem(parent, scene)
     , m_contextMenu(0), m_name(name), m_radius(10)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);

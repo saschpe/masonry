@@ -21,11 +21,11 @@
 #ifndef NODEITEM_H
 #define NODEITEM_H
 
-#include <QGraphicsEllipseItem>
+#include <QGraphicsRectItem>
 
 class DirectedEdgeItem;
 
-class NodeItem : public QGraphicsEllipseItem
+class NodeItem : public QGraphicsRectItem
 {
 public:
     enum {Type = UserType + 1};
