@@ -90,20 +90,27 @@ void GraphScene::init()
     ReceiverItem *rc = new ReceiverItem("s(t)", NULL, this);
     rc->setPos(200, 0);
 
-    //NOTE: This is test-only code that is going to be removed soon!
-    NodeItem *node1 = new NodeItem("1", NULL, this);
-    node1->setPos(100, 0);
-    NodeItem *node2 = new NodeItem("2", NULL, this);
-    node2->setPos(0, 10);
-    NodeItem *node3 = new NodeItem("3", NULL, this);
-    node3->setPos(-100, 50);
-    DirectedEdgeItem *edge1 = new DirectedEdgeItem(node1, node2, "12", NULL, this);
-    DirectedEdgeItem *edge2 = new DirectedEdgeItem(node2, node3, "23", NULL, this);
+    NodeItem *n1 = new NodeItem("1", NULL, this);
+    n1->setPos(-100, -40);
+    NodeItem *n2 = new NodeItem("2", NULL, this);
+    n2->setPos(0, -40);
+    NodeItem *n3 = new NodeItem("3", NULL, this);
+    n3->setPos(100, -40);
 
-    DirectedEdgeItem *tre1 = new DirectedEdgeItem(tm, node1, "t1", NULL, this);
-    //DirectedEdgeItem *tre2 = new DirectedEdgeItem(node3, tm, "3t", NULL, this);
+    NodeItem *n4 = new NodeItem("4", NULL, this);
+    n4->setPos(-100, 40);
+    NodeItem *n5 = new NodeItem("5", NULL, this);
+    n5->setPos(0, 40);
+    NodeItem *n6 = new NodeItem("6", NULL, this);
+    n6->setPos(100, 40);
 
-    ArrowItem *a1 = new ArrowItem(0, 0, 0, -50, "a1", NULL, this);
+    DirectedEdgeItem *te1 = new DirectedEdgeItem(tm, n1, "t1", NULL, this);
+    DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, "12", NULL, this);
+    DirectedEdgeItem *e23 = new DirectedEdgeItem(n2, n3, "23", NULL, this);
+
+    DirectedEdgeItem *e65 = new DirectedEdgeItem(n6, n5, "65", NULL, this);
+    DirectedEdgeItem *e54 = new DirectedEdgeItem(n5, n4, "54", NULL, this);
+    DirectedEdgeItem *e4t = new DirectedEdgeItem(n4, tm, "4t", NULL, this);
 
     readSettings();
     emit graphChanged();
