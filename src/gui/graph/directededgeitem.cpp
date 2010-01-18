@@ -33,6 +33,7 @@ DirectedEdgeItem::DirectedEdgeItem(GraphItem *startGraphItem, GraphItem *endGrap
     : ArrowItem(QLineF(startGraphItem->inputPos(), endGraphItem->outputPos()), name, parent, scene)
     , m_startGraphItem(startGraphItem), m_endGraphItem(endGraphItem)
 {
+    setFlag(QGraphicsItem::ItemIsMovable, false);
     m_startGraphItem->addEdgeItem(this);
     m_endGraphItem->addEdgeItem(this);
 }
