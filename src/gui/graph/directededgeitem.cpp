@@ -29,35 +29,36 @@
 #define M_PI_2 1.57079632679489661923
 #endif
 
-DirectedEdgeItem::DirectedEdgeItem(NodeItem *startNodeItem, NodeItem *endNodeItem, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : ArrowItem(QLineF(startNodeItem->pos(), endNodeItem->pos()), name, parent, scene)
-    , m_startNodeItem(startNodeItem), m_endNodeItem(endNodeItem)
+DirectedEdgeItem::DirectedEdgeItem(GraphItem *startGraphItem, GraphItem *endGraphItem, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+    : ArrowItem(QLineF(startGraphItem->inputPos(), endGraphItem->outputPos()), name, parent, scene)
+    , m_startGraphItem(startGraphItem), m_endGraphItem(endGraphItem)
 {
-    m_startNodeItem->addEdgeItem(this);
-    m_endNodeItem->addEdgeItem(this);
+    m_startGraphItem->addEdgeItem(this);
+    m_endGraphItem->addEdgeItem(this);
 }
 
 DirectedEdgeItem::~DirectedEdgeItem()
 {
-    m_startNodeItem->removeEdgeItem(this);
-    m_endNodeItem->removeEdgeItem(this);
+    m_startGraphItem->removeEdgeItem(this);
+    m_endGraphItem->removeEdgeItem(this);
 }
 
 void DirectedEdgeItem::updatePosition()
 {
-    QLineF line(mapFromItem(m_startNodeItem, 0, 0), mapFromItem(m_endNodeItem, 0, 0));
+    QLineF line(mapFromItem(m_startGraphItem, m_startGraphItem->inputPos()),
+                mapFromItem(m_endGraphItem, m_endGraphItem->outputPos()));
     setLine(line);
 }
 
 void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    QLineF l(m_startNodeItem->pos(), m_endNodeItem->pos());
-    QPointF p1(m_startNodeItem->pos().x() + m_startNodeItem->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
-               m_startNodeItem->pos().y() + m_startNodeItem->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
-    QPointF p2(m_endNodeItem->pos().x() + m_endNodeItem->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
-               m_endNodeItem->pos().y() + m_endNodeItem->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
+    QLineF l(m_startGraphItem->inputPos(), m_endGraphItem->outputPos());
+    /*QPointF p1(m_startGraphItem->pos().x() + m_startGraphItem->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
+               m_startGraphItem->pos().y() + m_startGraphItem->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
+    QPointF p2(m_endGraphItem->pos().x() + m_endGraphItem->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
+               m_endGraphItem->pos().y() + m_endGraphItem->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
     l.setP1(p1);
-    l.setP2(p2);
+    l.setP2(p2);*/
     setLine(l);
     ArrowItem::paint(painter, option, widget);
 }
