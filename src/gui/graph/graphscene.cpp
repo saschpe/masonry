@@ -112,6 +112,8 @@ void GraphScene::init()
     DirectedEdgeItem *e54 = new DirectedEdgeItem(n5, n4, "54", NULL, this);
     DirectedEdgeItem *e4t = new DirectedEdgeItem(n4, tm, "4t", NULL, this);
 
+    ArrowItem *a1 = new ArrowItem(0, 0, 0, -100, "a1", NULL, this);
+
     readSettings();
     emit graphChanged();
 }
@@ -125,7 +127,10 @@ void GraphScene::readSettings()
     settings.beginGroup("advanced");
     bool movable = settings.value("graphItemsMovable").toBool();
     foreach (QGraphicsItem *item, items()) {
-        item->setFlag(QGraphicsItem::ItemIsMovable, movable);
+        // Everything except DirectedEdgeItem instances are movable.
+        if (dynamic_cast<DirectedEdgeItem *>(item) == NULL) {
+            item->setFlag(QGraphicsItem::ItemIsMovable, movable);
+        }
     }
     settings.endGroup();
     settings.endGroup();
