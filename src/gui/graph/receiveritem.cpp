@@ -68,6 +68,16 @@ void ReceiverItem::setName(const QString &name)
     update();
 }
 
+QPointF ReceiverItem::inputPos() const
+{
+    return QPointF(-25, 40) + pos();
+}
+
+QPointF ReceiverItem::outputPos() const
+{
+    return QPointF(-25, 40) + pos();
+}
+
 void ReceiverItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QPen p = pen();

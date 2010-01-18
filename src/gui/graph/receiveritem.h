@@ -37,6 +37,9 @@ public:
     void setName(const QString &name);
     QString name() const { return m_name; }
 
+    QPointF inputPos() const;
+    QPointF outputPos() const;
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
