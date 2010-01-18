@@ -30,6 +30,8 @@ GraphItem::GraphItem(const QString &name, QGraphicsItem *parent, QGraphicsScene 
     , m_contextMenu(0), m_name(name)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
+    setBrush(QColor(0, 0, 255, 10));
 }
 
 GraphItem::~GraphItem()

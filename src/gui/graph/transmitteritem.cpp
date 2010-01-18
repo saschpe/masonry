@@ -27,8 +27,6 @@ TransmitterItem::TransmitterItem(const QString &name, QGraphicsItem *parent, QGr
     : GraphItem(name, parent, scene)
 {
     setRect(-15, -50, 30, 100);
-    setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
-    setBrush(QColor(0, 0, 255, 10));
 
     m_lines << QLineF(15, -40, 25, -40) << QLineF(15, 40, 25, 40)
             << QLineF(-25, -40, -15, -40) << QLineF(-25, 40, -15, 40);
