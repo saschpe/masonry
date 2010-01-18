@@ -62,7 +62,7 @@ QPainterPath ReceiverItem::shape() const
 
 QPointF ReceiverItem::inputPos() const
 {
-    return QPointF(-25, 40) + pos();
+    return QPointF(-25, -40) + pos();
 }
 
 QPointF ReceiverItem::outputPos() const

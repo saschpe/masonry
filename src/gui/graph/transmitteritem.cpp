@@ -62,12 +62,12 @@ QPainterPath TransmitterItem::shape() const
 
 QPointF TransmitterItem::inputPos() const
 {
-    return QPointF(25, 40) + pos();
+    return QPointF(25, -40) + pos();
 }
 
 QPointF TransmitterItem::outputPos() const
 {
-    return QPointF(25, -40) + pos();
+    return QPointF(25, 40) + pos();
 }
 
 void TransmitterItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
