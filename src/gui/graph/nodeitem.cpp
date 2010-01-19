@@ -32,11 +32,6 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
     setBrush(Qt::white);
 }
 
-NodeItem::~NodeItem()
-{
-    scene()->removeItem(this);
-}
-
 void NodeItem::setRadius(qreal radius)
 {
     m_radius = radius;

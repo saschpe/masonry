@@ -33,11 +33,6 @@ TransmitterItem::TransmitterItem(const QString &name, QGraphicsItem *parent, QGr
     m_dotRects << QRectF(-30, -42, 4, 4) << QRectF(-30, 38, 4, 4);
 }
 
-TransmitterItem::~TransmitterItem()
-{
-    scene()->removeItem(this);
-}
-
 QRectF TransmitterItem::boundingRect() const
 {
     QRectF rectLinesAndDots = QRectF(-31, -51, 62, 102);

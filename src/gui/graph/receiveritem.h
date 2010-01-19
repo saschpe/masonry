@@ -29,7 +29,6 @@ public:
     enum {Type = UserType + 103};
 
     ReceiverItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
-    virtual ~ReceiverItem();
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

@@ -33,11 +33,6 @@ ReceiverItem::ReceiverItem(const QString &name, QGraphicsItem *parent, QGraphics
     m_dotRects << QRectF(26, -42, 4, 4) << QRectF(26, 38, 4, 4);
 }
 
-ReceiverItem::~ReceiverItem()
-{
-    scene()->removeItem(this);
-}
-
 QRectF ReceiverItem::boundingRect() const
 {
     QRectF rectLinesAndDots = QRectF(-26, -51, 62, 102);
