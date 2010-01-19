@@ -29,6 +29,7 @@ NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *s
     , m_radius(10)
 {
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
+    setBrush(Qt::white);
 }
 
 NodeItem::~NodeItem()
