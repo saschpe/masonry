@@ -24,6 +24,7 @@ set(masonry_SRCS
     src/gui/graph/graphitem.cpp
     src/gui/graph/graphscene.cpp
     src/gui/graph/graphview.cpp
+    src/gui/graph/layeritem.cpp
     src/gui/graph/nodeitem.cpp
     src/gui/graph/receiveritem.cpp
     src/gui/graph/transmitteritem.cpp
