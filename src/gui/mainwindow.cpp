@@ -178,7 +178,7 @@ void MainWindow::on_aboutQtAction_triggered()
 void MainWindow::graphChanged()
 {
     m_graphChangesUnsaved = true;
-    //setWindow
+    removeLayerAction->setEnabled(m_scene->layerCount() > 0);
 }
 
 void MainWindow::graphSelectionChanged()
@@ -263,7 +263,9 @@ void MainWindow::setupActions()
 
     // Set icons for the actions in the graph menu
     addLayerAction->setIcon(QIcon::fromTheme("list-add"));
+    connect(addLayerAction, SIGNAL(triggered()), m_scene, SLOT(addLayer()));
     removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
+    connect(removeLayerAction, SIGNAL(triggered()), m_scene, SLOT(removeLayer()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
