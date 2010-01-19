@@ -88,7 +88,7 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if (line().dy() >= 0) {
         arrowAngle = (M_PI * 2) - arrowAngle;
     }
-    qreal arrowSize = 7;
+    qreal arrowSize = 5;
     QPointF arrowP1 = line().p2() - QPointF(sin(arrowAngle + M_PI / 3) * arrowSize,
                                             cos(arrowAngle + M_PI / 3) * arrowSize);
     QPointF arrowP2 = line().p2() - QPointF(sin(arrowAngle + M_PI - M_PI / 3) * arrowSize,
