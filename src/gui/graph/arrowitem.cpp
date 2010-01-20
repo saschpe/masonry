@@ -45,11 +45,6 @@ ArrowItem::ArrowItem(qreal x1, qreal y1, qreal x2, qreal y2, const QString &name
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 }
 
-ArrowItem::~ArrowItem()
-{
-    scene()->removeItem(this);
-}
-
 QRectF ArrowItem::boundingRect() const
 {
     qreal extra = (pen().width() + 20) / 2.0;

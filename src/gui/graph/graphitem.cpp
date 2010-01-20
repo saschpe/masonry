@@ -37,7 +37,6 @@ GraphItem::GraphItem(const QString &name, QGraphicsItem *parent, QGraphicsScene 
 GraphItem::~GraphItem()
 {
     removeEdgeItems();
-    scene()->removeItem(this);
 }
 
 void GraphItem::setContextMenu(QMenu *contextMenu)
