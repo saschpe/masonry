@@ -21,40 +21,32 @@
 #ifndef LAYERITEM_H
 #define LAYERITEM_H
 
-#include <QGraphicsRectItem>
+#include "graphitem.h"
 
 class DirectedEdgeItem;
 class NodeItem;
 
-class LayerItem : public QGraphicsRectItem
+class LayerItem : public GraphItem
 {
 public:
     enum {Type = UserType + 104};
 
-    LayerItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
-    //LayerItem(GraphItem *startGraphItem, GraphItem *endGraphItem, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
-    virtual ~LayerItem();
+    LayerItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
     void setColor(QColor color);
     QColor color() const { return m_color; }
 
-    QList<NodeItem *> nodes() const { return m_nodes; }
     void adjustNamingTo(int pos);
 
-    /*void connectTo(LayerItem *otherItem);
-    void connectTo(ReceiverItem *otherItem);
-    void connectTo(TransmitterItem *otherItem);*/
-
     /*QRectF boundingRect() const;
-    QPainterPath shape() const;
+    QPainterPath shape() const;*/
 
 protected:
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);*/
+    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
     //QRectF m_nameRect;
     QList<NodeItem *> m_nodes;
-    QList<DirectedEdgeItem *> m_edges;
     QColor m_color;
 };
 

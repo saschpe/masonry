@@ -24,10 +24,11 @@
 
 #include <QGraphicsScene>
 
-LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
-    : QGraphicsRectItem(parent, scene)
+LayerItem::LayerItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+    : GraphItem(name, parent, scene)
     , m_color(200, 0, 200, 10)
 {
+    setFlag(QGraphicsItem::ItemIsMovable, true);
     setRect(-30, -60, 60, 120);
     setPen(QPen(m_color, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(m_color);
@@ -43,23 +44,18 @@ LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     m_nodes[3]->setPos(15, 40);
 
     // Wire the internal nodes
-    m_edges.append(new DirectedEdgeItem(m_nodes[0], m_nodes[2], "", this, scene));
-    m_edges.append(new DirectedEdgeItem(m_nodes[2], m_nodes[3], "", this, scene));
-    m_edges.append(new DirectedEdgeItem(m_nodes[3], m_nodes[1], "", this, scene));
-    m_edges.append(new DirectedEdgeItem(m_nodes[1], m_nodes[0], "", this, scene));
-}
-
-LayerItem::~LayerItem()
-{
-    foreach (NodeItem *node, m_nodes) {
-        delete node;
-    }
-    scene()->removeItem(this);
+    addEdgeItem(new DirectedEdgeItem(m_nodes[0], m_nodes[2], "", this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[2], m_nodes[3], "", this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[3], m_nodes[1], "", this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[1], m_nodes[0], "", this, scene));
 }
 
 void LayerItem::adjustNamingTo(int pos)
 {
     int off = 4 * pos;
+
+    setName(QString::number(pos));
+
     m_nodes[0]->setName(QString::number(off + 1));
     m_nodes[1]->setName(QString::number(off + 2));
     m_nodes[2]->setName(QString::number(off + 3));

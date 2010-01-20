@@ -20,6 +20,7 @@
 
 #include "graphscene.h"
 #include "directededgeitem.h"
+#include "layeritem.h"
 #include "nodeitem.h"
 #include "receiveritem.h"
 #include "transmitteritem.h"
@@ -29,6 +30,7 @@
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
+#include <QGraphicsView>
 #include <QSettings>
 
 GraphScene::GraphScene(QObject *parent)
@@ -52,9 +54,7 @@ void GraphScene::saveTo(const QString &fileName)
 
 int GraphScene::layerCount() const
 {
-    int count = -1;
-    //TODO: Implement
-    return count;
+    return m_layers.size();
 }
 
 int GraphScene::nodeCount() const
@@ -81,38 +81,19 @@ int GraphScene::edgeCount() const
 
 void GraphScene::init()
 {
+    // Erase all items from scene
     foreach (QGraphicsItem *item, items()) {
         delete item;
     }
+    m_layers.clear();
 
-    TransmitterItem *tm = new TransmitterItem("u(t)", NULL, this);
-    tm->setPos(-200, 0);
-    ReceiverItem *rc = new ReceiverItem("s(t)", NULL, this);
-    rc->setPos(200, 0);
+    m_transmitter = new TransmitterItem("u(t)", NULL, this);
+    m_transmitter->setPos(-100, 0);
+    m_receiver = new ReceiverItem("s(t)", NULL, this);
+    m_receiver->setPos(100, 0);
 
-    NodeItem *n1 = new NodeItem("1", NULL, this);
-    n1->setPos(-100, -40);
-    NodeItem *n2 = new NodeItem("2", NULL, this);
-    n2->setPos(0, -40);
-    NodeItem *n3 = new NodeItem("3", NULL, this);
-    n3->setPos(100, -40);
-
-    NodeItem *n4 = new NodeItem("4", NULL, this);
-    n4->setPos(-100, 40);
-    NodeItem *n5 = new NodeItem("5", NULL, this);
-    n5->setPos(0, 40);
-    NodeItem *n6 = new NodeItem("6", NULL, this);
-    n6->setPos(100, 40);
-
-    DirectedEdgeItem *te1 = new DirectedEdgeItem(tm, n1, "t1", NULL, this);
-    DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, "12", NULL, this);
-    DirectedEdgeItem *e23 = new DirectedEdgeItem(n2, n3, "23", NULL, this);
-
-    DirectedEdgeItem *e65 = new DirectedEdgeItem(n6, n5, "65", NULL, this);
-    DirectedEdgeItem *e54 = new DirectedEdgeItem(n5, n4, "54", NULL, this);
-    DirectedEdgeItem *e4t = new DirectedEdgeItem(n4, tm, "4t", NULL, this);
-
-    ArrowItem *a1 = new ArrowItem(0, 0, 0, -100, "a1", NULL, this);
+    new DirectedEdgeItem(m_transmitter, m_receiver, "tr", NULL, this);
+    new DirectedEdgeItem(m_receiver, m_transmitter, "rt", NULL, this);
 
     readSettings();
     emit graphChanged();
@@ -138,11 +119,50 @@ void GraphScene::readSettings()
 
 void GraphScene::addLayer()
 {
+    m_receiver->removeEdgeItems();
+
+    LayerItem *newLayer = new LayerItem("1", NULL, this);
+    if (m_layers.size() > 0) {
+        LayerItem *lastLayer = m_layers.last();
+
+        newLayer->setPos(lastLayer->pos() + QPointF(100, 0));
+        m_receiver->moveBy(100, 0);
+
+        /*new DirectedEdgeItem(lastLayer->nodes()[2], newLayer->nodes()[0], "x", NULL, this);
+        new DirectedEdgeItem(newLayer->nodes()[1], lastLayer->nodes()[3], "x", NULL, this);*/
+    } else {
+        newLayer->setPos(0, 0);
+
+        //TODO: Connect first layer to transmitter
+    }
+    newLayer->adjustNamingTo(m_layers.size());
+    m_layers.append(newLayer);
+
+    // Connect new layer to receiver
+    //new DirectedEdgeItem(newLayer->nodes()->at(2), m_receiver, "", NULL, this);
+    //new DirectedEdgeItem(m_receiver, newLayer->nodes()->at(3), "", NULL, this);
+
     emit graphChanged();
 }
 
 void GraphScene::removeLayer()
 {
+    if (m_layers.size() == 0) {
+        return;
+    }
+
+    m_receiver->removeEdgeItems();
+
+    // Remove last layer from scene
+    delete m_layers.takeLast();
+
+    // Adjust receiver position to make it look good and all views
+    if (m_layers.size() > 0) {
+        m_receiver->moveBy(-100, 0);
+    }
+
+    //TODO: ...
+
     emit graphChanged();
 }
 

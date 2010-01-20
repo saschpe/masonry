@@ -23,6 +23,11 @@
 
 #include <QGraphicsScene>
 
+class DirectedEdgeItem;
+class LayerItem;
+class ReceiverItem;
+class TransmitterItem;
+
 class GraphScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -43,8 +48,14 @@ signals:
 public slots:
     void init();
     void readSettings();
+
     void addLayer();
     void removeLayer();
+
+private:
+    QList<LayerItem *> m_layers;
+    TransmitterItem *m_transmitter;
+    ReceiverItem *m_receiver;
 };
 
 #endif // GRAPHSCENE_H
