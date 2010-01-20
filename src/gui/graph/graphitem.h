@@ -48,7 +48,7 @@ protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *);
     QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 
-    QList<DirectedEdgeItem *> m_edgeItems;
+    QList<DirectedEdgeItem *> m_edges;
     QMenu *m_contextMenu;
     QString m_name;
 };

@@ -36,8 +36,8 @@ void NodeItem::setRadius(qreal radius)
 {
     m_radius = radius;
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
-    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-        edgeItem->update();
+    foreach (DirectedEdgeItem *edge, m_edges) {
+        edge->update();
     }
     update();
 }

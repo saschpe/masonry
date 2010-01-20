@@ -36,8 +36,8 @@ GraphItem::GraphItem(const QString &name, QGraphicsItem *parent, QGraphicsScene 
 
 GraphItem::~GraphItem()
 {
-    foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
-        delete edgeItem;
+    foreach (DirectedEdgeItem *edge, m_edges) {
+        delete edge;
     }
     scene()->removeItem(this);
 }
@@ -49,14 +49,14 @@ void GraphItem::setContextMenu(QMenu *contextMenu)
 
 void GraphItem::addEdgeItem(DirectedEdgeItem *item)
 {
-    m_edgeItems.append(item);
+    m_edges.append(item);
 };
 
 void GraphItem::removeEdgeItem(DirectedEdgeItem *item)
 {
-    int index = m_edgeItems.indexOf(item);
+    int index = m_edges.indexOf(item);
     if (index != -1 ) {
-        m_edgeItems.removeAt(index);
+        m_edges.removeAt(index);
     }
 }
 
@@ -89,7 +89,7 @@ void GraphItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 QVariant GraphItem::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     if (change == QGraphicsItem::ItemPositionChange) {
-        foreach (DirectedEdgeItem *edgeItem, m_edgeItems) {
+        foreach (DirectedEdgeItem *edgeItem, m_edges) {
             edgeItem->updatePosition();
         }
     }
