@@ -30,11 +30,11 @@ class DirectedEdgeItem : public ArrowItem
 public:
     enum {Type = UserType + 201};
 
-    DirectedEdgeItem(GraphItem *startGraphItem, GraphItem *endGraphItem, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    DirectedEdgeItem(GraphItem *start, GraphItem *end, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~DirectedEdgeItem();
 
-    GraphItem *startGraphItem() const { return m_startGraphItem; }
-    GraphItem *endGraphItem() const { return m_endGraphItem; }
+    GraphItem *start() const { return m_start; }
+    GraphItem *end() const { return m_end; }
 
 public slots:
     void updatePosition();
@@ -43,8 +43,8 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    GraphItem *m_startGraphItem;
-    GraphItem *m_endGraphItem;
+    GraphItem *m_start;
+    GraphItem *m_end;
 };
 
 #endif // DIRECTEDEDGEITEM_H
