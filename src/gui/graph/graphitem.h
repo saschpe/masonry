@@ -37,6 +37,7 @@ public:
 
     void addEdgeItem(DirectedEdgeItem *item);
     void removeEdgeItem(DirectedEdgeItem *item);
+    void removeEdgeItems();
 
     void setName(const QString &name);
     QString name() const { return m_name; }

@@ -36,9 +36,7 @@ GraphItem::GraphItem(const QString &name, QGraphicsItem *parent, QGraphicsScene 
 
 GraphItem::~GraphItem()
 {
-    foreach (DirectedEdgeItem *edge, m_edges) {
-        delete edge;
-    }
+    removeEdgeItems();
     scene()->removeItem(this);
 }
 
@@ -57,6 +55,13 @@ void GraphItem::removeEdgeItem(DirectedEdgeItem *item)
     int index = m_edges.indexOf(item);
     if (index != -1 ) {
         m_edges.removeAt(index);
+    }
+}
+
+void GraphItem::removeEdgeItems()
+{
+    foreach (DirectedEdgeItem *edge, m_edges) {
+        delete edge;
     }
 }
 
