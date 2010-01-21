@@ -25,13 +25,14 @@
 #include "receiveritem.h"
 #include "transmitteritem.h"
 
-#include <QDebug>
+#include <QFile>
 #include <QList>
 #include <QPainter>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
 #include <QSettings>
+#include <QTextStream>
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
@@ -43,13 +44,31 @@ GraphScene::GraphScene(QObject *parent)
 
 void GraphScene::loadFrom(const QString &fileName)
 {
-    qDebug() << "GraphScene::loadFrom()" << "TODO: implement!";
+    QFile file(fileName);
+    if (file.open(QFile::ReadOnly)) {
+        QString tmp;                // To read over strings used to structure the file
+        int layerCount = 0;         // Stores the layer count
+        QTextStream stream(&file);
+
+        init();                     // Reset the current graph
+        stream >> tmp >> layerCount;
+        for (int i = 0; i < layerCount; i++) {
+            addLayer();             // Add layers to the graph
+        }
+        file.close();
+    }
+
     emit graphChanged();
 }
 
 void GraphScene::saveTo(const QString &fileName)
 {
-    qDebug() << "GraphScene::saveTo()" << "TODO: implement!";
+    QFile file(fileName);
+    if (file.open(QFile::WriteOnly)) {
+        QTextStream stream(&file);
+        stream << "layers: " << m_layers.size() << endl;
+        file.close();
+    }
 }
 
 int GraphScene::layerCount() const
