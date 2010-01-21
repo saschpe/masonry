@@ -23,6 +23,7 @@
 #include "dialogs/configdialog.h"
 #include "graph/graphscene.h"
 #include "graph/graphview.h"
+#include "graph/directededgeitem.h"
 #include "graph/nodeitem.h"
 #include "widgets/editdockwidget.h"
 #include "widgets/infodockwidget.h"
@@ -149,7 +150,13 @@ void MainWindow::on_computeAction_triggered()
     if (netFile.open()) {
         QTextStream stream(&netFile);
         //TODO: Generate net file contents
-        stream << "foo";
+
+        int counter = 0;
+        foreach (DirectedEdgeItem *edge, m_scene->edges()) {
+            QString from, to;
+
+            stream << counter++ << from << to << edge->name();
+        }
     }
 
     m_process->start(m_backendString.arg(netFile.fileName()));
