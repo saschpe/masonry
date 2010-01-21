@@ -19,11 +19,31 @@
 */
 
 #include "editdockwidget.h"
+#include "../graph/graphscene.h"
+#include "../graph/nodeitem.h"
+#include "../graph/directededgeitem.h"
 
-EditDockWidget::EditDockWidget(QWidget *parent)
-    : QDockWidget(parent)
+EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
+    : QDockWidget(parent), m_scene(scene), m_currentItem(NULL)
 {
     setupUi(this);
+}
+
+void EditDockWidget::updateEdit()
+{
+    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    if (selection.size() == 1) {
+        m_currentItem = static_cast<GraphItem *>(selection.first());
+        if (dynamic_cast<NodeItem *>(m_currentItem)) {
+            stackedWidget->setCurrentWidget(selectedNodePage);
+        } else if (dynamic_cast<DirectedEdgeItem *>(m_currentItem)) {
+            stackedWidget->setCurrentWidget(selectedEdgePage);
+        } else {
+            stackedWidget->setCurrentWidget(selectedGraphPage);
+        }
+    } else {
+        stackedWidget->setCurrentWidget(selectedGraphPage);
+    }
 }
 
 #include "editdockwidget.moc"

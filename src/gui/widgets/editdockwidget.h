@@ -25,6 +25,9 @@
 
 #include <QDockWidget>
 
+class GraphItem;
+class GraphScene;
+
 /**
  * @author Sascha Peilicke <sasch.pe@gmx.de>
  */
@@ -33,8 +36,14 @@ class EditDockWidget : public QDockWidget, private Ui::EditDockWidget
     Q_OBJECT
 
 public:
-    EditDockWidget(QWidget *parent = 0);
+    EditDockWidget(GraphScene *scene, QWidget *parent = 0);
 
+public slots:
+    void updateEdit();
+
+private:
+    GraphScene *m_scene;
+    GraphItem *m_currentItem;
 };
 
 #endif // EDITDOCKWIDGET_H
