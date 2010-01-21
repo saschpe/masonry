@@ -87,13 +87,13 @@ void GraphScene::init()
     }
     m_layers.clear();
 
-    m_transmitter = new TransmitterItem("u(t)", NULL, this);
+    m_transmitter = new TransmitterItem(NULL, this);
     m_transmitter->setPos(-100, 0);
-    m_receiver = new ReceiverItem("s(t)", NULL, this);
+    m_receiver = new ReceiverItem(NULL, this);
     m_receiver->setPos(100, 0);
 
-    new DirectedEdgeItem(m_transmitter, m_receiver, "tr", NULL, this);
-    new DirectedEdgeItem(m_receiver, m_transmitter, "rt", NULL, this);
+    new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
+    new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
 
     readSettings();
     emit graphChanged();
@@ -121,26 +121,28 @@ void GraphScene::addLayer()
 {
     m_receiver->removeEdgeItems();
 
-    LayerItem *newLayer = new LayerItem("1", NULL, this);
+    LayerItem *newLayer = new LayerItem(NULL, this);
     if (m_layers.size() > 0) {
-        LayerItem *lastLayer = m_layers.last();
+        LayerItem *last = m_layers.last();
 
-        newLayer->setPos(lastLayer->pos() + QPointF(100, 0));
+        newLayer->setPos(last->pos() + QPointF(100, 0));
         m_receiver->moveBy(100, 0);
 
-        /*new DirectedEdgeItem(lastLayer->nodes()[2], newLayer->nodes()[0], "x", NULL, this);
-        new DirectedEdgeItem(newLayer->nodes()[1], lastLayer->nodes()[3], "x", NULL, this);*/
+        new DirectedEdgeItem(last->nodes()->at(2), newLayer->nodes()->at(0), NULL, this);
+        new DirectedEdgeItem(newLayer->nodes()->at(1), last->nodes()->at(3), NULL, this);
+
     } else {
         newLayer->setPos(0, 0);
 
-        //TODO: Connect first layer to transmitter
+        new DirectedEdgeItem(m_transmitter, newLayer->nodes()->at(0), NULL, this);
+        new DirectedEdgeItem(newLayer->nodes()->at(1), m_transmitter, NULL, this);
     }
     newLayer->adjustNamingTo(m_layers.size());
     m_layers.append(newLayer);
 
     // Connect new layer to receiver
-    //new DirectedEdgeItem(newLayer->nodes()->at(2), m_receiver, "", NULL, this);
-    //new DirectedEdgeItem(m_receiver, newLayer->nodes()->at(3), "", NULL, this);
+    new DirectedEdgeItem(newLayer->nodes()->at(2), m_receiver, NULL, this);
+    new DirectedEdgeItem(m_receiver, newLayer->nodes()->at(3), NULL, this);
 
     emit graphChanged();
 }
@@ -159,9 +161,16 @@ void GraphScene::removeLayer()
     // Adjust receiver position to make it look good and all views
     if (m_layers.size() > 0) {
         m_receiver->moveBy(-100, 0);
-    }
+        LayerItem *last = m_layers.last();
 
-    //TODO: ...
+        // Connect new last layer to receiver
+        new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this);
+        new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this);
+    } else {
+        // Re-connect transmitter and receiver
+        new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
+        new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
+    }
 
     emit graphChanged();
 }
