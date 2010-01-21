@@ -29,8 +29,8 @@
 #define M_PI_2 1.57079632679489661923
 #endif
 
-DirectedEdgeItem::DirectedEdgeItem(GraphItem *start, GraphItem *end, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : ArrowItem(QLineF(start->inputPos(), end->outputPos()), name, parent, scene)
+DirectedEdgeItem::DirectedEdgeItem(GraphItem *start, GraphItem *end, QGraphicsItem *parent, QGraphicsScene *scene)
+    : ArrowItem(QLineF(start->inputPos(), end->outputPos()), parent, scene)
     , m_start(start), m_end(end)
 {
     setFlag(QGraphicsItem::ItemIsMovable, false);

@@ -29,17 +29,15 @@
 #define M_PI_2 1.57079632679489661923
 #endif
 
-ArrowItem::ArrowItem(const QLineF &line, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+ArrowItem::ArrowItem(const QLineF &line, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsLineItem(line, parent, scene)
-    , m_name(name)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
 }
 
-ArrowItem::ArrowItem(qreal x1, qreal y1, qreal x2, qreal y2, const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+ArrowItem::ArrowItem(qreal x1, qreal y1, qreal x2, qreal y2, QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsLineItem(x1, y1, x2, y2, parent, scene)
-    , m_name(name)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));

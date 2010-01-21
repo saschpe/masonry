@@ -30,7 +30,7 @@ class GraphItem : public QGraphicsRectItem
 public:
     enum {Type = UserType + 100};
 
-    GraphItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    GraphItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~GraphItem();
 
     void setContextMenu(QMenu *contextMenu);

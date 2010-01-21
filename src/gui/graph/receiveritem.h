@@ -28,7 +28,7 @@ class ReceiverItem : public GraphItem
 public:
     enum {Type = UserType + 103};
 
-    ReceiverItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    ReceiverItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

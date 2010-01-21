@@ -24,8 +24,8 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-NodeItem::NodeItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : GraphItem(name, parent, scene)
+NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
+    : GraphItem(parent, scene)
     , m_radius(10)
 {
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);

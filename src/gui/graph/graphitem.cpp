@@ -25,9 +25,9 @@
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 
-GraphItem::GraphItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
+GraphItem::GraphItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : QGraphicsRectItem(parent, scene)
-    , m_contextMenu(0), m_name(name)
+    , m_contextMenu(0)
 {
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setPen(QPen(Qt::black, 2, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));

@@ -23,10 +23,11 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-ReceiverItem::ReceiverItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : GraphItem(name, parent, scene)
+ReceiverItem::ReceiverItem(QGraphicsItem *parent, QGraphicsScene *scene)
+    : GraphItem(parent, scene)
 {
     setRect(-15, -50, 30, 100);
+    setName("s(t)");
 
     m_lines << QLineF(15, -40, 25, -40) << QLineF(15, 40, 25, 40)
             << QLineF(-25, -40, -15, -40) << QLineF(-25, 40, -15, 40);

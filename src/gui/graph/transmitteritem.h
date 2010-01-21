@@ -28,7 +28,7 @@ class TransmitterItem : public GraphItem
 public:
     enum {Type = UserType + 102};
 
-    TransmitterItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    TransmitterItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
     QRectF boundingRect() const;
     QPainterPath shape() const;

@@ -28,7 +28,7 @@ class NodeItem : public GraphItem
 public:
     enum {Type = UserType + 101};
 
-    NodeItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    NodeItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
     void setRadius(qreal radius);
     qreal radius() const { return m_radius; }

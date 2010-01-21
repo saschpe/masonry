@@ -30,7 +30,7 @@ class DirectedEdgeItem : public ArrowItem
 public:
     enum {Type = UserType + 201};
 
-    DirectedEdgeItem(GraphItem *start, GraphItem *end, const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    DirectedEdgeItem(GraphItem *start, GraphItem *end, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
     virtual ~DirectedEdgeItem();
 
     GraphItem *start() const { return m_start; }
