@@ -72,6 +72,7 @@ void MainWindow::on_newAction_triggered()
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
         m_scene->init();
         m_lastFileName = "";
+        m_graphChangesUnsaved = false;
     }
 }
 
@@ -103,12 +104,15 @@ int MainWindow::checkForUnsavedChanges()
 
 void MainWindow::on_loadAction_triggered()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open Masonry Graph File"),
-        QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
-        tr("Masonry Graph Files (*.masonry)"));
-    m_scene->loadFrom(fileName);
-    m_lastFileName = fileName;
+    if (checkForUnsavedChanges() != QMessageBox::Cancel) {
+        QString fileName = QFileDialog::getOpenFileName(this,
+            tr("Open Masonry Graph File"),
+            QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
+            tr("Masonry Graph Files (*.masonry)"));
+        m_scene->loadFrom(fileName);
+        m_lastFileName = fileName;
+        m_graphChangesUnsaved = false;
+    }
 }
 
 void MainWindow::on_saveAction_triggered()
