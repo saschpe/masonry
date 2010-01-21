@@ -24,7 +24,8 @@
 #include "../graph/directededgeitem.h"
 
 EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
-    : QDockWidget(parent), m_scene(scene), m_currentItem(NULL)
+    : QDockWidget(parent), m_scene(scene)
+    , m_currentEdgeItem(0), m_currentNodeItem(0)
 {
     setupUi(this);
 }
@@ -33,10 +34,11 @@ void EditDockWidget::updateEdit()
 {
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
-        m_currentItem = static_cast<GraphItem *>(selection.first());
-        if (dynamic_cast<NodeItem *>(m_currentItem)) {
+        if (m_currentNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
+            nodeNameLineEdit->setText(m_currentNodeItem->name());
             stackedWidget->setCurrentWidget(selectedNodePage);
-        } else if (dynamic_cast<DirectedEdgeItem *>(m_currentItem)) {
+        } else if (m_currentEdgeItem = dynamic_cast<DirectedEdgeItem *>(selection.first())) {
+            edgeNameLineEdit->setText(m_currentEdgeItem->name());
             stackedWidget->setCurrentWidget(selectedEdgePage);
         } else {
             stackedWidget->setCurrentWidget(selectedGraphPage);

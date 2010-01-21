@@ -25,7 +25,8 @@
 
 #include <QDockWidget>
 
-class GraphItem;
+class DirectedEdgeItem;
+class NodeItem;
 class GraphScene;
 
 /**
@@ -43,7 +44,8 @@ public slots:
 
 private:
     GraphScene *m_scene;
-    GraphItem *m_currentItem;
+    DirectedEdgeItem *m_currentEdgeItem;
+    NodeItem *m_currentNodeItem;
 };
 
 #endif // EDITDOCKWIDGET_H
