@@ -71,31 +71,28 @@ void GraphScene::saveTo(const QString &fileName)
     }
 }
 
-int GraphScene::layerCount() const
+QList<DirectedEdgeItem *> GraphScene::edges() const
 {
-    return m_layers.size();
-}
-
-int GraphScene::nodeCount() const
-{
-    int count = 0;
+    QList<DirectedEdgeItem *> edges;
     foreach (QGraphicsItem *item, items()) {
-        if (dynamic_cast<NodeItem *>(item) != 0) {
-            count++;
+        DirectedEdgeItem *edge;
+        if ((edge = dynamic_cast<DirectedEdgeItem *>(item)) != 0) {
+            edges.append(edge);
         }
     }
-    return count;
+    return edges;
 }
 
-int GraphScene::edgeCount() const
+QList<NodeItem *> GraphScene::nodes() const
 {
-    int count = 0;
+    QList<NodeItem *> nodes;
     foreach (QGraphicsItem *item, items()) {
-        if (dynamic_cast<DirectedEdgeItem *>(item) != 0) {
-            count ++;
+        NodeItem *node;
+        if ((node = dynamic_cast<NodeItem *>(item)) != 0) {
+            nodes.append(node);
         }
     }
-    return count;
+    return nodes;
 }
 
 void GraphScene::init()

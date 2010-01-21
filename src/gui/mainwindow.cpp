@@ -150,7 +150,8 @@ void MainWindow::on_computeAction_triggered()
 
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
         statusBar()->showMessage(tr("Running computation for node '%1'...").arg(m_lastSelectedNodeItem->name()));
-        qDebug() << "Run computation of Mason graph...";
+
+
         //TODO: Insert parameters
         m_process->start(m_backendString);
         //TODO: Convert graph into suitable representation
@@ -190,7 +191,7 @@ void MainWindow::on_aboutQtAction_triggered()
 void MainWindow::graphChanged()
 {
     m_graphChangesUnsaved = true;
-    removeLayerAction->setEnabled(m_scene->layerCount() > 0);
+    removeLayerAction->setEnabled(m_scene->layers().size() > 0);
 }
 
 void MainWindow::graphSelectionChanged()

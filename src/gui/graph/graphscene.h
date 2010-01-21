@@ -25,6 +25,7 @@
 
 class DirectedEdgeItem;
 class LayerItem;
+class NodeItem;
 class ReceiverItem;
 class TransmitterItem;
 
@@ -38,9 +39,9 @@ public:
     void loadFrom(const QString &fileName);
     void saveTo(const QString &fileName);
 
-    int layerCount() const;
-    int nodeCount() const;
-    int edgeCount() const;
+    QList<DirectedEdgeItem *> edges() const;
+    QList<LayerItem *> layers() const { return m_layers; }
+    QList<NodeItem *> nodes() const;
 
 signals:
     void graphChanged();

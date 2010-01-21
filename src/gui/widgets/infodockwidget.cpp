@@ -34,9 +34,9 @@ InfoDockWidget::InfoDockWidget(GraphScene *scene, QWidget *parent)
 
 void InfoDockWidget::updateInfo()
 {
-    edgeCountLineEdit->setText(QString::number(m_scene->edgeCount()));
-    nodeCountLineEdit->setText(QString::number(m_scene->nodeCount()));
-    layerCountLineEdit->setText(QString::number(m_scene->layerCount()));
+    edgeCountLineEdit->setText(QString::number(m_scene->edges().size()));
+    nodeCountLineEdit->setText(QString::number(m_scene->nodes().size()));
+    layerCountLineEdit->setText(QString::number(m_scene->layers().size()));
 }
 
 #include "infodockwidget.moc"
