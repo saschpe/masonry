@@ -29,19 +29,20 @@
 #include "widgets/outputdockwidget.h"
 
 #include <QCloseEvent>
-#include <QDebug>
 #include <QDir>
 #include <QDockWidget>
 #include <QFileDialog>
 #include <QMessageBox>
 #include <QProcess>
 #include <QSettings>
+#include <QTemporaryFile>
+#include <QTextStream>
 #include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
-    , m_process(NULL), m_graphChangesUnsaved(false)
+    , m_process(new QProcess(this)), m_graphChangesUnsaved(false)
     , m_lastSelectedNodeItem(NULL)
 {
     setupUi(this);
@@ -52,6 +53,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupToolbars();
     readSettings();
 
+    connect(m_process, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
     connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
@@ -91,11 +93,10 @@ int MainWindow::checkForUnsavedChanges()
         ret = box.exec();
         switch (ret) {
             case QMessageBox::Save:
-                qDebug() << "TODO: save stuff";
                 m_graphChangesUnsaved = false;
                 break;
             case QMessageBox::Discard:
-                m_graphChangesUnsaved = false;
+                //m_graphChangesUnsaved = false;
                 break;
             case QMessageBox::Cancel:
                 break;
@@ -144,22 +145,16 @@ void MainWindow::on_saveAsAction_triggered()
 
 void MainWindow::on_computeAction_triggered()
 {
-    if (!m_process) {
-        m_process = new QProcess(this);
+    QTemporaryFile netFile;
+    if (netFile.open()) {
+        QTextStream stream(&netFile);
+        //TODO: Generate net file contents
+        stream << "foo";
     }
 
-    if (checkForUnsavedChanges() != QMessageBox::Cancel) {
-        statusBar()->showMessage(tr("Running computation for node '%1'...").arg(m_lastSelectedNodeItem->name()));
-
-
-        //TODO: Insert parameters
-        m_process->start(m_backendString);
-        //TODO: Convert graph into suitable representation
-        //      and feed it to Matlab/Octave/...
-        //statusBar()->showMessage(tr("Done"), 3000);
-
-    }
-    statusBar()->showMessage(tr("Computation cancelled!"), 3000);
+    m_process->start(m_backendString.arg(netFile.fileName()));
+    statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
+    //TODO: Disable GUI elements to not interfere here
 }
 
 void MainWindow::on_configureAction_triggered()
@@ -174,7 +169,7 @@ void MainWindow::on_configureAction_triggered()
 
 void MainWindow::on_helpAction_triggered()
 {
-    qDebug() << "TODO: Show help";
+    // "TODO: Show help";
 }
 
 void MainWindow::on_aboutAction_triggered()
@@ -209,6 +204,12 @@ void MainWindow::graphSelectionChanged()
     }
 }
 
+void MainWindow::processFinished(int exitCode)
+{
+    statusBar()->showMessage(tr("Done"), 3000);
+    //TODO: Do more with the results
+}
+
 void MainWindow::zoomToFit()
 {
     m_view->zoomToFit();
@@ -233,12 +234,13 @@ void MainWindow::readSettings()
     settings.endGroup();
 
     settings.beginGroup("backend");
-    if (settings.value("current").toString() == "octave") {
+    if (settings.value("current", "octave").toString() == "octave") {
         settings.beginGroup("octave");
     } else {
         settings.beginGroup("matlab");
     }
-    m_backendString = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
+    m_backendString = settings.value("executable", "octave").toString() + ' ' +
+                      settings.value("parameters", "--silent --eval \"%1;\"").toString();
     settings.endGroup();
     settings.endGroup();
 }
@@ -309,11 +311,10 @@ void MainWindow::setupDockWidgets()
     // Edit dock widget
     QDockWidget *editDockWidget = new EditDockWidget(m_scene, this);
     addDockWidget(Qt::BottomDockWidgetArea, editDockWidget);
-    connect(m_scene, SIGNAL(selectionChanged()), editDockWidget, SLOT(updateEdit()));
-    //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
+    //dockersSettingsMenu->addAction(editDockWidget->toggleViewAction());
 
     // Output dock widget
-    QDockWidget *outputDockWidget = new OutputDockWidget(this);
+    QDockWidget *outputDockWidget = new OutputDockWidget(m_process, this);
     addDockWidget(Qt::BottomDockWidgetArea, outputDockWidget);
     dockersSettingsMenu->addAction(outputDockWidget->toggleViewAction());
 }

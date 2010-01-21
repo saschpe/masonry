@@ -52,6 +52,7 @@ private slots:
     void on_aboutQtAction_triggered();
     void graphChanged();
     void graphSelectionChanged();
+    void processFinished(int);
 
     void zoomToFit();
     void uncheckZoomToFitAction();
@@ -67,6 +68,7 @@ private:
 
     GraphScene *m_scene;
     GraphView *m_view;
+
     QProcess *m_process;
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
