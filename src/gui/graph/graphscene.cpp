@@ -19,11 +19,11 @@
 */
 
 #include "graphscene.h"
-#include "directededgeitem.h"
-#include "layeritem.h"
-#include "nodeitem.h"
-#include "receiveritem.h"
-#include "transmitteritem.h"
+#include "items/directededgeitem.h"
+#include "items/layeritem.h"
+#include "items/nodeitem.h"
+#include "items/receiveritem.h"
+#include "items/transmitteritem.h"
 
 #include <QFile>
 #include <QList>

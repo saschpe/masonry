@@ -19,15 +19,15 @@ set(masonry_UIS
 set(masonry_SRCS
     src/gui/dialogs/aboutdialog.cpp
     src/gui/dialogs/configdialog.cpp
-    src/gui/graph/arrowitem.cpp
-    src/gui/graph/directededgeitem.cpp
-    src/gui/graph/graphitem.cpp
     src/gui/graph/graphscene.cpp
     src/gui/graph/graphview.cpp
-    src/gui/graph/layeritem.cpp
-    src/gui/graph/nodeitem.cpp
-    src/gui/graph/receiveritem.cpp
-    src/gui/graph/transmitteritem.cpp
+    src/gui/graph/items/arrowitem.cpp
+    src/gui/graph/items/directededgeitem.cpp
+    src/gui/graph/items/graphitem.cpp
+    src/gui/graph/items/layeritem.cpp
+    src/gui/graph/items/nodeitem.cpp
+    src/gui/graph/items/receiveritem.cpp
+    src/gui/graph/items/transmitteritem.cpp
     src/gui/mainwindow.cpp
     src/gui/widgets/editdockwidget.cpp
     src/gui/widgets/infodockwidget.cpp

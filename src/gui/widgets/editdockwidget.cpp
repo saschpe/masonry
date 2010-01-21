@@ -19,9 +19,9 @@
 */
 
 #include "editdockwidget.h"
-#include "../graph/graphscene.h"
-#include "../graph/nodeitem.h"
-#include "../graph/directededgeitem.h"
+#include "gui/graph/graphscene.h"
+#include "gui/graph/items/directededgeitem.h"
+#include "gui/graph/items/nodeitem.h"
 
 EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
     : QDockWidget(parent), m_scene(scene)
