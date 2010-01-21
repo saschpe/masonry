@@ -21,7 +21,6 @@
 #include "aboutdialog.h"
 
 #include <QCoreApplication>
-#include <QDebug>
 #include <QUrl>
 
 AboutDialog::AboutDialog(QWidget *parent)
