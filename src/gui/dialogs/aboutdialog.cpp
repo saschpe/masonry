@@ -30,7 +30,8 @@ AboutDialog::AboutDialog(QWidget *parent)
 
     QUrl url = QUrl("http://" + QCoreApplication::organizationDomain());
 
-    organizationLabel->setText(tr("%1 e.V. (%2)").arg(QCoreApplication::organizationName()).arg(url.toString()));
+    organizationLabel->setOpenExternalLinks(true);
+    organizationLabel->setText(tr("<strong>%1 e.V.</strong> (<a href=\"%2\">%2</a>)").arg(QCoreApplication::organizationName()).arg(url.toString()));
     versionLabel->setText(tr("Version %1").arg(QCoreApplication::applicationVersion()));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
