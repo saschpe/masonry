@@ -57,8 +57,6 @@ void LayerItem::adjustNamingTo(int pos)
     int off = 4 * pos;
     m_graphPos = pos;
 
-    setName(QString::number(pos));
-
     m_nodes[0]->setName(QString::number(off + 1));
     m_nodes[1]->setName(QString::number(off + 2));
     m_nodes[2]->setName(QString::number(off + 3));
