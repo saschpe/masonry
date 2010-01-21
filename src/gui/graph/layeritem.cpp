@@ -26,7 +26,7 @@
 
 LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
-    , m_color(200, 0, 200, 10), m_graphPos(0)
+    , m_color(200, 0, 200, 10), m_graphPos(NULL)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setRect(-35, -70, 70, 140);

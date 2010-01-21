@@ -25,7 +25,7 @@
 
 EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
     : QDockWidget(parent), m_scene(scene)
-    , m_currentEdgeItem(0), m_currentNodeItem(0)
+    , m_currentEdgeItem(NULL), m_currentNodeItem(NULL)
 {
     setupUi(this);
 }

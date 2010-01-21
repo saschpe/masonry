@@ -41,7 +41,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
-    , m_process(0), m_graphChangesUnsaved(false)
+    , m_process(NULL), m_graphChangesUnsaved(false)
+    , m_lastSelectedNodeItem(NULL)
 {
     setupUi(this);
     setCentralWidget(m_view);
