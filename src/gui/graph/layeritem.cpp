@@ -62,8 +62,8 @@ void LayerItem::adjustNamingTo(int pos)
     m_nodes[2]->setName(QString::number(off + 3));
     m_nodes[3]->setName(QString::number(off + 4));
 
-    m_edges[0]->setName("tg" + QString::number(pos));
-    m_edges[1]->setName("-g" + QString::number(pos));
-    m_edges[2]->setName("tg" + QString::number(pos));
-    m_edges[3]->setName("g" + QString::number(pos));
+    m_edges[0]->setName("tg" + QString::number(pos + 1));
+    m_edges[1]->setName("-g" + QString::number(pos + 1));
+    m_edges[2]->setName("tg" + QString::number(pos + 1));
+    m_edges[3]->setName("g" + QString::number(pos + 1));
 }
