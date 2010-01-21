@@ -28,6 +28,8 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
     , m_currentEdgeItem(NULL), m_currentNodeItem(NULL)
 {
     setupUi(this);
+
+    connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(updateEdit()));
 }
 
 void EditDockWidget::updateEdit()

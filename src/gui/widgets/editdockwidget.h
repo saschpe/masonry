@@ -39,7 +39,7 @@ class EditDockWidget : public QDockWidget, private Ui::EditDockWidget
 public:
     EditDockWidget(GraphScene *scene, QWidget *parent = 0);
 
-public slots:
+private slots:
     void updateEdit();
 
 private:
