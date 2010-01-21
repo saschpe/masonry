@@ -23,6 +23,7 @@
 #include "dialogs/configdialog.h"
 #include "graph/graphscene.h"
 #include "graph/graphview.h"
+#include "graph/nodeitem.h"
 #include "widgets/editdockwidget.h"
 #include "widgets/infodockwidget.h"
 #include "widgets/outputdockwidget.h"
@@ -142,7 +143,6 @@ void MainWindow::on_computeAction_triggered()
     if (!m_process) {
         m_process = new QProcess(this);
     }
-    //TODO: Rename "Output" in "BackendOutput"
 
     statusBar()->showMessage(tr("Running graph computation..."));
     qDebug() << "Run computation of Mason graph...";
@@ -188,6 +188,16 @@ void MainWindow::graphChanged()
 void MainWindow::graphSelectionChanged()
 {
     qDebug() << "MainWindow::graphSelectionChanged() TODO: Implement";
+    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    if (selection.size() != 1) {
+        computeAction->setEnabled(false);
+    } else {
+        if (dynamic_cast<NodeItem *>(selection.first())) {
+            computeAction->setEnabled(true);
+        } else {
+            computeAction->setEnabled(false);
+        }
+    }
 }
 
 void MainWindow::zoomToFit()

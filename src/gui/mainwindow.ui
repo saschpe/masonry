@@ -317,6 +317,9 @@
    </property>
   </action>
   <action name="computeAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
    <property name="text">
     <string>&amp;Compute Signal</string>
    </property>
