@@ -20,10 +20,36 @@
 
 #include "outputdockwidget.h"
 
-OutputDockWidget::OutputDockWidget(QWidget *parent)
-    : QDockWidget(parent)
+#include <QProcess>
+
+OutputDockWidget::OutputDockWidget(QProcess *process, QWidget *parent)
+    : QDockWidget(parent), m_process(process)
 {
     setupUi(this);
+
+    connect(m_process, SIGNAL(started()), this, SLOT(clear()));
+    connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(readStandardError()));
+    connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(readStandardOutput()));
+}
+
+void OutputDockWidget::clear()
+{
+    outputTextEdit->clear();
+}
+
+void OutputDockWidget::append(const QString &output)
+{
+    outputTextEdit->setText(outputTextEdit->toPlainText() + output);
+}
+
+void OutputDockWidget::readStandardError()
+{
+    outputTextEdit->setText(outputTextEdit->toPlainText() + m_process->readAllStandardError());
+}
+
+void OutputDockWidget::readStandardOutput()
+{
+    outputTextEdit->setText(outputTextEdit->toPlainText() + m_process->readAllStandardOutput());
 }
 
 #include "outputdockwidget.moc"

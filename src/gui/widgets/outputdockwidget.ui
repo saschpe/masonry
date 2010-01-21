@@ -19,7 +19,7 @@
   <widget class="QWidget" name="dockWidgetContents">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="0">
-     <widget class="QTextBrowser" name="outputTextBrowser"/>
+     <widget class="QTextEdit" name="outputTextEdit"/>
     </item>
    </layout>
   </widget>

@@ -25,6 +25,8 @@
 
 #include <QDockWidget>
 
+class QProcess;
+
 /**
  * Shows textual output of an application.
  *
@@ -36,8 +38,18 @@ class OutputDockWidget : public QDockWidget, private Ui::OutputDockWidget
     Q_OBJECT
 
 public:
-    OutputDockWidget(QWidget *parent = 0);
+    OutputDockWidget(QProcess *process, QWidget *parent = 0);
 
+public slots:
+    void clear();
+    void append(const QString &);
+
+private slots:
+    void readStandardError();
+    void readStandardOutput();
+
+private:
+    QProcess *m_process;
 };
 
 #endif // OUTPUTDOCKWIDGET_H
