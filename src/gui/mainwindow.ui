@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Masonry - Mason-Graph Lab</string>
   </property>
+  <property name="dockNestingEnabled">
+   <bool>true</bool>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout">
     <property name="margin">
