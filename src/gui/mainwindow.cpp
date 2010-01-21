@@ -113,6 +113,7 @@ void MainWindow::on_loadAction_triggered()
         m_scene->loadFrom(fileName);
         m_lastFileName = fileName;
         m_graphChangesUnsaved = false;
+        statusBar()->showMessage(tr("File '%1' loaded").arg(m_lastFileName), 3000);
     }
 }
 
@@ -123,6 +124,7 @@ void MainWindow::on_saveAction_triggered()
     } else {
         m_scene->saveTo(m_lastFileName);
         m_graphChangesUnsaved = false;
+        statusBar()->showMessage(tr("File '%1' saved").arg(m_lastFileName), 3000);
     }
 }
 
@@ -136,6 +138,7 @@ void MainWindow::on_saveAsAction_triggered()
     m_scene->saveTo(fileName);
     m_graphChangesUnsaved = false;
     m_lastFileName = fileName;
+    statusBar()->showMessage(tr("File '%1' saved").arg(m_lastFileName), 3000);
 }
 
 void MainWindow::on_computeAction_triggered()
@@ -144,13 +147,17 @@ void MainWindow::on_computeAction_triggered()
         m_process = new QProcess(this);
     }
 
-    statusBar()->showMessage(tr("Running graph computation..."));
-    qDebug() << "Run computation of Mason graph...";
-    //TODO: Insert parameters
-    m_process->start(m_backendString);
-    //TODO: Convert graph into suitable representation
-    //      and feed it to Matlab/Octave/...
-    //statusBar()->showMessage(tr("Done"), 3000);
+    if (checkForUnsavedChanges() != QMessageBox::Cancel) {
+        statusBar()->showMessage(tr("Running computation for currently selected node..."));
+        qDebug() << "Run computation of Mason graph...";
+        //TODO: Insert parameters
+        m_process->start(m_backendString);
+        //TODO: Convert graph into suitable representation
+        //      and feed it to Matlab/Octave/...
+        //statusBar()->showMessage(tr("Done"), 3000);
+
+    }
+    statusBar()->showMessage(tr("Computation cancelled!"), 3000);
 }
 
 void MainWindow::on_configureAction_triggered()
