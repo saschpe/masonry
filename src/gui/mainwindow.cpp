@@ -149,7 +149,7 @@ void MainWindow::on_computeAction_triggered()
     }
 
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
-        statusBar()->showMessage(tr("Running computation for currently selected node..."));
+        statusBar()->showMessage(tr("Running computation for node '%1'...").arg(m_lastSelectedNodeItem->name()));
         qDebug() << "Run computation of Mason graph...";
         //TODO: Insert parameters
         m_process->start(m_backendString);
@@ -197,12 +197,13 @@ void MainWindow::graphSelectionChanged()
 {
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
-        if (dynamic_cast<NodeItem *>(selection.first())) {
+        if (m_lastSelectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
             computeAction->setEnabled(true);
         } else {
             computeAction->setEnabled(false);
         }
     } else {
+        m_lastSelectedNodeItem = NULL;
         computeAction->setEnabled(false);
     }
 }

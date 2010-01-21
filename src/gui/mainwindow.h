@@ -27,6 +27,7 @@
 
 class GraphScene;
 class GraphView;
+class NodeItem;
 class QProcess;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
@@ -69,6 +70,7 @@ private:
     QProcess *m_process;
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
+    NodeItem *m_lastSelectedNodeItem;
     QString m_backendString;
 };
 
