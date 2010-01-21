@@ -26,17 +26,17 @@
 TransmitterItem::TransmitterItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
 {
-    setRect(-15, -50, 30, 100);
+    setRect(-15, -70, 30, 140);
     setName("u(t)");
 
-    m_lines << QLineF(15, -40, 25, -40) << QLineF(15, 40, 25, 40)
-            << QLineF(-25, -40, -15, -40) << QLineF(-25, 40, -15, 40);
-    m_dotRects << QRectF(-30, -42, 4, 4) << QRectF(-30, 38, 4, 4);
+    m_lines << QLineF(15, -55, 25, -55) << QLineF(15, 55, 25, 55)
+            << QLineF(-25, -55, -15, -55) << QLineF(-25, 55, -15, 55);
+    m_dotRects << QRectF(-30, -57, 4, 4) << QRectF(-30, 53, 4, 4);
 }
 
 QRectF TransmitterItem::boundingRect() const
 {
-    QRectF rectLinesAndDots = QRectF(-31, -51, 62, 102);
+    QRectF rectLinesAndDots = QRectF(-31, -71, 62, 142);
     return rectLinesAndDots.united(m_nameRect);
 }
 
@@ -56,12 +56,12 @@ QPainterPath TransmitterItem::shape() const
 
 QPointF TransmitterItem::inputPos() const
 {
-    return QPointF(25, -40) + pos();
+    return QPointF(25, -55) + pos();
 }
 
 QPointF TransmitterItem::outputPos() const
 {
-    return QPointF(25, 40) + pos();
+    return QPointF(25, 55) + pos();
 }
 
 void TransmitterItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

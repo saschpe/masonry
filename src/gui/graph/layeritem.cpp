@@ -24,35 +24,38 @@
 
 #include <QGraphicsScene>
 
-LayerItem::LayerItem(const QString &name, QGraphicsItem *parent, QGraphicsScene *scene)
-    : GraphItem(name, parent, scene)
-    , m_color(200, 0, 200, 10)
+LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
+    : GraphItem(parent, scene)
+    , m_color(200, 0, 200, 10), m_graphPos(0)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
-    setRect(-30, -60, 60, 120);
+    setRect(-35, -70, 70, 140);
     setPen(QPen(m_color, 0, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin));
     setBrush(m_color);
 
     // Add internal layer nodes with default naming
-    m_nodes.append(new NodeItem("1", this, scene));
-    m_nodes.append(new NodeItem("2", this, scene));
-    m_nodes.append(new NodeItem("3", this, scene));
-    m_nodes.append(new NodeItem("4", this, scene));
-    m_nodes[0]->setPos(-15, -40);
-    m_nodes[1]->setPos(-15, 40);
-    m_nodes[2]->setPos(15, -40);
-    m_nodes[3]->setPos(15, 40);
+    m_nodes.append(new NodeItem(this, scene));
+    m_nodes.append(new NodeItem(this, scene));
+    m_nodes.append(new NodeItem(this, scene));
+    m_nodes.append(new NodeItem(this, scene));
+    m_nodes[0]->setPos(-20, -55);
+    m_nodes[1]->setPos(-20, 55);
+    m_nodes[2]->setPos(20, -55);
+    m_nodes[3]->setPos(20, 55);
 
     // Wire the internal nodes
-    addEdgeItem(new DirectedEdgeItem(m_nodes[0], m_nodes[2], "", this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[2], m_nodes[3], "", this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[3], m_nodes[1], "", this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[1], m_nodes[0], "", this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[0], m_nodes[2], this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[2], m_nodes[3], this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[3], m_nodes[1], this, scene));
+    addEdgeItem(new DirectedEdgeItem(m_nodes[1], m_nodes[0], this, scene));
+
+    adjustNamingTo(m_graphPos);
 }
 
 void LayerItem::adjustNamingTo(int pos)
 {
     int off = 4 * pos;
+    m_graphPos = pos;
 
     setName(QString::number(pos));
 
@@ -60,8 +63,9 @@ void LayerItem::adjustNamingTo(int pos)
     m_nodes[1]->setName(QString::number(off + 2));
     m_nodes[2]->setName(QString::number(off + 3));
     m_nodes[3]->setName(QString::number(off + 4));
-    /*m_edges[0]->setName(QString::number(off + 1) + QString::number(off + 3));
-    m_edges[1]->setName(QString::number(off + 3) + QString::number(off + 4));
-    m_edges[2]->setName(QString::number(off + 4) + QString::number(off + 2));
-    m_edges[3]->setName(QString::number(off + 2) + QString::number(off + 1));*/
+
+    m_edges[0]->setName("tg" + QString::number(pos));
+    m_edges[1]->setName("-g" + QString::number(pos));
+    m_edges[2]->setName("tg" + QString::number(pos));
+    m_edges[3]->setName("g" + QString::number(pos));
 }

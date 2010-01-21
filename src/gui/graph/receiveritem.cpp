@@ -26,17 +26,17 @@
 ReceiverItem::ReceiverItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
 {
-    setRect(-15, -50, 30, 100);
+    setRect(-15, -70, 30, 140);
     setName("s(t)");
 
-    m_lines << QLineF(15, -40, 25, -40) << QLineF(15, 40, 25, 40)
-            << QLineF(-25, -40, -15, -40) << QLineF(-25, 40, -15, 40);
-    m_dotRects << QRectF(26, -42, 4, 4) << QRectF(26, 38, 4, 4);
+    m_lines << QLineF(15, -55, 25, -55) << QLineF(15, 55, 25, 55)
+            << QLineF(-25, -55, -15, -55) << QLineF(-25, 55, -15, 55);
+    m_dotRects << QRectF(26, -57, 4, 4) << QRectF(26, 53, 4, 4);
 }
 
 QRectF ReceiverItem::boundingRect() const
 {
-    QRectF rectLinesAndDots = QRectF(-26, -51, 62, 102);
+    QRectF rectLinesAndDots = QRectF(-26, -71, 62, 142);
     return rectLinesAndDots.united(m_nameRect);
 }
 
@@ -56,12 +56,12 @@ QPainterPath ReceiverItem::shape() const
 
 QPointF ReceiverItem::inputPos() const
 {
-    return QPointF(-25, 40) + pos();
+    return QPointF(-25, 55) + pos();
 }
 
 QPointF ReceiverItem::outputPos() const
 {
-    return QPointF(-25, -40) + pos();
+    return QPointF(-25, -55) + pos();
 }
 
 void ReceiverItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)

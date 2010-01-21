@@ -31,10 +31,14 @@ class LayerItem : public GraphItem
 public:
     enum {Type = UserType + 104};
 
-    LayerItem(const QString &name = "", QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
+    LayerItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
     void setColor(QColor color);
     QColor color() const { return m_color; }
+
+    int graphPos() const { return m_graphPos; }
+
+    QList<NodeItem *> *nodes() { return &m_nodes; }
 
     void adjustNamingTo(int pos);
 
@@ -48,6 +52,7 @@ private:
     //QRectF m_nameRect;
     QList<NodeItem *> m_nodes;
     QColor m_color;
+    int m_graphPos;
 };
 
 #endif // LAYERITEM_H
