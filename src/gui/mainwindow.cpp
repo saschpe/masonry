@@ -187,16 +187,15 @@ void MainWindow::graphChanged()
 
 void MainWindow::graphSelectionChanged()
 {
-    qDebug() << "MainWindow::graphSelectionChanged() TODO: Implement";
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    if (selection.size() != 1) {
-        computeAction->setEnabled(false);
-    } else {
+    if (selection.size() == 1) {
         if (dynamic_cast<NodeItem *>(selection.first())) {
             computeAction->setEnabled(true);
         } else {
             computeAction->setEnabled(false);
         }
+    } else {
+        computeAction->setEnabled(false);
     }
 }
 
@@ -298,8 +297,9 @@ void MainWindow::setupDockWidgets()
     dockersSettingsMenu->addAction(infoDockWidget->toggleViewAction());
 
     // Edit dock widget
-    QDockWidget *editDockWidget = new EditDockWidget(this);
+    QDockWidget *editDockWidget = new EditDockWidget(m_scene, this);
     addDockWidget(Qt::BottomDockWidgetArea, editDockWidget);
+    connect(m_scene, SIGNAL(selectionChanged()), editDockWidget, SLOT(updateEdit()));
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
