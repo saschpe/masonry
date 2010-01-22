@@ -24,7 +24,7 @@
 #include <QPainter>
 
 ReceiverItem::ReceiverItem(QGraphicsItem *parent, QGraphicsScene *scene)
-    : GraphItem(parent, scene)
+    : GraphItem(parent, scene), m_nameRect(20, -10, 20, 20)
 {
     setRect(-15, -70, 30, 140);
     setName("s(t)");
@@ -83,6 +83,5 @@ void ReceiverItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *opti
     p.setColor(Qt::black);
     painter->setPen(p);
     painter->drawText(rect(), Qt::AlignCenter, "F^-1");
-    m_nameRect = QRectF(20, -10, 20, 20);
     painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
 }
