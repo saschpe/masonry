@@ -46,14 +46,17 @@ void GraphScene::loadFrom(const QString &fileName)
 {
     QFile file(fileName);
     if (file.open(QFile::ReadOnly)) {
-        QString tmp;                // To read over strings used to structure the file
-        int layerCount = 0;         // Stores the layer count
+        QString tmp;                        // To read over strings used to structure the file
+        int layerCount = 0;                 // Stores the layer count
         QTextStream stream(&file);
 
-        init();                     // Reset the current graph
+        init();                             // Reset the current graph
         stream >> tmp >> layerCount;
         for (int i = 0; i < layerCount; i++) {
-            addLayer();             // Add layers to the graph
+            int pos;
+            stream >> tmp >> pos >> tmp;
+            addLayer();                     // Add layers to the graph
+            m_layers.last()->setName(tmp);  // Set the name of the layer
         }
         file.close();
     }
@@ -64,9 +67,12 @@ void GraphScene::loadFrom(const QString &fileName)
 void GraphScene::saveTo(const QString &fileName)
 {
     QFile file(fileName);
-    if (file.open(QFile::WriteOnly)) {
+    if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream stream(&file);
-        stream << "layers: " << m_layers.size() << endl;
+        stream << "layer-count: " << m_layers.size() << endl;
+        foreach (LayerItem *layer, m_layers) {
+            stream << "layer-pos-name:" << layer->graphPos() << layer->name();
+        }
         file.close();
     }
 }
