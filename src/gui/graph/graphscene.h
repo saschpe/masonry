@@ -54,10 +54,12 @@ public slots:
     void removeLayer();
 
 private:
-    QList<LayerItem *> m_layers;
-    TransmitterItem *m_transmitter;
     ReceiverItem *m_receiver;
-    QList<DirectedEdgeItem *> m_receiverEdges;
+    DirectedEdgeItem *m_receiverEdge;
+    TransmitterItem *m_transmitter;
+    DirectedEdgeItem * m_transmitterEdge;
+    QList<LayerItem *> m_layers;
+    QList<DirectedEdgeItem *> m_layerEdges;
 };
 
 #endif // GRAPHSCENE_H

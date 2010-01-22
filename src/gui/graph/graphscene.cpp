@@ -108,14 +108,17 @@ void GraphScene::init()
         delete item;
     }
     m_layers.clear();
+    m_layerEdges.clear();
 
-    m_transmitter = new TransmitterItem(NULL, this);
-    m_transmitter->setPos(-100, 0);
+    // Create receiver and transmitter items and position them in the scene
     m_receiver = new ReceiverItem(NULL, this);
     m_receiver->setPos(100, 0);
+    m_transmitter = new TransmitterItem(NULL, this);
+    m_transmitter->setPos(-100, 0);
 
-    m_receiverEdges.append(new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this));
-    m_receiverEdges.append(new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this));
+    // Connect receiver and transmitter
+    m_receiverEdge = new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
+    m_transmitterEdge = new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
 
     readSettings();
     emit graphChanged();
@@ -130,8 +133,9 @@ void GraphScene::readSettings()
     settings.beginGroup("advanced");
     bool movable = settings.value("graphItemsMovable").toBool();
     foreach (QGraphicsItem *item, items()) {
-        // Everything except DirectedEdgeItem instances are movable.
-        if (dynamic_cast<DirectedEdgeItem *>(item) == NULL) {
+        // Everything except DirectedEdgeItems and LayerItems is movable.
+        if (dynamic_cast<DirectedEdgeItem *>(item) == NULL &&
+            dynamic_cast<LayerItem *>(item) == NULL) {
             item->setFlag(QGraphicsItem::ItemIsMovable, movable);
         }
     }
@@ -141,37 +145,31 @@ void GraphScene::readSettings()
 
 void GraphScene::addLayer()
 {
-    foreach (DirectedEdgeItem *receiverEdge, m_receiverEdges) {
-        delete receiverEdge;
-    }
-
     LayerItem *last = new LayerItem(NULL, this);
-    if (m_layers.size() > 0) {
-        LayerItem *previous = m_layers.last();
 
-        // Connect new last layer with previous last layer
-        new DirectedEdgeItem(previous->nodes()->at(2), last->nodes()->at(0), NULL, this);
-        new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this);
+    // Connect layer with receiver
+    m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this));
+    m_receiverEdge->setEnd(last->nodes()->at(3));
 
-        last->setPos(previous->pos() + QPointF(100, 0));
-        last->update();
-        m_receiver->moveBy(100, 0);
-        m_receiver->update();
-    } else {
-        // Connect first layer with transmitter
-        new DirectedEdgeItem(m_transmitter, last->nodes()->at(0), NULL, this);
-        new DirectedEdgeItem(last->nodes()->at(1), m_transmitter, NULL, this);
+    if (m_layers.size() == 0) {
+        // Connect layer with transmitter
+        m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(1), m_transmitter, NULL, this));
+        m_transmitterEdge->setEnd(last->nodes()->at(0));
 
         last->setPos(0, 0);
-        last->update();
+    } else {
+        LayerItem *previous = m_layers.last();
+
+        // Connect layer with previous layer
+        m_layerEdges.last()->setEnd(last->nodes()->at(0));
+        m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this));
+
+        last->setPos(previous->pos() + QPointF(100, 0));
+        m_receiver->moveBy(100, 0);
     }
     last->adjustNamingTo(m_layers.size());
     last->setName("Layer " + QString::number(m_layers.size()));
     m_layers.append(last);
-
-    // Connect new layer to receiver
-    m_receiverEdges.append(new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this));
-    m_receiverEdges.append(new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this));
 
     readSettings();
     emit graphChanged();
@@ -183,25 +181,32 @@ void GraphScene::removeLayer()
         return;
     }
 
-    foreach (DirectedEdgeItem *receiverEdge, m_receiverEdges) {
-        delete receiverEdge;
-    }
-
-    // Remove last layer from scene
+    // Remove last layer and it's edges from scene
+    delete m_layerEdges.takeLast();
+    delete m_layerEdges.takeLast();
     delete m_layers.takeLast();
 
     // Adjust receiver position to make it look good and all views
-    if (m_layers.size() > 0) {
-        m_receiver->moveBy(-100, 0);
-        LayerItem *previous = m_layers.last();
+    if (m_layers.size() == 0) {
+        // Connect transmitter and receiver when no layers are left
+        m_receiverEdge->setEnd(m_transmitter);
+        m_transmitterEdge->setEnd(m_receiver);
+    } else if (m_layers.size() == 1) {
+        // Connect layer to receiver
+        m_layerEdges.last()->setEnd(m_receiver);
+        m_receiverEdge->setEnd(m_layers.last()->nodes()->at(3));
 
-        // Connect new last layer to receiver
-        m_receiverEdges.append(new DirectedEdgeItem(previous->nodes()->at(2), m_receiver, NULL, this));
-        m_receiverEdges.append(new DirectedEdgeItem(m_receiver, previous->nodes()->at(3), NULL, this));
+        // Connect layer to transmitter
+        m_layerEdges.first()->setEnd(m_transmitter);
+        m_transmitterEdge->setEnd(m_layers.last()->nodes()->at(1));
+
+        m_receiver->moveBy(-100, 0);
     } else {
-        // Re-connect transmitter and receiver when no layers are left
-        m_receiverEdges.append(new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this));
-        m_receiverEdges.append(new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this));
+        // Connect layer with receiver
+        m_layerEdges.last()->setEnd(m_receiver);
+        m_receiverEdge->setEnd(m_layers.last()->nodes()->at(3));
+
+        m_receiver->moveBy(-100, 0);
     }
 
     emit graphChanged();
