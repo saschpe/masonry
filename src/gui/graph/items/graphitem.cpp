@@ -19,7 +19,6 @@
 */
 
 #include "graphitem.h"
-#include "directededgeitem.h"
 
 #include <QGraphicsScene>
 #include <QGraphicsSceneContextMenuEvent>
@@ -36,32 +35,11 @@ GraphItem::GraphItem(QGraphicsItem *parent, QGraphicsScene *scene)
 
 GraphItem::~GraphItem()
 {
-    removeEdgeItems();
 }
 
 void GraphItem::setContextMenu(QMenu *contextMenu)
 {
     m_contextMenu = contextMenu;
-}
-
-void GraphItem::addEdgeItem(DirectedEdgeItem *item)
-{
-    m_edges.append(item);
-};
-
-void GraphItem::removeEdgeItem(DirectedEdgeItem *item)
-{
-    int index = m_edges.indexOf(item);
-    if (index != -1 ) {
-        m_edges.removeAt(index);
-    }
-}
-
-void GraphItem::removeEdgeItems()
-{
-    foreach (DirectedEdgeItem *edge, m_edges) {
-        delete edge;
-    }
 }
 
 void GraphItem::setName(const QString &name)
@@ -88,14 +66,4 @@ void GraphItem::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     scene()->clearSelection();
     setSelected(true);
     m_contextMenu->exec(event->screenPos());
-}
-
-QVariant GraphItem::itemChange(GraphicsItemChange change, const QVariant &value)
-{
-    if (change == QGraphicsItem::ItemPositionChange) {
-        foreach (DirectedEdgeItem *edgeItem, m_edges) {
-            edgeItem->updatePosition();
-        }
-    }
-    return value;
 }

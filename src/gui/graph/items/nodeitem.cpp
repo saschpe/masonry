@@ -19,7 +19,6 @@
 */
 
 #include "nodeitem.h"
-#include "directededgeitem.h"
 
 #include <QGraphicsScene>
 #include <QPainter>
@@ -36,9 +35,6 @@ void NodeItem::setRadius(qreal radius)
 {
     m_radius = radius;
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
-    foreach (DirectedEdgeItem *edge, m_edges) {
-        edge->update();
-    }
     update();
 }
 

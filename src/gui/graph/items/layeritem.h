@@ -41,14 +41,15 @@ public:
 
     void adjustNamingTo(int pos);
 
-    /*QRectF boundingRect() const;
-    QPainterPath shape() const;*/
+    QRectF boundingRect() const;
+    QPainterPath shape() const;
 
 protected:
-    //void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
-    //QRectF m_nameRect;
+    QRectF m_nameRect;
+    QList<DirectedEdgeItem *> m_edges;
     QList<NodeItem *> m_nodes;
     QColor m_color;
     int m_graphPos;

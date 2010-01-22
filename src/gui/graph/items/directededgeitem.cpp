@@ -34,14 +34,6 @@ DirectedEdgeItem::DirectedEdgeItem(GraphItem *start, GraphItem *end, QGraphicsIt
     , m_start(start), m_end(end)
 {
     setFlag(QGraphicsItem::ItemIsMovable, false);
-    m_start->addEdgeItem(this);
-    m_end->addEdgeItem(this);
-}
-
-DirectedEdgeItem::~DirectedEdgeItem()
-{
-    m_start->removeEdgeItem(this);
-    m_end->removeEdgeItem(this);
 }
 
 void DirectedEdgeItem::updatePosition()

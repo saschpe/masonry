@@ -23,10 +23,11 @@
 #include "nodeitem.h"
 
 #include <QGraphicsScene>
+#include <QPainter>
 
 LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
-    , m_color(200, 0, 200, 10), m_graphPos(NULL)
+    , m_color(200, 0, 200, 10), m_graphPos(NULL), m_nameRect(-35, -90, 70, 20)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setRect(-35, -70, 70, 140);
@@ -44,10 +45,10 @@ LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     m_nodes[3]->setPos(20, 55);
 
     // Wire the internal nodes
-    addEdgeItem(new DirectedEdgeItem(m_nodes[0], m_nodes[2], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[2], m_nodes[3], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[3], m_nodes[1], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[1], m_nodes[0], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[0], m_nodes[2], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[2], m_nodes[3], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[3], m_nodes[1], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[1], m_nodes[0], this, scene));
 
     adjustNamingTo(m_graphPos);
 }
@@ -67,3 +68,35 @@ void LayerItem::adjustNamingTo(int pos)
     m_edges[2]->setName("tg" + QString::number(pos + 1));
     m_edges[3]->setName("g" + QString::number(pos + 1));
 }
+
+QRectF LayerItem::boundingRect() const
+{
+    return rect().united(m_nameRect);
+}
+
+QPainterPath LayerItem::shape() const
+{
+    QPainterPath path = QGraphicsRectItem::shape();
+    path.addRect(m_nameRect);
+    return path;
+}
+
+void LayerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QPen p = pen();
+    QBrush b = brush();
+    /*if (isSelected()) {
+        p.setColor(Qt::red);
+    }
+    painter->setPen(p);
+    painter->setBrush(b);*/
+    //painter->drawRect(rect());
+
+    GraphItem::paint(painter, option, widget);
+
+    p.setColor(Qt::black);
+    painter->setPen(p);
+    painter->drawText(rect(), Qt::AlignCenter, m_name);
+    painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
+}
+

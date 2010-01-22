@@ -57,6 +57,7 @@ private:
     QList<LayerItem *> m_layers;
     TransmitterItem *m_transmitter;
     ReceiverItem *m_receiver;
+    QList<DirectedEdgeItem *> m_receiverEdges;
 };
 
 #endif // GRAPHSCENE_H
