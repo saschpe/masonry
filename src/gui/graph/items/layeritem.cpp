@@ -85,18 +85,14 @@ void LayerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 {
     QPen p = pen();
     QBrush b = brush();
-    /*if (isSelected()) {
+    if (isSelected()) {
         p.setColor(Qt::red);
     }
     painter->setPen(p);
-    painter->setBrush(b);*/
-    //painter->drawRect(rect());
-
-    GraphItem::paint(painter, option, widget);
-
+    painter->setBrush(b);
+    painter->drawRect(rect());
     p.setColor(Qt::black);
     painter->setPen(p);
-    painter->drawText(rect(), Qt::AlignCenter, m_name);
     painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
 }
 
