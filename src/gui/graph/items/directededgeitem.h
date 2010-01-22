@@ -32,11 +32,10 @@ public:
 
     DirectedEdgeItem(GraphItem *start, GraphItem *end, QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
+    void setStart(GraphItem *start);
     GraphItem *start() const { return m_start; }
+    void setEnd(GraphItem *end);
     GraphItem *end() const { return m_end; }
-
-private slots:
-    void updatePosition();
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);

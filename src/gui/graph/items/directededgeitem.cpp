@@ -36,11 +36,16 @@ DirectedEdgeItem::DirectedEdgeItem(GraphItem *start, GraphItem *end, QGraphicsIt
     setFlag(QGraphicsItem::ItemIsMovable, false);
 }
 
-void DirectedEdgeItem::updatePosition()
+void DirectedEdgeItem::setStart(GraphItem *start)
 {
-    QLineF line(mapFromItem(m_start, m_start->inputPos()),
-                mapFromItem(m_end, m_end->outputPos()));
-    setLine(line);
+    m_start = start;
+    update();
+}
+
+void DirectedEdgeItem::setEnd(GraphItem *end)
+{
+    m_end = end;
+    update();
 }
 
 void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
