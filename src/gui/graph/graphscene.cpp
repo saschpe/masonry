@@ -168,6 +168,8 @@ void GraphScene::addLayer()
     last->setName("Layer " + QString::number(m_layers.size()));
     m_layers.append(last);
 
+    setSceneRect(itemsBoundingRect());
+
     readSettings();
     emit graphChanged();
 }
@@ -205,6 +207,8 @@ void GraphScene::removeLayer()
 
         m_receiver->moveBy(-100, 0);
     }
+
+    setSceneRect(itemsBoundingRect());
 
     emit graphChanged();
 }
