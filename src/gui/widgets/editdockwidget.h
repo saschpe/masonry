@@ -26,8 +26,9 @@
 #include <QDockWidget>
 
 class DirectedEdgeItem;
-class NodeItem;
 class GraphScene;
+class LayerItem;
+class NodeItem;
 
 /**
  * @author Sascha Peilicke <sasch.pe@gmx.de>
@@ -41,10 +42,14 @@ public:
 
 private slots:
     void updateEdit();
+    void setCurrentEdgeName(const QString &);
+    void setCurrentLayerName(const QString &);
+    void setCurrentNodeName(const QString &);
 
 private:
     GraphScene *m_scene;
     DirectedEdgeItem *m_currentEdgeItem;
+    LayerItem* m_currentLayerItem;
     NodeItem *m_currentNodeItem;
 };
 
