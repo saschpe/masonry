@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>439</width>
-    <height>425</height>
+    <width>545</width>
+    <height>350</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
-    <widget class="QListWidget" name="listWidget">
+    <widget class="QListWidget" name="groupListWidget">
      <property name="maximumSize">
       <size>
        <width>128</width>
@@ -36,9 +36,6 @@
        <width>32</width>
        <height>32</height>
       </size>
-     </property>
-     <property name="currentRow">
-      <number>0</number>
      </property>
      <item>
       <property name="text">
@@ -77,10 +74,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QStackedWidget" name="stackedWidget">
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
+    <widget class="QStackedWidget" name="groupStackedWidget">
      <widget class="QWidget" name="generalPage">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
@@ -406,9 +400,9 @@
  <resources/>
  <connections>
   <connection>
-   <sender>listWidget</sender>
+   <sender>groupListWidget</sender>
    <signal>currentRowChanged(int)</signal>
-   <receiver>stackedWidget</receiver>
+   <receiver>groupStackedWidget</receiver>
    <slot>setCurrentIndex(int)</slot>
    <hints>
     <hint type="sourcelabel">

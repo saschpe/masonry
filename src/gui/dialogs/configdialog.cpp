@@ -21,6 +21,7 @@
 #include "configdialog.h"
 
 #include <QCloseEvent>
+#include <QDir>
 #include <QFileDialog>
 #include <QPushButton>
 #include <QSettings>
@@ -30,9 +31,9 @@ ConfigDialog::ConfigDialog(QWidget *parent)
 {
     setupUi(this);
 
-    listWidget->item(0)->setIcon(QIcon::fromTheme("go-home"));
-    listWidget->item(1)->setIcon(QIcon::fromTheme("view-choose"));
-    listWidget->item(2)->setIcon(QIcon::fromTheme("system-run"));
+    groupListWidget->item(0)->setIcon(QIcon::fromTheme("go-home"));
+    groupListWidget->item(1)->setIcon(QIcon::fromTheme("view-choose"));
+    groupListWidget->item(2)->setIcon(QIcon::fromTheme("system-run"));
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(clicked(QAbstractButton *)));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
@@ -94,11 +95,11 @@ void ConfigDialog::readSettings()
     }
     settings.beginGroup("octave");
     octaveExecutableLineEdit->setText(settings.value("executable", "octave").toString());
-    octaveParameterLineEdit->setText(settings.value("parameters", "--silent --eval \"%1;\"").toString());
+    octaveParameterLineEdit->setText(settings.value("parameters", "--silent --path \"" + QDir::toNativeSeparators("data/scripts") + "\" --eval \"%1;\"").toString());
     settings.endGroup();
     settings.beginGroup("matlab");
     matlabExecutableLineEdit->setText(settings.value("executable", "matlab").toString());
-    matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"%1;exit\"").toString());
+    matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"addpath('" + QDir::toNativeSeparators("data/scripts") + "');%1;exit\"").toString());
     settings.endGroup();
     settings.endGroup();
 }
@@ -108,6 +109,7 @@ void ConfigDialog::writeSettings()
     QSettings settings;
 
     settings.beginGroup("general");
+    settings.setValue("firstStart", false);
     settings.endGroup();
 
     settings.beginGroup("view");
