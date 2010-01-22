@@ -137,28 +137,29 @@ void GraphScene::addLayer()
 {
     m_receiver->removeEdgeItems();
 
-    LayerItem *newLayer = new LayerItem(NULL, this);
+    LayerItem *last = new LayerItem(NULL, this);
     if (m_layers.size() > 0) {
-        LayerItem *last = m_layers.last();
+        LayerItem *previous = m_layers.last();
 
-        newLayer->setPos(last->pos() + QPointF(100, 0));
+        // Connect new last layer with previous last layer
+        new DirectedEdgeItem(previous->nodes()->at(2), last->nodes()->at(0), NULL, this);
+        new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this);
+
+        last->setPos(previous->pos() + QPointF(100, 0));
         m_receiver->moveBy(100, 0);
-
-        new DirectedEdgeItem(last->nodes()->at(2), newLayer->nodes()->at(0), NULL, this);
-        new DirectedEdgeItem(newLayer->nodes()->at(1), last->nodes()->at(3), NULL, this);
-
     } else {
-        newLayer->setPos(0, 0);
+        // Connect first layer with transmitter
+        new DirectedEdgeItem(m_transmitter, last->nodes()->at(0), NULL, this);
+        new DirectedEdgeItem(last->nodes()->at(1), m_transmitter, NULL, this);
 
-        new DirectedEdgeItem(m_transmitter, newLayer->nodes()->at(0), NULL, this);
-        new DirectedEdgeItem(newLayer->nodes()->at(1), m_transmitter, NULL, this);
+        last->setPos(0, 0);
     }
-    newLayer->adjustNamingTo(m_layers.size());
-    m_layers.append(newLayer);
+    last->adjustNamingTo(m_layers.size());
+    m_layers.append(last);
 
     // Connect new layer to receiver
-    new DirectedEdgeItem(newLayer->nodes()->at(2), m_receiver, NULL, this);
-    new DirectedEdgeItem(m_receiver, newLayer->nodes()->at(3), NULL, this);
+    new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this);
+    new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this);
 
     emit graphChanged();
 }
@@ -177,13 +178,13 @@ void GraphScene::removeLayer()
     // Adjust receiver position to make it look good and all views
     if (m_layers.size() > 0) {
         m_receiver->moveBy(-100, 0);
-        LayerItem *last = m_layers.last();
+        LayerItem *previous = m_layers.last();
 
         // Connect new last layer to receiver
-        new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this);
-        new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this);
+        new DirectedEdgeItem(previous->nodes()->at(2), m_receiver, NULL, this);
+        new DirectedEdgeItem(m_receiver, previous->nodes()->at(3), NULL, this);
     } else {
-        // Re-connect transmitter and receiver
+        // Re-connect transmitter and receiver when no layers are left
         new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
         new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
     }
