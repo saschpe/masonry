@@ -37,6 +37,7 @@ public:
     QColor color() const { return m_color; }
 
     int graphPos() const { return m_graphPos; }
+    QList<DirectedEdgeItem *> edges() { return m_edges; }
     QList<NodeItem *> *nodes() { return &m_nodes; }
 
     void adjustNamingTo(int pos);
