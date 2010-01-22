@@ -44,10 +44,10 @@ LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     m_nodes[3]->setPos(20, 55);
 
     // Wire the internal nodes
-    addEdgeItem(new DirectedEdgeItem(m_nodes[0], m_nodes[2], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[2], m_nodes[3], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[3], m_nodes[1], this, scene));
-    addEdgeItem(new DirectedEdgeItem(m_nodes[1], m_nodes[0], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[0], m_nodes[2], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[2], m_nodes[3], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[3], m_nodes[1], this, scene));
+    m_edges.append(new DirectedEdgeItem(m_nodes[1], m_nodes[0], this, scene));
 
     adjustNamingTo(m_graphPos);
 }

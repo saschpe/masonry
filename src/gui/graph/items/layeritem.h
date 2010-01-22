@@ -49,6 +49,7 @@ protected:
 
 private:
     //QRectF m_nameRect;
+    QList<DirectedEdgeItem *> m_edges;
     QList<NodeItem *> m_nodes;
     QColor m_color;
     int m_graphPos;

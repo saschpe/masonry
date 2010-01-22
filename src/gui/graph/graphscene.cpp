@@ -108,8 +108,8 @@ void GraphScene::init()
     m_receiver = new ReceiverItem(NULL, this);
     m_receiver->setPos(100, 0);
 
-    new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
-    new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
+    m_receiverEdges.append(new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this));
+    m_receiverEdges.append(new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this));
 
     readSettings();
     emit graphChanged();
@@ -135,7 +135,9 @@ void GraphScene::readSettings()
 
 void GraphScene::addLayer()
 {
-    m_receiver->removeEdgeItems();
+    foreach (DirectedEdgeItem *receiverEdge, m_receiverEdges) {
+        delete receiverEdge;
+    }
 
     LayerItem *last = new LayerItem(NULL, this);
     if (m_layers.size() > 0) {
@@ -146,21 +148,27 @@ void GraphScene::addLayer()
         new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this);
 
         last->setPos(previous->pos() + QPointF(100, 0));
+        last->update();
         m_receiver->moveBy(100, 0);
+        m_receiver->update();
     } else {
         // Connect first layer with transmitter
         new DirectedEdgeItem(m_transmitter, last->nodes()->at(0), NULL, this);
         new DirectedEdgeItem(last->nodes()->at(1), m_transmitter, NULL, this);
 
         last->setPos(0, 0);
+        last->update();
     }
     last->adjustNamingTo(m_layers.size());
     m_layers.append(last);
 
     // Connect new layer to receiver
-    new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this);
-    new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this);
+    m_receiverEdges.append(new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this));
+    m_receiverEdges.append(new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this));
 
+    last->nodes()->at(2)->setRadius(30);
+
+    readSettings();
     emit graphChanged();
 }
 
@@ -170,7 +178,9 @@ void GraphScene::removeLayer()
         return;
     }
 
-    m_receiver->removeEdgeItems();
+    foreach (DirectedEdgeItem *receiverEdge, m_receiverEdges) {
+        delete receiverEdge;
+    }
 
     // Remove last layer from scene
     delete m_layers.takeLast();
@@ -181,12 +191,12 @@ void GraphScene::removeLayer()
         LayerItem *previous = m_layers.last();
 
         // Connect new last layer to receiver
-        new DirectedEdgeItem(previous->nodes()->at(2), m_receiver, NULL, this);
-        new DirectedEdgeItem(m_receiver, previous->nodes()->at(3), NULL, this);
+        m_receiverEdges.append(new DirectedEdgeItem(previous->nodes()->at(2), m_receiver, NULL, this));
+        m_receiverEdges.append(new DirectedEdgeItem(m_receiver, previous->nodes()->at(3), NULL, this));
     } else {
         // Re-connect transmitter and receiver when no layers are left
-        new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
-        new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
+        m_receiverEdges.append(new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this));
+        m_receiverEdges.append(new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this));
     }
 
     emit graphChanged();
