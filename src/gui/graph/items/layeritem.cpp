@@ -23,6 +23,7 @@
 #include "nodeitem.h"
 
 #include <QGraphicsScene>
+#include <QPainter>
 
 LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
@@ -67,3 +68,36 @@ void LayerItem::adjustNamingTo(int pos)
     m_edges[2]->setName("tg" + QString::number(pos + 1));
     m_edges[3]->setName("g" + QString::number(pos + 1));
 }
+
+QRectF LayerItem::boundingRect() const
+{
+    return rect().united(m_nameRect);
+}
+
+QPainterPath LayerItem::shape() const
+{
+    QPainterPath path = QGraphicsRectItem::shape();
+    path.addRect(m_nameRect);
+    return path;
+}
+
+void LayerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    QPen p = pen();
+    QBrush b = brush();
+    /*if (isSelected()) {
+        p.setColor(Qt::red);
+    }
+    painter->setPen(p);
+    painter->setBrush(b);*/
+    //painter->drawRect(rect());
+
+    GraphItem::paint(painter, option, widget);
+
+    p.setColor(Qt::black);
+    painter->setPen(p);
+    painter->drawText(rect(), Qt::AlignCenter, m_name);
+    m_nameRect = QRectF(-40, -10, 20, 20);
+    painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
+}
+

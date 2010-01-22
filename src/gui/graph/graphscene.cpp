@@ -160,13 +160,12 @@ void GraphScene::addLayer()
         last->update();
     }
     last->adjustNamingTo(m_layers.size());
+    last->setName("Layer " + QString::number(m_layers.size()));
     m_layers.append(last);
 
     // Connect new layer to receiver
     m_receiverEdges.append(new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this));
     m_receiverEdges.append(new DirectedEdgeItem(m_receiver, last->nodes()->at(3), NULL, this));
-
-    last->nodes()->at(2)->setRadius(30);
 
     readSettings();
     emit graphChanged();
