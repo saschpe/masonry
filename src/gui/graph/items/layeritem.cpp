@@ -27,7 +27,7 @@
 
 LayerItem::LayerItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
-    , m_color(200, 0, 200, 10), m_graphPos(NULL)
+    , m_color(200, 0, 200, 10), m_graphPos(NULL), m_nameRect(-35, -90, 70, 20)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
     setRect(-35, -70, 70, 140);
@@ -97,7 +97,6 @@ void LayerItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     p.setColor(Qt::black);
     painter->setPen(p);
     painter->drawText(rect(), Qt::AlignCenter, m_name);
-    m_nameRect = QRectF(-40, -10, 20, 20);
     painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
 }
 
