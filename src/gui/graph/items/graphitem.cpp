@@ -33,10 +33,6 @@ GraphItem::GraphItem(QGraphicsItem *parent, QGraphicsScene *scene)
     setBrush(QColor(0, 0, 255, 10));
 }
 
-GraphItem::~GraphItem()
-{
-}
-
 void GraphItem::setContextMenu(QMenu *contextMenu)
 {
     m_contextMenu = contextMenu;
