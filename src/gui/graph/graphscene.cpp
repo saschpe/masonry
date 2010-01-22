@@ -80,23 +80,20 @@ void GraphScene::saveTo(const QString &fileName)
 QList<DirectedEdgeItem *> GraphScene::edges() const
 {
     QList<DirectedEdgeItem *> edges;
-    foreach (QGraphicsItem *item, items()) {
-        DirectedEdgeItem *edge;
-        if ((edge = dynamic_cast<DirectedEdgeItem *>(item)) != 0) {
-            edges.append(edge);
-        }
+    edges.append(m_transmitterEdge);
+    edges.append(m_layerEdges);
+    foreach (LayerItem *layer, m_layers) {
+        edges.append(layer->edges());
     }
+    edges.append(m_receiverEdge);
     return edges;
 }
 
 QList<NodeItem *> GraphScene::nodes() const
 {
     QList<NodeItem *> nodes;
-    foreach (QGraphicsItem *item, items()) {
-        NodeItem *node;
-        if ((node = dynamic_cast<NodeItem *>(item)) != 0) {
-            nodes.append(node);
-        }
+    foreach (LayerItem *layer, m_layers) {
+        nodes.append(*layer->nodes());
     }
     return nodes;
 }
@@ -107,18 +104,18 @@ void GraphScene::init()
     foreach (QGraphicsItem *item, items()) {
         delete item;
     }
-    m_layers.clear();
     m_layerEdges.clear();
+    m_layers.clear();
 
     // Create receiver and transmitter items and position them in the scene
-    m_receiver = new ReceiverItem(NULL, this);
-    m_receiver->setPos(100, 0);
     m_transmitter = new TransmitterItem(NULL, this);
     m_transmitter->setPos(-100, 0);
+    m_receiver = new ReceiverItem(NULL, this);
+    m_receiver->setPos(100, 0);
 
     // Connect receiver and transmitter
-    m_receiverEdge = new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
     m_transmitterEdge = new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
+    m_receiverEdge = new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
 
     readSettings();
     emit graphChanged();
