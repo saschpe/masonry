@@ -38,6 +38,7 @@
 #include <QSettings>
 #include <QTemporaryFile>
 #include <QTextStream>
+#include <QTimer>
 #include <QToolBar>
 
 MainWindow::MainWindow(QWidget *parent)
@@ -60,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
     statusBar()->showMessage(tr("Ready"));
+
+    QTimer::singleShot(100, this, SLOT(checkForFirstStart()));
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -157,11 +160,18 @@ void MainWindow::on_computeAction_triggered()
 
             stream << counter++ << from << to << edge->name();
         }
-    }
+        int startNodeNumber = 1;
+        int stopNodeNumber = 3;
 
-    m_process->start(m_backendString.arg(netFile.fileName()));
-    statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
-    //TODO: Disable GUI elements to not interfere here
+        QString mscript = QString("mason('%1',%2,%3)").arg(netFile.fileName()).arg(startNodeNumber).arg(stopNodeNumber);
+
+        m_process->start(m_backendString.arg(mscript));
+        statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
+
+        //TODO: Disable GUI elements to not interfere here
+    } else {
+        statusBar()->showMessage(tr("Unable to create temporary file!"));
+    }
 }
 
 void MainWindow::on_configureAction_triggered()
@@ -229,6 +239,17 @@ void MainWindow::uncheckZoomToFitAction()
     zoomToFitAction->setChecked(false);
 }
 
+void MainWindow::checkForFirstStart()
+{
+    // Check if this is the first time we started the application
+    QSettings settings;
+    settings.beginGroup("general");
+    if (settings.value("firstStart", true).toBool()) {
+        on_configureAction_triggered();
+    }
+    settings.endGroup();
+}
+
 void MainWindow::readSettings()
 {
     QSettings settings;
@@ -238,17 +259,6 @@ void MainWindow::readSettings()
     resize(settings.value("size", QSize(800, 600)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     restoreState(settings.value("windowState").toByteArray());
-    settings.endGroup();
-
-    settings.beginGroup("backend");
-    if (settings.value("current", "octave").toString() == "octave") {
-        settings.beginGroup("octave");
-    } else {
-        settings.beginGroup("matlab");
-    }
-    m_backendString = settings.value("executable", "octave").toString() + ' ' +
-                      settings.value("parameters", "--silent --eval \"%1;\"").toString();
-    settings.endGroup();
     settings.endGroup();
 }
 

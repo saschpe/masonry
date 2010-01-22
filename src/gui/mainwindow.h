@@ -56,6 +56,7 @@ private slots:
 
     void zoomToFit();
     void uncheckZoomToFitAction();
+    void checkForFirstStart();
 
     void readSettings();
     void writeSettings();
