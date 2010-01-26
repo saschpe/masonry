@@ -44,8 +44,8 @@
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
-    , m_process(new QProcess(this)), m_graphChangesUnsaved(false)
-    , m_lastSelectedNodeItem(NULL)
+    , m_process(new QProcess(this)), m_backendInputFile(NULL)
+    , m_graphChangesUnsaved(false), m_lastSelectedNodeItem(NULL)
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -149,11 +149,14 @@ void MainWindow::on_saveAsAction_triggered()
 
 void MainWindow::on_computeAction_triggered()
 {
-    QTemporaryFile netFile;
-    if (netFile.open()) {
-        QTextStream stream(&netFile);
-        //TODO: Generate net file contents
+    // Remove old temporary file and create a new one
+    delete m_backendInputFile;
+    m_backendInputFile = new QTemporaryFile;
 
+    if (m_backendInputFile->open()) {
+        QTextStream stream(m_backendInputFile);
+
+        // Generate backend input file contents
         int counter = 0;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
             QString from, to;
@@ -162,9 +165,14 @@ void MainWindow::on_computeAction_triggered()
         }
         int startNodeNumber = 1;
         int stopNodeNumber = 3;
+        m_backendInputFile->close();
 
-        QString mscript = QString("mason('%1',%2,%3)").arg(netFile.fileName()).arg(startNodeNumber).arg(stopNodeNumber);
+        // Create call to 'mason' script with supplied arguments
+        QString mscript = QString("mason('%1',%2,%3)")
+            .arg(m_backendInputFile->fileName())
+            .arg(startNodeNumber).arg(stopNodeNumber);
 
+        // Start the backend process
         m_process->start(m_backendString.arg(mscript));
         statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
 

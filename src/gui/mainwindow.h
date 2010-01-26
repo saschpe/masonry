@@ -29,6 +29,7 @@ class GraphScene;
 class GraphView;
 class NodeItem;
 class QProcess;
+class QTemporaryFile;
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -53,7 +54,6 @@ private slots:
     void graphChanged();
     void graphSelectionChanged();
     void processFinished(int);
-
     void zoomToFit();
     void uncheckZoomToFitAction();
     void checkForFirstStart();
@@ -71,10 +71,12 @@ private:
     GraphView *m_view;
 
     QProcess *m_process;
+    QString m_backendString;
+    QTemporaryFile *m_backendInputFile;
+
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
     NodeItem *m_lastSelectedNodeItem;
-    QString m_backendString;
 };
 
 #endif // MAINWINDOW_H
