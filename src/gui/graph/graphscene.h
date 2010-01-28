@@ -24,10 +24,7 @@
 #include <QGraphicsScene>
 
 class DirectedEdgeItem;
-class LayerItem;
 class NodeItem;
-class ReceiverItem;
-class TransmitterItem;
 
 class GraphScene : public QGraphicsScene
 {
@@ -39,27 +36,38 @@ public:
     void loadFrom(const QString &fileName);
     void saveTo(const QString &fileName);
 
-    QList<DirectedEdgeItem *> edges() const;
-    QList<LayerItem *> layers() const { return m_layers; }
-    QList<NodeItem *> nodes() const;
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
+    QList<NodeItem *> nodes() const { return m_nodes; }
+
+    int columns() const { return m_columns;}
+    int rows() const { return m_rows; }
+
+    void setInputNode(NodeItem *node);
+    NodeItem *inputNode() const { return m_inputNode; }
+    void setOuputNode(NodeItem *node);
+    NodeItem *outputNode() const { return m_outputNode; }
 
 signals:
     void graphChanged();
+    void inputNodeChanged();
+    void outputNodeChanged();
 
 public slots:
     void init();
     void readSettings();
 
-    void addLayer();
-    void removeLayer();
+    void addRow();
+    void removeRow();
+    void addColumn();
+    void removeColumn();
 
 private:
-    ReceiverItem *m_receiver;
-    DirectedEdgeItem *m_receiverEdge;
-    TransmitterItem *m_transmitter;
-    DirectedEdgeItem * m_transmitterEdge;
-    QList<LayerItem *> m_layers;
-    QList<DirectedEdgeItem *> m_layerEdges;
+    QList<NodeItem *> m_nodes;
+    QList<DirectedEdgeItem *> m_edges;
+    NodeItem *m_inputNode;
+    NodeItem *m_outputNode;
+    int m_columns;
+    int m_rows;
 };
 
 #endif // GRAPHSCENE_H

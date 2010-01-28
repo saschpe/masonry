@@ -85,7 +85,6 @@ private:
 
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
-    NodeItem *m_lastSelectedNodeItem;
 };
 
 #endif // MAINWINDOW_H

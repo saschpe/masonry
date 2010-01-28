@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -113,8 +113,10 @@
     <property name="title">
      <string>&amp;Graph</string>
     </property>
-    <addaction name="addLayerAction"/>
-    <addaction name="removeLayerAction"/>
+    <addaction name="addColumnAction"/>
+    <addaction name="removeColumnAction"/>
+    <addaction name="addRowAction"/>
+    <addaction name="removeRowAction"/>
     <addaction name="separator"/>
     <addaction name="computeAction"/>
    </widget>
@@ -273,29 +275,17 @@
     <string>Ctrl+R</string>
    </property>
   </action>
-  <action name="addLayerAction">
+  <action name="addRowAction">
    <property name="text">
-    <string>&amp;Add Layer</string>
-   </property>
-   <property name="iconText">
-    <string>Add Layer</string>
-   </property>
-   <property name="toolTip">
-    <string>Add Layer to Mason-Graph</string>
+    <string>Add Row</string>
    </property>
   </action>
-  <action name="removeLayerAction">
+  <action name="removeRowAction">
    <property name="enabled">
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>&amp;Remove Layer</string>
-   </property>
-   <property name="iconText">
-    <string>Remove Layer</string>
-   </property>
-   <property name="toolTip">
-    <string>Remove Layer from Mason-Graph</string>
+    <string>Remove Row</string>
    </property>
   </action>
   <action name="configureAction">
@@ -352,6 +342,19 @@
    </property>
    <property name="text">
     <string>Zoom to Fit</string>
+   </property>
+  </action>
+  <action name="addColumnAction">
+   <property name="text">
+    <string>Add Column</string>
+   </property>
+  </action>
+  <action name="removeColumnAction">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Remove Column</string>
    </property>
   </action>
  </widget>

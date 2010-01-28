@@ -26,7 +26,6 @@
 #include "graph/items/directededgeitem.h"
 #include "graph/items/nodeitem.h"
 #include "widgets/editdockwidget.h"
-#include "widgets/infodockwidget.h"
 #include "widgets/outputdockwidget.h"
 
 #include <QCloseEvent>
@@ -45,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
     , m_process(new QProcess(this)), m_backendInputFile(NULL)
-    , m_graphChangesUnsaved(false), m_lastSelectedNodeItem(NULL)
+    , m_graphChangesUnsaved(false)
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -165,7 +164,7 @@ void MainWindow::on_computeAction_triggered()
         m_outputDockWidget->clear();
         m_outputDockWidget->append("Input:\n\n");
 
-        // Generate backend input file contents
+        /*// Generate backend input file contents
         int counter = 1;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
             // NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
@@ -205,8 +204,8 @@ void MainWindow::on_computeAction_triggered()
         // Start the backend process
         m_outputDockWidget->append("\nCommand Line:\n\n    " + backend.arg(mscript) + "\n");
         m_outputDockWidget->append("\nResults:\n\n");
-        m_process->start(backend.arg(mscript));
-        statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
+        m_process->start(backend.arg(mscript));*/
+        //statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_scene->name()));
     } else {
         statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
@@ -240,14 +239,15 @@ void MainWindow::on_aboutQtAction_triggered()
 
 void MainWindow::graphChanged()
 {
+    removeColumnAction->setEnabled(m_scene->columns() > 1);
+    removeRowAction->setEnabled(m_scene->rows() > 1);
     m_graphChangesUnsaved = true;
-    removeLayerAction->setEnabled(m_scene->layers().size() > 0);
 }
 
 void MainWindow::graphSelectionChanged()
 {
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    if (selection.size() == 1) {
+    /*if (selection.size() == 1) {
         if (m_lastSelectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
             computeAction->setEnabled(true);
         } else {
@@ -256,7 +256,7 @@ void MainWindow::graphSelectionChanged()
     } else {
         m_lastSelectedNodeItem = NULL;
         computeAction->setEnabled(false);
-    }
+    }*/
 }
 
 void MainWindow::processFinished()
@@ -303,8 +303,10 @@ void MainWindow::disableWidgets()
     saveAsAction->setEnabled(false);
 
     // Graph actions
-    addLayerAction->setEnabled(false);
-    removeLayerAction->setEnabled(false);
+    addColumnAction->setEnabled(false);
+    addRowAction->setEnabled(false);
+    addColumnAction->setEnabled(false);
+    removeRowAction->setEnabled(false);
     computeAction->setEnabled(false);
 
     // Settings actions
@@ -321,8 +323,10 @@ void MainWindow::enableWidgets()
     saveAsAction->setEnabled(true);
 
     // Graph actions
-    addLayerAction->setEnabled(true);
-    removeLayerAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
+    addRowAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
+    removeRowAction->setEnabled(true);
     graphSelectionChanged();    // Call slot to determine state of computeAction
 
     // Settings actions
@@ -386,10 +390,14 @@ void MainWindow::setupActions()
     connect(zoomOutAction, SIGNAL(triggered()), m_view, SLOT(zoomOut()));
 
     // Set icons for the actions in the graph menu
-    addLayerAction->setIcon(QIcon::fromTheme("list-add"));
-    connect(addLayerAction, SIGNAL(triggered()), m_scene, SLOT(addLayer()));
-    removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
-    connect(removeLayerAction, SIGNAL(triggered()), m_scene, SLOT(removeLayer()));
+    addColumnAction->setIcon(QIcon::fromTheme("edit-table-insert-row-below"));
+    connect(addColumnAction, SIGNAL(triggered()), m_scene, SLOT(addColumn()));
+    removeColumnAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
+    connect(removeColumnAction, SIGNAL(triggered()), m_scene, SLOT(removeColumn()));
+    addRowAction->setIcon(QIcon::fromTheme("edit-table-insert-column-right"));
+    connect(addRowAction, SIGNAL(triggered()), m_scene, SLOT(addRow()));
+    removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-column"));
+    connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
@@ -402,11 +410,6 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDockWidgets()
 {
-    // Info dock widget
-    QDockWidget *infoDockWidget = new InfoDockWidget(m_scene, this);
-    addDockWidget(Qt::BottomDockWidgetArea, infoDockWidget);
-    dockersSettingsMenu->addAction(infoDockWidget->toggleViewAction());
-
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(m_scene, this);
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
@@ -438,8 +441,11 @@ void MainWindow::setupToolbars()
     viewToolBar->addAction(zoomOutAction);
     toolBarsSettingsMenu->addAction(viewToolBar->toggleViewAction());
 
-    graphToolBar->addAction(addLayerAction);
-    graphToolBar->addAction(removeLayerAction);
+    graphToolBar->addAction(addColumnAction);
+    graphToolBar->addAction(removeColumnAction);
+    graphToolBar->addAction(addRowAction);
+    graphToolBar->addAction(removeRowAction);
+    graphToolBar->addSeparator();
     graphToolBar->addAction(computeAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }
