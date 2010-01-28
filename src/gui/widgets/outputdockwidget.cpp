@@ -27,7 +27,6 @@ OutputDockWidget::OutputDockWidget(QProcess *process, QWidget *parent)
 {
     setupUi(this);
 
-    connect(m_process, SIGNAL(started()), this, SLOT(clear()));
     connect(m_process, SIGNAL(readyReadStandardError()), this, SLOT(readStandardError()));
     connect(m_process, SIGNAL(readyReadStandardOutput()), this, SLOT(readStandardOutput()));
 }
