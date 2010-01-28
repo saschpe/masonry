@@ -55,13 +55,13 @@ MainWindow::MainWindow(QWidget *parent)
     setupToolbars();
     readSettings();
 
-    connect(m_process, SIGNAL(finished(int)), this, SLOT(processFinished(int)));
+    connect(m_process, SIGNAL(finished(int)), this, SLOT(processFinished()));
+    connect(m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError()));
     connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
     statusBar()->showMessage(tr("Ready"));
-
     QTimer::singleShot(100, this, SLOT(checkForFirstStart()));
 }
 
@@ -81,6 +81,8 @@ void MainWindow::on_newAction_triggered()
         m_scene->init();
         m_lastFileName = "";
         m_graphChangesUnsaved = false;
+        m_process->close(); // If there was a computation running
+        enableWidgets();
     }
 }
 
@@ -119,6 +121,9 @@ void MainWindow::on_loadAction_triggered()
         m_scene->loadFrom(fileName);
         m_lastFileName = fileName;
         m_graphChangesUnsaved = false;
+        m_process->close(); // If there was a computation running
+
+        enableWidgets();
         statusBar()->showMessage(tr("File '%1' loaded").arg(m_lastFileName), 3000);
     }
 }
@@ -159,12 +164,13 @@ void MainWindow::on_computeAction_triggered()
         // Generate backend input file contents
         int counter = 0;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
-            QString from, to;
+            int from = edge->start()->name().toInt();
+            int to = edge->end()->name().toInt();
 
-            stream << counter++ << from << to << edge->name();
+            stream << counter++ << from << to << edge->name().toLatin1();
         }
-        int startNodeNumber = 1;
-        int stopNodeNumber = 3;
+        int startNodeNumber = m_lastSelectedNodeItem->name().toInt();
+        int stopNodeNumber = m_scene->nodes().size() - 1; // It's the second last node in the list
         m_backendInputFile->close();
 
         // Create call to 'mason' script with supplied arguments
@@ -176,9 +182,9 @@ void MainWindow::on_computeAction_triggered()
         m_process->start(m_backendString.arg(mscript));
         statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
 
-        //TODO: Disable GUI elements to not interfere here
+        disableWidgets();
     } else {
-        statusBar()->showMessage(tr("Unable to create temporary file!"));
+        statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
 }
 
@@ -229,10 +235,18 @@ void MainWindow::graphSelectionChanged()
     }
 }
 
-void MainWindow::processFinished(int exitCode)
+void MainWindow::processFinished()
 {
-    statusBar()->showMessage(tr("Done"), 3000);
+    enableWidgets();
     //TODO: Do more with the results
+    statusBar()->showMessage(tr("Computation finished"), 3000);
+}
+
+void MainWindow::processError()
+{
+    enableWidgets();
+    //TODO: Handle error
+    statusBar()->showMessage(tr("Backend error occurred!"), 3000);
 }
 
 void MainWindow::zoomToFit()
@@ -256,6 +270,42 @@ void MainWindow::checkForFirstStart()
         on_configureAction_triggered();
     }
     settings.endGroup();
+}
+
+void MainWindow::disableWidgets()
+{
+    // File actions
+    saveAction->setEnabled(false);
+    saveAsAction->setEnabled(false);
+
+    // Graph actions
+    addLayerAction->setEnabled(false);
+    removeLayerAction->setEnabled(false);
+    computeAction->setEnabled(false);
+
+    // Settings actions
+    configureAction->setEnabled(false);
+
+    // Edit dock widget
+    m_editDockWidget->setEnabled(false);
+}
+
+void MainWindow::enableWidgets()
+{
+    // File actions
+    saveAction->setEnabled(true);
+    saveAsAction->setEnabled(true);
+
+    // Graph actions
+    addLayerAction->setEnabled(true);
+    removeLayerAction->setEnabled(true);
+    graphSelectionChanged();    // Call slot to determine state of computeAction
+
+    // Settings actions
+    configureAction->setEnabled(true);
+
+    // Edit dock widget
+    m_editDockWidget->setEnabled(true);
 }
 
 void MainWindow::readSettings()
@@ -334,9 +384,9 @@ void MainWindow::setupDockWidgets()
     dockersSettingsMenu->addAction(infoDockWidget->toggleViewAction());
 
     // Edit dock widget
-    QDockWidget *editDockWidget = new EditDockWidget(m_scene, this);
-    addDockWidget(Qt::BottomDockWidgetArea, editDockWidget);
-    //dockersSettingsMenu->addAction(editDockWidget->toggleViewAction());
+    m_editDockWidget = new EditDockWidget(m_scene, this);
+    addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
+    //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
     QDockWidget *outputDockWidget = new OutputDockWidget(m_process, this);

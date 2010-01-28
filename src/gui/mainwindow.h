@@ -28,6 +28,7 @@
 class GraphScene;
 class GraphView;
 class NodeItem;
+class QDockWidget;
 class QProcess;
 class QTemporaryFile;
 
@@ -53,10 +54,14 @@ private slots:
     void on_aboutQtAction_triggered();
     void graphChanged();
     void graphSelectionChanged();
-    void processFinished(int);
+    void processFinished();
+    void processError();
+
     void zoomToFit();
     void uncheckZoomToFitAction();
     void checkForFirstStart();
+    void disableWidgets();
+    void enableWidgets();
 
     void readSettings();
     void writeSettings();
@@ -69,6 +74,7 @@ private:
 
     GraphScene *m_scene;
     GraphView *m_view;
+    QDockWidget *m_editDockWidget;
 
     QProcess *m_process;
     QString m_backendString;
