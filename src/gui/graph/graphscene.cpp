@@ -158,8 +158,12 @@ void GraphScene::addLayer()
         LayerItem *previous = m_layers.last();
 
         // Connect layer with previous layer
-        m_layerEdges.last()->setEnd(last->nodes()->at(0));
-        m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this));
+        DirectedEdgeItem *e1 = m_layerEdges.last();
+        e1->setEnd(last->nodes()->at(0));
+        e1->setName("s" + m_layers.size());
+        DirectedEdgeItem *e2 = new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this);
+        e2->setName("-s" + m_layers.size());
+        m_layerEdges.append(e2);
 
         last->setPos(previous->pos() + QPointF(100, 0));
         m_receiver->moveBy(100, 0);

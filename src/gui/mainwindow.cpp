@@ -224,7 +224,7 @@ void MainWindow::on_configureAction_triggered()
 
 void MainWindow::on_helpAction_triggered()
 {
-    // "TODO: Show help";
+    // TODO: Show help
 }
 
 void MainWindow::on_aboutAction_triggered()
