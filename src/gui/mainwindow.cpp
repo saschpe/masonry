@@ -166,7 +166,7 @@ void MainWindow::on_computeAction_triggered()
         m_outputDockWidget->append("Input:\n\n");
 
         // Generate backend input file contents
-        int counter = 0;
+        int counter = 1;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
             // NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
             if (edge->name().isEmpty()) {
