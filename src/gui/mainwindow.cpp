@@ -203,7 +203,8 @@ void MainWindow::on_computeAction_triggered()
         settings.endGroup();
 
         // Start the backend process
-        m_outputDockWidget->append("\nCommand line:\n\n    " + backend.arg(mscript) + "\n\n");
+        m_outputDockWidget->append("\nCommand Line:\n\n    " + backend.arg(mscript) + "\n");
+        m_outputDockWidget->append("\nResults:\n\n");
         m_process->start(backend.arg(mscript));
         statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
     } else {
