@@ -28,6 +28,8 @@
 class GraphScene;
 class GraphView;
 class NodeItem;
+class OutputDockWidget;
+
 class QDockWidget;
 class QProcess;
 class QTemporaryFile;
@@ -74,10 +76,11 @@ private:
 
     GraphScene *m_scene;
     GraphView *m_view;
+
     QDockWidget *m_editDockWidget;
+    OutputDockWidget *m_outputDockWidget;
 
     QProcess *m_process;
-    QString m_backendString;
     QTemporaryFile *m_backendInputFile;
 
     bool m_graphChangesUnsaved;

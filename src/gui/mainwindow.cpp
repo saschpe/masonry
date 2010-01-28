@@ -55,6 +55,7 @@ MainWindow::MainWindow(QWidget *parent)
     setupToolbars();
     readSettings();
 
+    connect(m_process, SIGNAL(started()), this, SLOT(disableWidgets()));
     connect(m_process, SIGNAL(finished(int)), this, SLOT(processFinished()));
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError()));
     connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
@@ -161,13 +162,22 @@ void MainWindow::on_computeAction_triggered()
     if (m_backendInputFile->open()) {
         QTextStream stream(m_backendInputFile);
 
+        m_outputDockWidget->clear();
+        m_outputDockWidget->append("Input:\n\n");
+
         // Generate backend input file contents
         int counter = 0;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
-            int from = edge->start()->name().toInt();
-            int to = edge->end()->name().toInt();
+            // NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
+            if (edge->name().isEmpty()) {
+                continue;
+            }
+            QString from = edge->start()->name();
+            QString to = edge->end()->name();
 
-            stream << counter++ << from << to << edge->name().toLatin1();
+            QString line = QString::number(counter++) + ' ' + from + ' ' + to + ' ' + edge->name() + '\n';
+            m_outputDockWidget->append("    " + line);
+            stream << line;
         }
         int startNodeNumber = m_lastSelectedNodeItem->name().toInt();
         int stopNodeNumber = m_scene->nodes().size() - 1; // It's the second last node in the list
@@ -178,11 +188,24 @@ void MainWindow::on_computeAction_triggered()
             .arg(m_backendInputFile->fileName())
             .arg(startNodeNumber).arg(stopNodeNumber);
 
-        // Start the backend process
-        m_process->start(m_backendString.arg(mscript));
-        statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
+        QString backend;
+        QSettings settings;
+        settings.beginGroup("backend");
+        if (settings.value("current", "octave").toString() == "octave") {
+            settings.beginGroup("octave");
+            backend = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
+            settings.endGroup();
+        } else {
+            settings.beginGroup("matlab");
+            backend = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
+            settings.endGroup();
+        }
+        settings.endGroup();
 
-        disableWidgets();
+        // Start the backend process
+        m_outputDockWidget->append("\nCommand line:\n\n    " + backend.arg(mscript) + "\n\n");
+        m_process->start(backend.arg(mscript));
+        statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
     } else {
         statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
@@ -389,9 +412,9 @@ void MainWindow::setupDockWidgets()
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
     // Output dock widget
-    QDockWidget *outputDockWidget = new OutputDockWidget(m_process, this);
-    addDockWidget(Qt::BottomDockWidgetArea, outputDockWidget);
-    dockersSettingsMenu->addAction(outputDockWidget->toggleViewAction());
+    m_outputDockWidget = new OutputDockWidget(m_process, this);
+    addDockWidget(Qt::BottomDockWidgetArea, m_outputDockWidget);
+    dockersSettingsMenu->addAction(m_outputDockWidget->toggleViewAction());
 }
 
 void MainWindow::setupToolbars()
