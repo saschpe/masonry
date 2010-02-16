@@ -369,7 +369,7 @@ void MainWindow::setupActions()
     themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" +
                         QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
-    QIcon::setThemeName("oxygen");
+    QIcon::setThemeName("oxygen-minimal");
 
     // Set icons for the actions in the file menu
     newAction->setIcon(QIcon::fromTheme("document-new"));
