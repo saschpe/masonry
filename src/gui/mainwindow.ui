@@ -140,10 +140,22 @@
     <property name="title">
      <string>&amp;Graph</string>
     </property>
-    <addaction name="addColumnAction"/>
-    <addaction name="removeColumnAction"/>
-    <addaction name="addRowAction"/>
-    <addaction name="removeRowAction"/>
+    <widget class="QMenu" name="graphColumnsMenu">
+     <property name="title">
+      <string>Columns</string>
+     </property>
+     <addaction name="addColumnAction"/>
+     <addaction name="removeColumnAction"/>
+    </widget>
+    <widget class="QMenu" name="graphRowsMenu">
+     <property name="title">
+      <string>Rows</string>
+     </property>
+     <addaction name="addRowAction"/>
+     <addaction name="removeRowAction"/>
+    </widget>
+    <addaction name="graphColumnsMenu"/>
+    <addaction name="graphRowsMenu"/>
     <addaction name="separator"/>
     <addaction name="computeAction"/>
    </widget>
@@ -367,16 +379,6 @@
    </property>
    <property name="text">
     <string>Remove Column</string>
-   </property>
-  </action>
-  <action name="actionColumns">
-   <property name="text">
-    <string>Columns</string>
-   </property>
-  </action>
-  <action name="actionRows">
-   <property name="text">
-    <string>Rows</string>
    </property>
   </action>
  </widget>
