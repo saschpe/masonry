@@ -97,16 +97,26 @@ int GraphScene::rows() const
 
 void GraphScene::setInputNode(NodeItem *node)
 {
-    node->setNodeType(NodeItem::InputNode);
-    m_inputNode = node;
-    emit inputNodeChanged();
+    if (node) {
+        if (m_inputNode) {
+            m_inputNode->setNodeType(NodeItem::StandardNode);
+        }
+        node->setNodeType(NodeItem::InputNode);
+        m_inputNode = node;
+        emit inputNodeChanged();
+    }
 }
 
 void GraphScene::setOuputNode(NodeItem *node)
 {
-    node->setNodeType(NodeItem::OutputNode);
-    m_outputNode = node;
-    emit outputNodeChanged();
+    if (node) {
+        if (m_outputNode) {
+            m_outputNode->setNodeType(NodeItem::StandardNode);
+        }
+        node->setNodeType(NodeItem::OutputNode);
+        m_outputNode = node;
+        emit outputNodeChanged();
+    }
 }
 
 void GraphScene::init()
