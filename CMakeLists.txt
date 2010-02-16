@@ -23,10 +23,7 @@ set(masonry_SRCS
     src/gui/graph/items/arrowitem.cpp
     src/gui/graph/items/directededgeitem.cpp
     src/gui/graph/items/graphitem.cpp
-    src/gui/graph/items/layeritem.cpp
     src/gui/graph/items/nodeitem.cpp
-    src/gui/graph/items/receiveritem.cpp
-    src/gui/graph/items/transmitteritem.cpp
     src/gui/mainwindow.cpp
     src/gui/widgets/editdockwidget.cpp
     src/gui/widgets/outputdockwidget.cpp
