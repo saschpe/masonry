@@ -25,7 +25,7 @@
 
 NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
     : GraphItem(parent, scene)
-    , m_radius(10)
+    , m_nodeType(StandardNode), m_radius(10)
 {
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setBrush(Qt::white);
@@ -36,6 +36,22 @@ void NodeItem::setRadius(qreal radius)
     m_radius = radius;
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     update();
+}
+
+void NodeItem::setNodeType(NodeType type)
+{
+    m_nodeType = type;
+    switch (m_nodeType) {
+        case InputNode:
+            setBrush(Qt::green);
+            break;
+        case OutputNode:
+            setBrush(Qt::blue);
+            break;
+        case StandardNode:
+            setBrush(Qt::white);
+            break;
+    }
 }
 
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
