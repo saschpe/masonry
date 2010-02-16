@@ -35,11 +35,11 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
 
     connect(edgeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedEdgeName(QString)));
     connect(nodeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedNodeName(QString)));
-    connect(nodeTypeComboBox, SIGNAL(selectedIndexChanged(int)), this, SLOT(setSelectedNodeType(int)));
+    connect(nodeTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setSelectedNodeType(int)));
     deleteNodeButton->setIcon(QIcon::fromTheme("edit-delete"));
-    connect(deleteNodeButton, SIGNAL(clicked()), this, SIGNAL(selectedItemDeleteRequested()));
+    connect(deleteNodeButton, SIGNAL(clicked()), this, SIGNAL(deleteSelectedItem()));
     deleteEdgeButton->setIcon(QIcon::fromTheme("edit-delete"));
-    connect(deleteEdgeButton, SIGNAL(clicked()), this, SIGNAL(selectedItemDeleteRequested()));
+    connect(deleteEdgeButton, SIGNAL(clicked()), this, SIGNAL(deleteSelectedItem()));
 }
 
 void EditDockWidget::updateEdit()

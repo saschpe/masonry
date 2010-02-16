@@ -40,7 +40,7 @@ public:
     EditDockWidget(GraphScene *scene, QWidget *parent = 0);
 
 signals:
-    void selectedItemDeleteRequested();
+    void deleteSelectedItem();
 
 private slots:
     void updateEdit();

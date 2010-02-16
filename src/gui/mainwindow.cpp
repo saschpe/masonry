@@ -422,6 +422,7 @@ void MainWindow::setupDockWidgets()
 {
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(m_scene, this);
+    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), this, SLOT(deleteSelectedItem()));
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
