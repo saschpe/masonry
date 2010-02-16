@@ -38,13 +38,9 @@ static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_gridLayout(new QGraphicsGridLayout)
     , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
-
-    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
-    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
 
     init();
 }
@@ -131,20 +127,31 @@ void GraphScene::init()
         delete item;
     }
     m_edges.clear();
+    m_inputNode = NULL;
+    m_outputNode = NULL;
 
+    // Set up layout-related stuff
+    m_gridLayout = new QGraphicsGridLayout;
+    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
+    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
     QGraphicsWidget *form = new QGraphicsWidget;
     form->setLayout(m_gridLayout);
     addItem(form);
 
-    addColumn();
-    addColumn();
+    // Create default input/output nodes and wire them
+    NodeItem *n1 = new NodeItem(NULL, this);
+    n1->setName("1");
+    m_gridLayout->addItem(n1, 0, 0);
+    NodeItem *n2 = new NodeItem(NULL, this);
+    n2->setName("2");
+    m_gridLayout->addItem(n2, 0, 1);
+    DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
+    e12->setName("12");
+    m_edges.append(e12);
 
-    // Set default input/output nodes and wire them
-    NodeItem *n1 = static_cast<NodeItem *>(m_gridLayout->itemAt(0, 0));
-    NodeItem *n2 = static_cast<NodeItem *>(m_gridLayout->itemAt(0, 1));
-    new DirectedEdgeItem(n1, n2, NULL, this);
     setInputNode(n1);
     setOuputNode(n2);
+
     emit graphChanged();
 }
 
@@ -179,7 +186,7 @@ void GraphScene::addRow()
     updateNodeItemNames();
 
     readSettings();
-    setSceneRect(itemsBoundingRect());
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
 }
 
@@ -191,7 +198,7 @@ void GraphScene::removeRow()
     }
     updateNodeItemNames();
 
-    setSceneRect(itemsBoundingRect());
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
 }
 
@@ -208,7 +215,7 @@ void GraphScene::addColumn()
     updateNodeItemNames();
 
     readSettings();
-    setSceneRect(itemsBoundingRect());
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
 }
 
@@ -220,7 +227,7 @@ void GraphScene::removeColumn()
     }
     updateNodeItemNames();
 
-    setSceneRect(itemsBoundingRect());
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
 }
 
