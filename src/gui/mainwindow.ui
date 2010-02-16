@@ -74,7 +74,7 @@
      <x>0</x>
      <y>0</y>
      <width>600</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="fileMenu">
@@ -89,17 +89,6 @@
     <addaction name="separator"/>
     <addaction name="quitAction"/>
    </widget>
-   <widget class="QMenu" name="editMenu">
-    <property name="title">
-     <string>&amp;Edit</string>
-    </property>
-    <addaction name="undoAction"/>
-    <addaction name="redoAction"/>
-    <addaction name="separator"/>
-    <addaction name="cutAction"/>
-    <addaction name="copyAction"/>
-    <addaction name="pasteAction"/>
-   </widget>
    <widget class="QMenu" name="helpMenu">
     <property name="title">
      <string>&amp;Help</string>
@@ -108,17 +97,6 @@
     <addaction name="separator"/>
     <addaction name="aboutAction"/>
     <addaction name="aboutQtAction"/>
-   </widget>
-   <widget class="QMenu" name="graphMenu">
-    <property name="title">
-     <string>&amp;Graph</string>
-    </property>
-    <addaction name="addColumnAction"/>
-    <addaction name="removeColumnAction"/>
-    <addaction name="addRowAction"/>
-    <addaction name="removeRowAction"/>
-    <addaction name="separator"/>
-    <addaction name="computeAction"/>
    </widget>
    <widget class="QMenu" name="viewMenu">
     <property name="title">
@@ -146,6 +124,28 @@
     <addaction name="dockersSettingsMenu"/>
     <addaction name="separator"/>
     <addaction name="configureAction"/>
+   </widget>
+   <widget class="QMenu" name="editMenu">
+    <property name="title">
+     <string>&amp;Edit</string>
+    </property>
+    <addaction name="undoAction"/>
+    <addaction name="redoAction"/>
+    <addaction name="separator"/>
+    <addaction name="cutAction"/>
+    <addaction name="copyAction"/>
+    <addaction name="pasteAction"/>
+   </widget>
+   <widget class="QMenu" name="graphMenu">
+    <property name="title">
+     <string>&amp;Graph</string>
+    </property>
+    <addaction name="addColumnAction"/>
+    <addaction name="removeColumnAction"/>
+    <addaction name="addRowAction"/>
+    <addaction name="removeRowAction"/>
+    <addaction name="separator"/>
+    <addaction name="computeAction"/>
    </widget>
    <addaction name="fileMenu"/>
    <addaction name="editMenu"/>
@@ -175,6 +175,9 @@
    <property name="toolTip">
     <string>About</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::AboutRole</enum>
+   </property>
   </action>
   <action name="quitAction">
    <property name="text">
@@ -182,6 +185,9 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+Q</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::QuitRole</enum>
    </property>
   </action>
   <action name="newAction">
@@ -295,6 +301,9 @@
    <property name="toolTip">
     <string>Configure Masonry</string>
    </property>
+   <property name="menuRole">
+    <enum>QAction::PreferencesRole</enum>
+   </property>
   </action>
   <action name="saveAction">
    <property name="text">
@@ -304,6 +313,9 @@
   <action name="aboutQtAction">
    <property name="text">
     <string>About &amp;Qt</string>
+   </property>
+   <property name="menuRole">
+    <enum>QAction::AboutQtRole</enum>
    </property>
   </action>
   <action name="computeAction">
@@ -355,6 +367,16 @@
    </property>
    <property name="text">
     <string>Remove Column</string>
+   </property>
+  </action>
+  <action name="actionColumns">
+   <property name="text">
+    <string>Columns</string>
+   </property>
+  </action>
+  <action name="actionRows">
+   <property name="text">
+    <string>Rows</string>
    </property>
   </action>
  </widget>
