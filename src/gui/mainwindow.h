@@ -56,6 +56,7 @@ private slots:
     void on_aboutQtAction_triggered();
     void graphChanged();
     void graphSelectionChanged();
+    void deleteSelectedItem();
     void processFinished();
     void processError();
 
@@ -85,6 +86,7 @@ private:
 
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
+    NodeItem *m_lastSelectedNodeItem;
 };
 
 #endif // MAINWINDOW_H

@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
     , m_process(new QProcess(this)), m_backendInputFile(NULL)
-    , m_graphChangesUnsaved(false)
+    , m_graphChangesUnsaved(false), m_lastSelectedNodeItem(NULL)
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -250,16 +250,21 @@ void MainWindow::graphChanged()
 void MainWindow::graphSelectionChanged()
 {
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    /*if (selection.size() == 1) {
+    if (selection.size() == 1) {
         if (m_lastSelectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
-            computeAction->setEnabled(true);
+            deleteSelectedItemAction->setEnabled(true);
         } else {
-            computeAction->setEnabled(false);
+            deleteSelectedItemAction->setEnabled(false);
         }
     } else {
         m_lastSelectedNodeItem = NULL;
-        computeAction->setEnabled(false);
-    }*/
+        deleteSelectedItemAction->setEnabled(false);
+    }
+}
+
+void MainWindow::deleteSelectedItem()
+{
+    delete m_lastSelectedNodeItem;
 }
 
 void MainWindow::processFinished()
@@ -401,6 +406,8 @@ void MainWindow::setupActions()
     connect(addRowAction, SIGNAL(triggered()), m_scene, SLOT(addRow()));
     removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
     connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
+    deleteSelectedItemAction->setIcon(QIcon::fromTheme("edit-delete"));
+    connect(deleteSelectedItemAction, SIGNAL(triggered()),this, SLOT(deleteSelectedItem()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
@@ -448,6 +455,7 @@ void MainWindow::setupToolbars()
     graphToolBar->addAction(removeColumnAction);
     graphToolBar->addAction(addRowAction);
     graphToolBar->addAction(removeRowAction);
+    graphToolBar->addAction(deleteSelectedItemAction);
     graphToolBar->addSeparator();
     graphToolBar->addAction(computeAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
