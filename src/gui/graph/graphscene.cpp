@@ -58,7 +58,7 @@ bool GraphScene::loadFrom(const QString &fileName)
         QString line;
         do {
             line = stream.readLine();
-            QStringList splittedLine = line.split(" ");
+            const QStringList splittedLine = line.split(" ");
             if (splittedLine[0] == "node") {
                 NodeItem *node = new NodeItem(NULL, this);
                 node->setName(splittedLine[1]);
@@ -112,14 +112,14 @@ bool GraphScene::saveTo(const QString &fileName)
     return false;
 }
 
-int GraphScene::columnCount() const
+bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
 {
-    return m_gridLayout->rowCount();
-}
-
-int GraphScene::rowCount() const
-{
-    return m_gridLayout->columnCount();
+    if (start && end) {
+        DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+        edge->setName(start->name() + end->name());
+        return true;
+    }
+    return false;
 }
 
 void GraphScene::setInputNode(NodeItem *node)
@@ -144,6 +144,16 @@ void GraphScene::setOuputNode(NodeItem *node)
         m_outputNode = node;
         emit outputNodeChanged();
     }
+}
+
+int GraphScene::columnCount() const
+{
+    return m_gridLayout->rowCount();
+}
+
+int GraphScene::rowCount() const
+{
+    return m_gridLayout->columnCount();
 }
 
 void GraphScene::init(InitType initType)

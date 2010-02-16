@@ -42,14 +42,16 @@ public:
     bool loadFrom(const QString &fileName);
     bool saveTo(const QString &fileName);
 
-    QList<DirectedEdgeItem *> edges() const { return m_edges; }
-    int columnCount() const;
-    int rowCount() const;
+    bool addEdge(NodeItem *start, NodeItem *end);
 
     void setInputNode(NodeItem *node);
     NodeItem *inputNode() const { return m_inputNode; }
     void setOuputNode(NodeItem *node);
     NodeItem *outputNode() const { return m_outputNode; }
+
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
+    int columnCount() const;
+    int rowCount() const;
 
 signals:
     void graphChanged();
