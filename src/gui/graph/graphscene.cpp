@@ -49,10 +49,10 @@ GraphScene::GraphScene(QObject *parent)
     init();
 }
 
-void GraphScene::loadFrom(const QString &fileName)
+bool GraphScene::loadFrom(const QString &fileName)
 {
     QFile file(fileName);
-    if (file.open(QFile::ReadOnly)) {
+    if (file.exists() && file.open(QFile::ReadOnly)) {
         QString tmp;                        // To read over strings used to structure the file
         int layerCount = 0;                 // Stores the layer count
         QTextStream stream(&file);
@@ -67,10 +67,12 @@ void GraphScene::loadFrom(const QString &fileName)
             m_layers.last()->setName(tmp);  // Set the name of the layer
         }*/
         file.close();
+        return true;
     }
+    return false;
 }
 
-void GraphScene::saveTo(const QString &fileName)
+bool GraphScene::saveTo(const QString &fileName)
 {
     QFile file(fileName);
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
@@ -82,7 +84,9 @@ void GraphScene::saveTo(const QString &fileName)
             stream << "layer-pos-name:" << layer->graphPos() << layer->name();
         }*/
         file.close();
+        return true;
     }
+    return false;
 }
 
 int GraphScene::columns() const

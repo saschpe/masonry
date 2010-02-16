@@ -34,8 +34,8 @@ class GraphScene : public QGraphicsScene
 public:
     GraphScene(QObject *parent = 0);
 
-    void loadFrom(const QString &fileName);
-    void saveTo(const QString &fileName);
+    bool loadFrom(const QString &fileName);
+    bool saveTo(const QString &fileName);
 
     int columns() const;
     int rows() const;
