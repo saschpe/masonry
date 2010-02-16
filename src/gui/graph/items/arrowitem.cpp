@@ -110,4 +110,3 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     painter->setPen(p);
     painter->drawText(m_nameRect, Qt::AlignCenter, m_name);
 }
-
