@@ -25,6 +25,7 @@
 
 class DirectedEdgeItem;
 class NodeItem;
+class QGraphicsGridLayout;
 
 class GraphScene : public QGraphicsScene
 {
@@ -36,11 +37,8 @@ public:
     void loadFrom(const QString &fileName);
     void saveTo(const QString &fileName);
 
-    QList<DirectedEdgeItem *> edges() const { return m_edges; }
-    QList<NodeItem *> nodes() const { return m_nodes; }
-
-    int columns() const { return m_columns;}
-    int rows() const { return m_rows; }
+    int columns() const;
+    int rows() const;
 
     void setInputNode(NodeItem *node);
     NodeItem *inputNode() const { return m_inputNode; }
@@ -62,12 +60,12 @@ public slots:
     void removeColumn();
 
 private:
-    QList<NodeItem *> m_nodes;
+    void updateNodeItemNames();
+
+    QGraphicsGridLayout *m_gridLayout;
     QList<DirectedEdgeItem *> m_edges;
     NodeItem *m_inputNode;
     NodeItem *m_outputNode;
-    int m_columns;
-    int m_rows;
 };
 
 #endif // GRAPHSCENE_H

@@ -26,19 +26,25 @@
 #include <QFile>
 #include <QList>
 #include <QPainter>
+#include <QGraphicsGridLayout>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QGraphicsWidget>
 #include <QSettings>
 #include <QTextStream>
 
-#define NODEITEM_PIXEL_DISTANCE 50
+static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_inputNode(NULL), m_outputNode(NULL), m_columns(0), m_rows(0)
+    , m_gridLayout(new QGraphicsGridLayout)
+    , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
+
+    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
+    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
 
     init();
 }
@@ -79,6 +85,16 @@ void GraphScene::saveTo(const QString &fileName)
     }
 }
 
+int GraphScene::columns() const
+{
+    return m_gridLayout->rowCount();
+}
+
+int GraphScene::rows() const
+{
+    return m_gridLayout->columnCount();
+}
+
 void GraphScene::setInputNode(NodeItem *node)
 {
     node->setNodeType(NodeItem::InputNode);
@@ -99,19 +115,23 @@ void GraphScene::init()
     foreach (QGraphicsItem *item, items()) {
         delete item;
     }
-    m_nodes.clear();
     m_edges.clear();
 
-    // Add one node to the scene
-    NodeItem *n = new NodeItem(NULL, this);
-    n->setName("1");
-    m_nodes.append(n);
-    m_columns = 1;
-    m_rows = 1;
+    QGraphicsWidget *form = new QGraphicsWidget;
+    form->setLayout(m_gridLayout);
+    addItem(form);
+
+    /*// Add two nodes to the scene
+    NodeItem *node = new NodeItem(NULL, this);
+    node->setName("1");
+    m_gridLayout->addItem(node, 0, 0);
+    NodeItem *n2 = new NodeItem(NULL, this);
+    n2->setName("2");
+    m_gridLayout->addItem(n2, 0, 1);
 
     // Set default input/output nodes
-    setInputNode(n);
-    setOuputNode(n);
+    setInputNode(node);
+    setOuputNode(n2);*/
     emit graphChanged();
 }
 
@@ -122,7 +142,7 @@ void GraphScene::readSettings()
     // Load graphics view stuff
     settings.beginGroup("view");
     settings.beginGroup("advanced");
-    bool movable = settings.value("graphItemsMovable").toBool();
+    const bool movable = settings.value("graphItemsMovable").toBool();
     foreach (QGraphicsItem *item, items()) {
         // Only nodes are movable
         if (dynamic_cast<NodeItem *>(item)) {
@@ -135,14 +155,15 @@ void GraphScene::readSettings()
 
 void GraphScene::addRow()
 {
-    // Add 'm_column' nodes to the last (new) row
-    for (int i = 1; i <= m_columns; i++) {
-        NodeItem *n = new NodeItem(NULL, this);
-        n->setName(QString::number(m_columns * m_rows + i));
-        n->setPos(NODEITEM_PIXEL_DISTANCE * (i - 1), NODEITEM_PIXEL_DISTANCE * m_rows);
-        m_nodes.append(n);
+    const int lastRow = m_gridLayout->rowCount();
+    if (lastRow == 0) {
+        m_gridLayout->addItem(new NodeItem(NULL, this), 0, 0);
+    } else {
+        for (int row = 0; row < m_gridLayout->columnCount(); row++) {
+            m_gridLayout->addItem(new NodeItem(NULL, this), lastRow, row);
+        }
     }
-    m_rows++;
+    updateNodeItemNames();
 
     readSettings();
     setSceneRect(itemsBoundingRect());
@@ -151,11 +172,11 @@ void GraphScene::addRow()
 
 void GraphScene::removeRow()
 {
-    // Remove 'm_columns' (all) nodes from the last row
-    for (int i = 1; i <= m_columns; i++) {
-        delete m_nodes.takeLast();
+    const int lastRow = m_gridLayout->rowCount() - 1;
+    for (int row = 0; row < m_gridLayout->columnCount(); row++) {
+        delete m_gridLayout->itemAt(lastRow, row);
     }
-    m_rows--;
+    updateNodeItemNames();
 
     setSceneRect(itemsBoundingRect());
     emit graphChanged();
@@ -163,17 +184,15 @@ void GraphScene::removeRow()
 
 void GraphScene::addColumn()
 {
-    for (int i = 0; i < m_rows; i++) {
-        NodeItem *n = new NodeItem(NULL, this);
-        //n->setName(QString::number(m_columns * m_rows + i));
-        n->setPos(NODEITEM_PIXEL_DISTANCE * m_columns, NODEITEM_PIXEL_DISTANCE * (i ));
-        m_nodes.append(n);
+    const int lastColumn = m_gridLayout->columnCount();
+    if (lastColumn == 0) {
+        m_gridLayout->addItem(new NodeItem(NULL, this), 0, 0);
+    } else {
+        for (int column = 0; column < m_gridLayout->rowCount(); column++) {
+            m_gridLayout->addItem(new NodeItem(NULL, this), column, lastColumn);
+        }
     }
-    m_columns++;
-
-    for (int i = 0; i < m_nodes.size(); i++) {
-        m_nodes[i]->setName(QString::number(i));
-    }
+    updateNodeItemNames();
 
     readSettings();
     setSceneRect(itemsBoundingRect());
@@ -182,9 +201,26 @@ void GraphScene::addColumn()
 
 void GraphScene::removeColumn()
 {
+    const int lastColumn = m_gridLayout->columnCount() - 1;
+    for (int column = 0; column < m_gridLayout->rowCount(); column++) {
+        delete m_gridLayout->itemAt(column, lastColumn);
+    }
+    updateNodeItemNames();
 
     setSceneRect(itemsBoundingRect());
     emit graphChanged();
+}
+
+void GraphScene::updateNodeItemNames()
+{
+    for (int row = 0; row < m_gridLayout->rowCount(); row++) {
+        for (int column = 0; column < m_gridLayout->columnCount(); column++) {
+            NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
+            if (node) {
+                node->setName(QString::number(row * m_gridLayout->columnCount() + column + 1));
+            }
+        }
+    }
 }
 
 #include "graphscene.moc"
