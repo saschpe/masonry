@@ -67,6 +67,7 @@ bool GraphScene::loadFrom(const QString &fileName)
             m_layers.last()->setName(tmp);  // Set the name of the layer
         }*/
         file.close();
+        emit graphChanged();
         return true;
     }
     return false;
