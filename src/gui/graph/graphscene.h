@@ -37,8 +37,9 @@ public:
     bool loadFrom(const QString &fileName);
     bool saveTo(const QString &fileName);
 
-    int columns() const;
-    int rows() const;
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
+    int columnCount() const;
+    int rowCount() const;
 
     void setInputNode(NodeItem *node);
     NodeItem *inputNode() const { return m_inputNode; }

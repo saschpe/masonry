@@ -86,12 +86,12 @@ bool GraphScene::saveTo(const QString &fileName)
     return false;
 }
 
-int GraphScene::columns() const
+int GraphScene::columnCount() const
 {
     return m_gridLayout->rowCount();
 }
 
-int GraphScene::rows() const
+int GraphScene::rowCount() const
 {
     return m_gridLayout->columnCount();
 }

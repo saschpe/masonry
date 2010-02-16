@@ -61,8 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
-    removeColumnAction->setEnabled(m_scene->columns() > 0);
-    removeRowAction->setEnabled(m_scene->rows() > 0);
+    removeColumnAction->setEnabled(m_scene->columnCount() > 0);
+    removeRowAction->setEnabled(m_scene->rowCount() > 0);
 
     statusBar()->showMessage(tr("Ready"));
     QTimer::singleShot(100, this, SLOT(checkForFirstStart()));
@@ -242,8 +242,8 @@ void MainWindow::on_aboutQtAction_triggered()
 
 void MainWindow::graphChanged()
 {
-    removeColumnAction->setEnabled(m_scene->columns() > 0);
-    removeRowAction->setEnabled(m_scene->rows() > 0);
+    removeColumnAction->setEnabled(m_scene->columnCount() > 0);
+    removeRowAction->setEnabled(m_scene->rowCount() > 0);
     m_graphChangesUnsaved = true;
 }
 
