@@ -31,6 +31,13 @@ NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
     setBrush(Qt::white);
 }
 
+void NodeItem::setGeometry(const QRectF &rect)
+{
+    setRect(rect);
+    m_radius = rect.width() / 2;
+    update();
+}
+
 void NodeItem::setRadius(qreal radius)
 {
     m_radius = radius;
@@ -68,4 +75,9 @@ void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, 
     p.setColor(Qt::black);
     painter->setPen(p);
     painter->drawText(rect(), Qt::AlignCenter, m_name);
+}
+
+QSizeF NodeItem::sizeHint(Qt::SizeHint which, const QSizeF &constraints) const
+{
+    return rect().size();
 }
