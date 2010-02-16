@@ -441,10 +441,10 @@ void MainWindow::setupToolbars()
 
     editToolBar->addAction(undoAction);
     editToolBar->addAction(redoAction);
-    editToolBar->addSeparator();
+    /*editToolBar->addSeparator();
     editToolBar->addAction(cutAction);
     editToolBar->addAction(copyAction);
-    editToolBar->addAction(pasteAction);
+    editToolBar->addAction(pasteAction);*/
     toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
 
     viewToolBar->addAction(zoomToFitAction);
