@@ -239,8 +239,8 @@ void MainWindow::on_aboutQtAction_triggered()
 
 void MainWindow::graphChanged()
 {
-    removeColumnAction->setEnabled(m_scene->columns() > 1);
-    removeRowAction->setEnabled(m_scene->rows() > 1);
+    removeColumnAction->setEnabled(m_scene->columns() > 0);
+    removeRowAction->setEnabled(m_scene->rows() > 0);
     m_graphChangesUnsaved = true;
 }
 
@@ -305,7 +305,7 @@ void MainWindow::disableWidgets()
     // Graph actions
     addColumnAction->setEnabled(false);
     addRowAction->setEnabled(false);
-    addColumnAction->setEnabled(false);
+    removeColumnAction->setEnabled(false);
     removeRowAction->setEnabled(false);
     computeAction->setEnabled(false);
 
@@ -325,7 +325,7 @@ void MainWindow::enableWidgets()
     // Graph actions
     addColumnAction->setEnabled(true);
     addRowAction->setEnabled(true);
-    addColumnAction->setEnabled(true);
+    removeColumnAction->setEnabled(true);
     removeRowAction->setEnabled(true);
     graphSelectionChanged();    // Call slot to determine state of computeAction
 
