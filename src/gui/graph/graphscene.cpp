@@ -81,14 +81,16 @@ void GraphScene::saveTo(const QString &fileName)
 
 void GraphScene::setInputNode(NodeItem *node)
 {
-    emit inputNodeChanged();
+    node->setNodeType(NodeItem::InputNode);
     m_inputNode = node;
+    emit inputNodeChanged();
 }
 
 void GraphScene::setOuputNode(NodeItem *node)
 {
-    emit outputNodeChanged();
+    node->setNodeType(NodeItem::OutputNode);
     m_outputNode = node;
+    emit outputNodeChanged();
 }
 
 void GraphScene::init()
@@ -142,8 +144,6 @@ void GraphScene::addRow()
     }
     m_rows++;
 
-    //TODO: Add edges
-
     readSettings();
     setSceneRect(itemsBoundingRect());
     emit graphChanged();
@@ -151,8 +151,6 @@ void GraphScene::addRow()
 
 void GraphScene::removeRow()
 {
-    //TODO: Remove edges
-
     // Remove 'm_columns' (all) nodes from the last row
     for (int i = 1; i <= m_columns; i++) {
         delete m_nodes.takeLast();
@@ -166,7 +164,15 @@ void GraphScene::removeRow()
 void GraphScene::addColumn()
 {
     for (int i = 0; i < m_rows; i++) {
+        NodeItem *n = new NodeItem(NULL, this);
+        //n->setName(QString::number(m_columns * m_rows + i));
+        n->setPos(NODEITEM_PIXEL_DISTANCE * m_columns, NODEITEM_PIXEL_DISTANCE * (i ));
+        m_nodes.append(n);
+    }
+    m_columns++;
 
+    for (int i = 0; i < m_nodes.size(); i++) {
+        m_nodes[i]->setName(QString::number(i));
     }
 
     readSettings();
