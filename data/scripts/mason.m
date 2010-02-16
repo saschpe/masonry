@@ -223,6 +223,8 @@ function [Num,Den] = mason(NetFile,Start,Stop)
       Den=strrep(Den,orig,Coeff_Names{coeff_num}); % Replace all the c#s with the strings from net file
       Num=strrep(Num,orig,Coeff_Names{coeff_num});
     end % This loop had to count down so there was no risk of C12 being replace by C1
+
+    % TODO: Simplify the equation
 end
 
 %*************************************************************************************************
