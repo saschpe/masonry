@@ -46,7 +46,7 @@ void NodeItem::setNodeType(NodeType type)
             setBrush(Qt::green);
             break;
         case OutputNode:
-            setBrush(Qt::blue);
+            setBrush(Qt::cyan);
             break;
         case StandardNode:
             setBrush(Qt::white);
