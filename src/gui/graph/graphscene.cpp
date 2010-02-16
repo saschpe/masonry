@@ -121,17 +121,15 @@ void GraphScene::init()
     form->setLayout(m_gridLayout);
     addItem(form);
 
-    /*// Add two nodes to the scene
-    NodeItem *node = new NodeItem(NULL, this);
-    node->setName("1");
-    m_gridLayout->addItem(node, 0, 0);
-    NodeItem *n2 = new NodeItem(NULL, this);
-    n2->setName("2");
-    m_gridLayout->addItem(n2, 0, 1);
+    addColumn();
+    addColumn();
 
-    // Set default input/output nodes
-    setInputNode(node);
-    setOuputNode(n2);*/
+    // Set default input/output nodes and wire them
+    NodeItem *n1 = static_cast<NodeItem *>(m_gridLayout->itemAt(0, 0));
+    NodeItem *n2 = static_cast<NodeItem *>(m_gridLayout->itemAt(0, 1));
+    new DirectedEdgeItem(n1, n2, NULL, this);
+    setInputNode(n1);
+    setOuputNode(n2);
     emit graphChanged();
 }
 
