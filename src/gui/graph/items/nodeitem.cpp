@@ -52,6 +52,7 @@ void NodeItem::setNodeType(NodeType type)
             setBrush(Qt::white);
             break;
     }
+    update();
 }
 
 void NodeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
