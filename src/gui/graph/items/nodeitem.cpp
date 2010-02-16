@@ -44,9 +44,9 @@ void NodeItem::setRadius(qreal radius)
     update();
 }
 
-void NodeItem::setNodeType(NodeType type)
+void NodeItem::setNodeType(NodeType nodeType)
 {
-    m_nodeType = type;
+    m_nodeType = nodeType;
     switch (m_nodeType) {
         case InputNode:
             setBrush(Qt::green);

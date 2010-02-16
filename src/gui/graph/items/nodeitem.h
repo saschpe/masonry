@@ -40,7 +40,7 @@ public:
     void setGeometry(const QRectF &rect);
     void setRadius(qreal radius);
     qreal radius() const { return m_radius; }
-    void setNodeType(NodeType type);
+    void setNodeType(NodeType nodeType);
     NodeType nodeType() const { return m_nodeType; }
 
 protected:
