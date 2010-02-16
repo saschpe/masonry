@@ -44,7 +44,7 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
 
 void EditDockWidget::updateEdit()
 {
-    QList<QGraphicsItem *> selection = m_scene->selectedItems();
+    const QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
         if (m_selectedEdgeItem = dynamic_cast<DirectedEdgeItem *>(selection.first())) {
             edgeNameLineEdit->setText(m_selectedEdgeItem->name());
@@ -71,7 +71,18 @@ void EditDockWidget::setSelectedNodeName(const QString &name)
 
 void EditDockWidget::setSelectedNodeType(int type)
 {
-    m_selectedNodeItem->setNodeType(static_cast<NodeItem::NodeType>(type));
+    const NodeItem::NodeType nodeType =  static_cast<NodeItem::NodeType>(type);
+    switch (nodeType) {
+        case NodeItem::InputNode:
+            m_scene->setInputNode(m_selectedNodeItem);
+            break;
+        case NodeItem::OutputNode:
+            m_scene->setOuputNode(m_selectedNodeItem);
+            break;
+        case NodeItem::StandardNode:
+            m_selectedNodeItem->setNodeType(NodeItem::StandardNode);
+            break;
+    }
 }
 
 #include "editdockwidget.moc"
