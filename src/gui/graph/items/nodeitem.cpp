@@ -33,9 +33,8 @@ NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
 
 void NodeItem::setGeometry(const QRectF &rect)
 {
-    setRect(rect);
-    m_radius = rect.width() / 2;
-    update();
+    setPos(rect.center());
+    setRadius(rect.width() / 2);
 }
 
 void NodeItem::setRadius(qreal radius)
