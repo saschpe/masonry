@@ -26,7 +26,6 @@
 #include "graph/items/directededgeitem.h"
 #include "graph/items/nodeitem.h"
 #include "widgets/editdockwidget.h"
-#include "widgets/infodockwidget.h"
 #include "widgets/outputdockwidget.h"
 
 #include <QCloseEvent>
@@ -61,6 +60,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
+
+    removeColumnAction->setEnabled(m_scene->columnCount() > 0);
+    removeRowAction->setEnabled(m_scene->rowCount() > 0);
 
     statusBar()->showMessage(tr("Ready"));
     QTimer::singleShot(100, this, SLOT(checkForFirstStart()));
@@ -115,7 +117,7 @@ int MainWindow::checkForUnsavedChanges()
 void MainWindow::on_loadAction_triggered()
 {
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
-        QString fileName = QFileDialog::getOpenFileName(this,
+        const QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open Masonry Graph File"),
             QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
             tr("Masonry Graph Files (*.masonry)"));
@@ -142,7 +144,7 @@ void MainWindow::on_saveAction_triggered()
 
 void MainWindow::on_saveAsAction_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    const QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Masonry Graph File"),
         QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
             QDir::separator() + "untitled",
@@ -165,7 +167,7 @@ void MainWindow::on_computeAction_triggered()
         m_outputDockWidget->clear();
         m_outputDockWidget->append("Input:\n\n");
 
-        // Generate backend input file contents
+        /*// Generate backend input file contents
         int counter = 1;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
             // NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
@@ -205,8 +207,8 @@ void MainWindow::on_computeAction_triggered()
         // Start the backend process
         m_outputDockWidget->append("\nCommand Line:\n\n    " + backend.arg(mscript) + "\n");
         m_outputDockWidget->append("\nResults:\n\n");
-        m_process->start(backend.arg(mscript));
-        statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_lastSelectedNodeItem->name()));
+        m_process->start(backend.arg(mscript));*/
+        //statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_scene->name()));
     } else {
         statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
@@ -240,8 +242,9 @@ void MainWindow::on_aboutQtAction_triggered()
 
 void MainWindow::graphChanged()
 {
+    removeColumnAction->setEnabled(m_scene->columnCount() > 0);
+    removeRowAction->setEnabled(m_scene->rowCount() > 0);
     m_graphChangesUnsaved = true;
-    removeLayerAction->setEnabled(m_scene->layers().size() > 0);
 }
 
 void MainWindow::graphSelectionChanged()
@@ -249,14 +252,19 @@ void MainWindow::graphSelectionChanged()
     QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
         if (m_lastSelectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
-            computeAction->setEnabled(true);
+            deleteSelectedItemAction->setEnabled(true);
         } else {
-            computeAction->setEnabled(false);
+            deleteSelectedItemAction->setEnabled(false);
         }
     } else {
         m_lastSelectedNodeItem = NULL;
-        computeAction->setEnabled(false);
+        deleteSelectedItemAction->setEnabled(false);
     }
+}
+
+void MainWindow::deleteSelectedItem()
+{
+    delete m_lastSelectedNodeItem;
 }
 
 void MainWindow::processFinished()
@@ -303,8 +311,10 @@ void MainWindow::disableWidgets()
     saveAsAction->setEnabled(false);
 
     // Graph actions
-    addLayerAction->setEnabled(false);
-    removeLayerAction->setEnabled(false);
+    addColumnAction->setEnabled(false);
+    addRowAction->setEnabled(false);
+    removeColumnAction->setEnabled(false);
+    removeRowAction->setEnabled(false);
     computeAction->setEnabled(false);
 
     // Settings actions
@@ -321,8 +331,10 @@ void MainWindow::enableWidgets()
     saveAsAction->setEnabled(true);
 
     // Graph actions
-    addLayerAction->setEnabled(true);
-    removeLayerAction->setEnabled(true);
+    addColumnAction->setEnabled(true);
+    addRowAction->setEnabled(true);
+    removeColumnAction->setEnabled(true);
+    removeRowAction->setEnabled(true);
     graphSelectionChanged();    // Call slot to determine state of computeAction
 
     // Settings actions
@@ -362,7 +374,7 @@ void MainWindow::setupActions()
     themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" +
                         QDir::separator() + "icons";
     QIcon::setThemeSearchPaths(themeSearchPaths);
-    QIcon::setThemeName("oxygen");
+    QIcon::setThemeName("oxygen-minimal");
 
     // Set icons for the actions in the file menu
     newAction->setIcon(QIcon::fromTheme("document-new"));
@@ -386,10 +398,16 @@ void MainWindow::setupActions()
     connect(zoomOutAction, SIGNAL(triggered()), m_view, SLOT(zoomOut()));
 
     // Set icons for the actions in the graph menu
-    addLayerAction->setIcon(QIcon::fromTheme("list-add"));
-    connect(addLayerAction, SIGNAL(triggered()), m_scene, SLOT(addLayer()));
-    removeLayerAction->setIcon(QIcon::fromTheme("list-remove"));
-    connect(removeLayerAction, SIGNAL(triggered()), m_scene, SLOT(removeLayer()));
+    addColumnAction->setIcon(QIcon::fromTheme("edit-table-insert-column-right"));
+    connect(addColumnAction, SIGNAL(triggered()), m_scene, SLOT(addColumn()));
+    removeColumnAction->setIcon(QIcon::fromTheme("edit-table-delete-column"));
+    connect(removeColumnAction, SIGNAL(triggered()), m_scene, SLOT(removeColumn()));
+    addRowAction->setIcon(QIcon::fromTheme("edit-table-insert-row-below"));
+    connect(addRowAction, SIGNAL(triggered()), m_scene, SLOT(addRow()));
+    removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
+    connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
+    deleteSelectedItemAction->setIcon(QIcon::fromTheme("edit-delete"));
+    connect(deleteSelectedItemAction, SIGNAL(triggered()),this, SLOT(deleteSelectedItem()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
@@ -402,13 +420,9 @@ void MainWindow::setupActions()
 
 void MainWindow::setupDockWidgets()
 {
-    // Info dock widget
-    QDockWidget *infoDockWidget = new InfoDockWidget(m_scene, this);
-    addDockWidget(Qt::BottomDockWidgetArea, infoDockWidget);
-    dockersSettingsMenu->addAction(infoDockWidget->toggleViewAction());
-
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(m_scene, this);
+    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), this, SLOT(deleteSelectedItem()));
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
@@ -427,10 +441,10 @@ void MainWindow::setupToolbars()
 
     editToolBar->addAction(undoAction);
     editToolBar->addAction(redoAction);
-    editToolBar->addSeparator();
+    /*editToolBar->addSeparator();
     editToolBar->addAction(cutAction);
     editToolBar->addAction(copyAction);
-    editToolBar->addAction(pasteAction);
+    editToolBar->addAction(pasteAction);*/
     toolBarsSettingsMenu->addAction(editToolBar->toggleViewAction());
 
     viewToolBar->addAction(zoomToFitAction);
@@ -438,8 +452,12 @@ void MainWindow::setupToolbars()
     viewToolBar->addAction(zoomOutAction);
     toolBarsSettingsMenu->addAction(viewToolBar->toggleViewAction());
 
-    graphToolBar->addAction(addLayerAction);
-    graphToolBar->addAction(removeLayerAction);
+    graphToolBar->addAction(addColumnAction);
+    graphToolBar->addAction(removeColumnAction);
+    graphToolBar->addAction(addRowAction);
+    graphToolBar->addAction(removeRowAction);
+    graphToolBar->addAction(deleteSelectedItemAction);
+    graphToolBar->addSeparator();
     graphToolBar->addAction(computeAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }

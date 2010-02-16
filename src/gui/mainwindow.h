@@ -56,6 +56,7 @@ private slots:
     void on_aboutQtAction_triggered();
     void graphChanged();
     void graphSelectionChanged();
+    void deleteSelectedItem();
     void processFinished();
     void processError();
 

@@ -23,21 +23,33 @@
 
 #include "graphitem.h"
 
-class NodeItem : public GraphItem
+#include <QGraphicsLayoutItem>
+
+class NodeItem : public GraphItem, public QGraphicsLayoutItem
 {
 public:
     enum {Type = UserType + 101};
+    enum NodeType {
+        InputNode,
+        OutputNode,
+        StandardNode
+    };
 
     NodeItem(QGraphicsItem *parent = 0, QGraphicsScene *scene = 0);
 
+    void setGeometry(const QRectF &rect);
     void setRadius(qreal radius);
     qreal radius() const { return m_radius; }
+    void setNodeType(NodeType nodeType);
+    NodeType nodeType() const { return m_nodeType; }
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
+    QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraints = QSizeF()) const;
 
 private:
     qreal m_radius;
+    NodeType m_nodeType;
 };
 
 #endif // NODEITEM_H

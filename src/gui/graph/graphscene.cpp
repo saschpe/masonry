@@ -20,46 +20,64 @@
 
 #include "graphscene.h"
 #include "items/directededgeitem.h"
-#include "items/layeritem.h"
 #include "items/nodeitem.h"
-#include "items/receiveritem.h"
-#include "items/transmitteritem.h"
 
+#include <QDebug>
 #include <QFile>
 #include <QList>
 #include <QPainter>
+#include <QGraphicsGridLayout>
 #include <QGraphicsPixmapItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsView>
+#include <QGraphicsWidget>
 #include <QSettings>
 #include <QTextStream>
 
+static const int NODEITEM_PIXEL_DISTANCE = 50;
+
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
+    , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
 
-    init();
+    init(StandardInit);
 }
 
 bool GraphScene::loadFrom(const QString &fileName)
 {
     QFile file(fileName);
     if (file.exists() && file.open(QFile::ReadOnly)) {
-        QString tmp;                        // To read over strings used to structure the file
-        int layerCount = 0;                 // Stores the layer count
         QTextStream stream(&file);
+        QHash<QString, NodeItem *> nodes;       // Temporary QHash for faster NodeItem lookup
 
-        init();                             // Reset the current graph
-        stream >> tmp >> layerCount;
-        for (int i = 0; i < layerCount; i++) {
-            int pos;
-            stream >> tmp >> pos >> tmp;
-            addLayer();                     // Add layers to the graph
-            m_layers.last()->setName(tmp);  // Set the name of the layer
-        }
-        file.close();
+        init(EmptyInit);
+
+        // Iterate over all the lines in the file
+        QString line;
+        do {
+            line = stream.readLine();
+            const QStringList splittedLine = line.split(" ");
+            if (splittedLine[0] == "node") {
+                NodeItem *node = new NodeItem(NULL, this);
+                node->setName(splittedLine[1]);
+                node->setNodeType(static_cast<NodeItem::NodeType>(splittedLine[2].toInt()));
+
+                nodes.insert(node->name(), node);
+                m_gridLayout->addItem(node, splittedLine[3].toInt(), splittedLine[4].toInt());
+            } else if (splittedLine[0] == "edge") {
+                NodeItem *start = nodes[splittedLine[2]];
+                NodeItem *end = nodes[splittedLine[3]];
+
+                DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+                edge->setName(splittedLine[1]);
+                m_edges.append(edge);
+            }
+        } while (!line.isNull());
+
         emit graphChanged();
+        file.close();
         return true;
     }
     return false;
@@ -70,57 +88,107 @@ bool GraphScene::saveTo(const QString &fileName)
     QFile file(fileName);
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream stream(&file);
-        stream << "layer-count: " << m_layers.size() << endl;
-        foreach (LayerItem *layer, m_layers) {
-            stream << "layer-pos-name:" << layer->graphPos() << layer->name();
+
+        // Save the nodes
+        for (int row = 0; row < m_gridLayout->rowCount(); row++) {
+            for (int column = 0; column < m_gridLayout->columnCount(); column++) {
+                NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
+                if (node) {
+                    stream << "node " << node->name() << ' ' <<  node->nodeType() << ' '
+                           << row << ' ' << column << endl;
+                }
+            }
         }
+
+        // Save the edges
+        foreach (DirectedEdgeItem *edge, m_edges) {
+            stream << "edge " << edge->name() << ' ' << edge->start()->name() << ' '
+                   << edge->end()->name() << endl;
+        }
+
         file.close();
         return true;
     }
     return false;
 }
 
-QList<DirectedEdgeItem *> GraphScene::edges() const
+bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
 {
-    QList<DirectedEdgeItem *> edges;
-    edges.append(m_transmitterEdge);
-    edges.append(m_layerEdges);
-    foreach (LayerItem *layer, m_layers) {
-        edges.append(layer->edges());
+    if (start && end) {
+        DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+        edge->setName(start->name() + end->name());
+        return true;
     }
-    edges.append(m_receiverEdge);
-    return edges;
+    return false;
 }
 
-QList<NodeItem *> GraphScene::nodes() const
+void GraphScene::setInputNode(NodeItem *node)
 {
-    QList<NodeItem *> nodes;
-    foreach (LayerItem *layer, m_layers) {
-        nodes.append(*layer->nodes());
+    if (node) {
+        if (m_inputNode) {
+            m_inputNode->setNodeType(NodeItem::StandardNode);
+        }
+        node->setNodeType(NodeItem::InputNode);
+        m_inputNode = node;
+        emit inputNodeChanged();
     }
-    return nodes;
 }
 
-void GraphScene::init()
+void GraphScene::setOuputNode(NodeItem *node)
 {
-    // Erase all items from scene
+    if (node) {
+        if (m_outputNode) {
+            m_outputNode->setNodeType(NodeItem::StandardNode);
+        }
+        node->setNodeType(NodeItem::OutputNode);
+        m_outputNode = node;
+        emit outputNodeChanged();
+    }
+}
+
+int GraphScene::columnCount() const
+{
+    return m_gridLayout->rowCount();
+}
+
+int GraphScene::rowCount() const
+{
+    return m_gridLayout->columnCount();
+}
+
+void GraphScene::init(InitType initType)
+{
+    // Remove all items from the scene
     foreach (QGraphicsItem *item, items()) {
         delete item;
     }
-    m_layerEdges.clear();
-    m_layers.clear();
+    m_edges.clear();
+    m_inputNode = NULL;
+    m_outputNode = NULL;
 
-    // Create receiver and transmitter items and position them in the scene
-    m_transmitter = new TransmitterItem(NULL, this);
-    m_transmitter->setPos(-100, 0);
-    m_receiver = new ReceiverItem(NULL, this);
-    m_receiver->setPos(100, 0);
+    // Set up layout-related stuff
+    m_gridLayout = new QGraphicsGridLayout;
+    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
+    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
+    QGraphicsWidget *form = new QGraphicsWidget;
+    form->setLayout(m_gridLayout);
+    addItem(form);
 
-    // Connect receiver and transmitter
-    m_transmitterEdge = new DirectedEdgeItem(m_transmitter, m_receiver, NULL, this);
-    m_receiverEdge = new DirectedEdgeItem(m_receiver, m_transmitter, NULL, this);
+    if (initType == StandardInit) {
+        // Create default input/output nodes and wire them
+        NodeItem *n1 = new NodeItem(NULL, this);
+        n1->setName("1");
+        m_gridLayout->addItem(n1, 0, 0);
+        NodeItem *n2 = new NodeItem(NULL, this);
+        n2->setName("2");
+        m_gridLayout->addItem(n2, 0, 1);
+        DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
+        e12->setName("12");
+        m_edges.append(e12);
 
-    readSettings();
+        setInputNode(n1);
+        setOuputNode(n2);
+    }
     emit graphChanged();
 }
 
@@ -131,11 +199,10 @@ void GraphScene::readSettings()
     // Load graphics view stuff
     settings.beginGroup("view");
     settings.beginGroup("advanced");
-    bool movable = settings.value("graphItemsMovable").toBool();
+    const bool movable = settings.value("graphItemsMovable").toBool();
     foreach (QGraphicsItem *item, items()) {
-        // Everything except DirectedEdgeItems and LayerItems is movable.
-        if (dynamic_cast<DirectedEdgeItem *>(item) == NULL &&
-            dynamic_cast<LayerItem *>(item) == NULL) {
+        // Only nodes are movable
+        if (dynamic_cast<NodeItem *>(item)) {
             item->setFlag(QGraphicsItem::ItemIsMovable, movable);
         }
     }
@@ -143,81 +210,74 @@ void GraphScene::readSettings()
     settings.endGroup();
 }
 
-void GraphScene::addLayer()
+void GraphScene::addRow()
 {
-    LayerItem *last = new LayerItem(NULL, this);
-
-    // Connect layer with receiver
-    m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(2), m_receiver, NULL, this));
-    m_receiverEdge->setEnd(last->nodes()->at(3));
-
-    if (m_layers.size() == 0) {
-        // Connect layer with transmitter
-        m_layerEdges.append(new DirectedEdgeItem(last->nodes()->at(1), m_transmitter, NULL, this));
-        m_transmitterEdge->setEnd(last->nodes()->at(0));
-
-        last->setPos(0, 0);
+    const int lastRow = m_gridLayout->rowCount();
+    if (lastRow == 0) {
+        m_gridLayout->addItem(new NodeItem(NULL, this), 0, 0);
     } else {
-        LayerItem *previous = m_layers.last();
-
-        // Connect layer with previous layer
-        DirectedEdgeItem *e1 = m_layerEdges.last();
-        e1->setEnd(last->nodes()->at(0));
-        e1->setName("s" + m_layers.size());
-        DirectedEdgeItem *e2 = new DirectedEdgeItem(last->nodes()->at(1), previous->nodes()->at(3), NULL, this);
-        e2->setName("-s" + m_layers.size());
-        m_layerEdges.append(e2);
-
-        last->setPos(previous->pos() + QPointF(100, 0));
-        m_receiver->moveBy(100, 0);
+        for (int row = 0; row < m_gridLayout->columnCount(); row++) {
+            m_gridLayout->addItem(new NodeItem(NULL, this), lastRow, row);
+        }
     }
-    last->adjustNamingTo(m_layers.size());
-    last->setName("Layer " + QString::number(m_layers.size()));
-    m_layers.append(last);
-
-    setSceneRect(itemsBoundingRect());
+    updateNodeItemNames();
 
     readSettings();
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
 }
 
-void GraphScene::removeLayer()
+void GraphScene::removeRow()
 {
-    if (m_layers.size() == 0) {
-        return;
+    const int lastRow = m_gridLayout->rowCount() - 1;
+    for (int row = 0; row < m_gridLayout->columnCount(); row++) {
+        delete m_gridLayout->itemAt(lastRow, row);
     }
+    updateNodeItemNames();
 
-    // Remove last layer and it's edges from scene
-    delete m_layerEdges.takeLast();
-    delete m_layerEdges.takeLast();
-    delete m_layers.takeLast();
-
-    // Adjust receiver position to make it look good and all views
-    if (m_layers.size() == 0) {
-        // Connect transmitter and receiver when no layers are left
-        m_receiverEdge->setEnd(m_transmitter);
-        m_transmitterEdge->setEnd(m_receiver);
-    } else if (m_layers.size() == 1) {
-        // Connect layer to receiver
-        m_layerEdges.last()->setEnd(m_receiver);
-        m_receiverEdge->setEnd(m_layers.last()->nodes()->at(3));
-
-        // Connect layer to transmitter
-        m_layerEdges.first()->setEnd(m_transmitter);
-        m_transmitterEdge->setEnd(m_layers.last()->nodes()->at(1));
-
-        m_receiver->moveBy(-100, 0);
-    } else {
-        // Connect layer with receiver
-        m_layerEdges.last()->setEnd(m_receiver);
-        m_receiverEdge->setEnd(m_layers.last()->nodes()->at(3));
-
-        m_receiver->moveBy(-100, 0);
-    }
-
-    setSceneRect(itemsBoundingRect());
-
+    setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
+}
+
+void GraphScene::addColumn()
+{
+    const int lastColumn = m_gridLayout->columnCount();
+    if (lastColumn == 0) {
+        m_gridLayout->addItem(new NodeItem(NULL, this), 0, 0);
+    } else {
+        for (int column = 0; column < m_gridLayout->rowCount(); column++) {
+            m_gridLayout->addItem(new NodeItem(NULL, this), column, lastColumn);
+        }
+    }
+    updateNodeItemNames();
+
+    readSettings();
+    setSceneRect(m_gridLayout->geometry());
+    emit graphChanged();
+}
+
+void GraphScene::removeColumn()
+{
+    const int lastColumn = m_gridLayout->columnCount() - 1;
+    for (int column = 0; column < m_gridLayout->rowCount(); column++) {
+        delete m_gridLayout->itemAt(column, lastColumn);
+    }
+    updateNodeItemNames();
+
+    setSceneRect(m_gridLayout->geometry());
+    emit graphChanged();
+}
+
+void GraphScene::updateNodeItemNames()
+{
+    for (int row = 0; row < m_gridLayout->rowCount(); row++) {
+        for (int column = 0; column < m_gridLayout->columnCount(); column++) {
+            NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
+            if (node) {
+                node->setName(QString::number(row * m_gridLayout->columnCount() + column + 1));
+            }
+        }
+    }
 }
 
 #include "graphscene.moc"

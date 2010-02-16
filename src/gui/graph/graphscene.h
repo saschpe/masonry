@@ -24,42 +24,56 @@
 #include <QGraphicsScene>
 
 class DirectedEdgeItem;
-class LayerItem;
 class NodeItem;
-class ReceiverItem;
-class TransmitterItem;
+class QGraphicsGridLayout;
 
 class GraphScene : public QGraphicsScene
 {
     Q_OBJECT
 
 public:
+    enum InitType {
+        EmptyInit,
+        StandardInit
+    };
+
     GraphScene(QObject *parent = 0);
 
     bool loadFrom(const QString &fileName);
     bool saveTo(const QString &fileName);
 
-    QList<DirectedEdgeItem *> edges() const;
-    QList<LayerItem *> layers() const { return m_layers; }
-    QList<NodeItem *> nodes() const;
+    bool addEdge(NodeItem *start, NodeItem *end);
+
+    void setInputNode(NodeItem *node);
+    NodeItem *inputNode() const { return m_inputNode; }
+    void setOuputNode(NodeItem *node);
+    NodeItem *outputNode() const { return m_outputNode; }
+
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
+    int columnCount() const;
+    int rowCount() const;
 
 signals:
     void graphChanged();
+    void inputNodeChanged();
+    void outputNodeChanged();
 
 public slots:
-    void init();
+    void init(InitType initType = StandardInit);
     void readSettings();
 
-    void addLayer();
-    void removeLayer();
+    void addRow();
+    void removeRow();
+    void addColumn();
+    void removeColumn();
 
 private:
-    ReceiverItem *m_receiver;
-    DirectedEdgeItem *m_receiverEdge;
-    TransmitterItem *m_transmitter;
-    DirectedEdgeItem * m_transmitterEdge;
-    QList<LayerItem *> m_layers;
-    QList<DirectedEdgeItem *> m_layerEdges;
+    void updateNodeItemNames();
+
+    QGraphicsGridLayout *m_gridLayout;
+    QList<DirectedEdgeItem *> m_edges;
+    NodeItem *m_inputNode;
+    NodeItem *m_outputNode;
 };
 
 #endif // GRAPHSCENE_H

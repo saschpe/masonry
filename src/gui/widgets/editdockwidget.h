@@ -27,7 +27,6 @@
 
 class DirectedEdgeItem;
 class GraphScene;
-class LayerItem;
 class NodeItem;
 
 /**
@@ -40,17 +39,19 @@ class EditDockWidget : public QDockWidget, private Ui::EditDockWidget
 public:
     EditDockWidget(GraphScene *scene, QWidget *parent = 0);
 
+signals:
+    void deleteSelectedItem();
+
 private slots:
     void updateEdit();
-    void setCurrentEdgeName(const QString &);
-    void setCurrentLayerName(const QString &);
-    void setCurrentNodeName(const QString &);
+    void setSelectedEdgeName(const QString &);
+    void setSelectedNodeName(const QString &);
+    void setSelectedNodeType(int);
 
 private:
     GraphScene *m_scene;
-    DirectedEdgeItem *m_currentEdgeItem;
-    LayerItem* m_currentLayerItem;
-    NodeItem *m_currentNodeItem;
+    DirectedEdgeItem *m_selectedEdgeItem;
+    NodeItem *m_selectedNodeItem;
 };
 
 #endif // EDITDOCKWIDGET_H
