@@ -42,28 +42,42 @@ GraphScene::GraphScene(QObject *parent)
 {
     setBackgroundBrush(Qt::white);
 
-    init();
+    init(StandardInit);
 }
 
 bool GraphScene::loadFrom(const QString &fileName)
 {
     QFile file(fileName);
     if (file.exists() && file.open(QFile::ReadOnly)) {
-        QString tmp;                        // To read over strings used to structure the file
-        int layerCount = 0;                 // Stores the layer count
         QTextStream stream(&file);
+        QHash<QString, NodeItem *> nodes;       // Temporary QHash for faster NodeItem lookup
 
-        init();                             // Reset the current graph
-        //TODO: Load
-        /*stream >> tmp >> layerCount;
-        for (int i = 0; i < layerCount; i++) {
-            int pos;
-            stream >> tmp >> pos >> tmp;
-            addLayer();                     // Add layers to the graph
-            m_layers.last()->setName(tmp);  // Set the name of the layer
-        }*/
-        file.close();
+        init(EmptyInit);
+
+        // Iterate over all the lines in the file
+        QString line;
+        do {
+            line = stream.readLine();
+            QStringList splittedLine = line.split(" ");
+            if (splittedLine[0] == "node") {
+                NodeItem *node = new NodeItem(NULL, this);
+                node->setName(splittedLine[1]);
+                node->setNodeType(static_cast<NodeItem::NodeType>(splittedLine[2].toInt()));
+
+                nodes.insert(node->name(), node);
+                m_gridLayout->addItem(node, splittedLine[3].toInt(), splittedLine[4].toInt());
+            } else if (splittedLine[0] == "edge") {
+                NodeItem *start = nodes[splittedLine[2]];
+                NodeItem *end = nodes[splittedLine[3]];
+
+                DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+                edge->setName(splittedLine[1]);
+                m_edges.append(edge);
+            }
+        } while (!line.isNull());
+
         emit graphChanged();
+        file.close();
         return true;
     }
     return false;
@@ -74,12 +88,24 @@ bool GraphScene::saveTo(const QString &fileName)
     QFile file(fileName);
     if (file.open(QFile::WriteOnly | QFile::Truncate)) {
         QTextStream stream(&file);
-        //TODO: Save
-        /*
-        stream << "layer-count: " << m_layers.size() << endl;
-        foreach (LayerItem *layer, m_layers) {
-            stream << "layer-pos-name:" << layer->graphPos() << layer->name();
-        }*/
+
+        // Save the nodes
+        for (int row = 0; row < m_gridLayout->rowCount(); row++) {
+            for (int column = 0; column < m_gridLayout->columnCount(); column++) {
+                NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
+                if (node) {
+                    stream << "node " << node->name() << ' ' <<  node->nodeType() << ' '
+                           << row << ' ' << column << endl;
+                }
+            }
+        }
+
+        // Save the edges
+        foreach (DirectedEdgeItem *edge, m_edges) {
+            stream << "edge " << edge->name() << ' ' << edge->start()->name() << ' '
+                   << edge->end()->name() << endl;
+        }
+
         file.close();
         return true;
     }
@@ -120,7 +146,7 @@ void GraphScene::setOuputNode(NodeItem *node)
     }
 }
 
-void GraphScene::init()
+void GraphScene::init(InitType initType)
 {
     // Remove all items from the scene
     foreach (QGraphicsItem *item, items()) {
@@ -138,20 +164,21 @@ void GraphScene::init()
     form->setLayout(m_gridLayout);
     addItem(form);
 
-    // Create default input/output nodes and wire them
-    NodeItem *n1 = new NodeItem(NULL, this);
-    n1->setName("1");
-    m_gridLayout->addItem(n1, 0, 0);
-    NodeItem *n2 = new NodeItem(NULL, this);
-    n2->setName("2");
-    m_gridLayout->addItem(n2, 0, 1);
-    DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
-    e12->setName("12");
-    m_edges.append(e12);
+    if (initType == StandardInit) {
+        // Create default input/output nodes and wire them
+        NodeItem *n1 = new NodeItem(NULL, this);
+        n1->setName("1");
+        m_gridLayout->addItem(n1, 0, 0);
+        NodeItem *n2 = new NodeItem(NULL, this);
+        n2->setName("2");
+        m_gridLayout->addItem(n2, 0, 1);
+        DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
+        e12->setName("12");
+        m_edges.append(e12);
 
-    setInputNode(n1);
-    setOuputNode(n2);
-
+        setInputNode(n1);
+        setOuputNode(n2);
+    }
     emit graphChanged();
 }
 

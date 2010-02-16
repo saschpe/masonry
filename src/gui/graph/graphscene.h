@@ -32,6 +32,11 @@ class GraphScene : public QGraphicsScene
     Q_OBJECT
 
 public:
+    enum InitType {
+        EmptyInit,
+        StandardInit
+    };
+
     GraphScene(QObject *parent = 0);
 
     bool loadFrom(const QString &fileName);
@@ -52,7 +57,7 @@ signals:
     void outputNodeChanged();
 
 public slots:
-    void init();
+    void init(InitType initType = StandardInit);
     void readSettings();
 
     void addRow();
