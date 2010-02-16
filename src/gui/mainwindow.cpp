@@ -61,6 +61,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
+    removeColumnAction->setEnabled(m_scene->columns() > 0);
+    removeRowAction->setEnabled(m_scene->rows() > 0);
+
     statusBar()->showMessage(tr("Ready"));
     QTimer::singleShot(100, this, SLOT(checkForFirstStart()));
 }
