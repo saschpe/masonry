@@ -114,7 +114,7 @@ int MainWindow::checkForUnsavedChanges()
 void MainWindow::on_loadAction_triggered()
 {
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
-        QString fileName = QFileDialog::getOpenFileName(this,
+        const QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open Masonry Graph File"),
             QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
             tr("Masonry Graph Files (*.masonry)"));
@@ -141,7 +141,7 @@ void MainWindow::on_saveAction_triggered()
 
 void MainWindow::on_saveAsAction_triggered()
 {
-    QString fileName = QFileDialog::getSaveFileName(this,
+    const QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Masonry Graph File"),
         QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
             QDir::separator() + "untitled",
@@ -390,11 +390,11 @@ void MainWindow::setupActions()
     connect(zoomOutAction, SIGNAL(triggered()), m_view, SLOT(zoomOut()));
 
     // Set icons for the actions in the graph menu
-    addColumnAction->setIcon(QIcon::fromTheme("edit-table-insert-row-below"));
+    addColumnAction->setIcon(QIcon::fromTheme("edit-table-insert-column-right"));
     connect(addColumnAction, SIGNAL(triggered()), m_scene, SLOT(addColumn()));
     removeColumnAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
     connect(removeColumnAction, SIGNAL(triggered()), m_scene, SLOT(removeColumn()));
-    addRowAction->setIcon(QIcon::fromTheme("edit-table-insert-column-right"));
+    addRowAction->setIcon(QIcon::fromTheme("edit-table-insert-row-below"));
     connect(addRowAction, SIGNAL(triggered()), m_scene, SLOT(addRow()));
     removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-column"));
     connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
