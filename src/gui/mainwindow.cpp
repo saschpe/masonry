@@ -392,11 +392,11 @@ void MainWindow::setupActions()
     // Set icons for the actions in the graph menu
     addColumnAction->setIcon(QIcon::fromTheme("edit-table-insert-column-right"));
     connect(addColumnAction, SIGNAL(triggered()), m_scene, SLOT(addColumn()));
-    removeColumnAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
+    removeColumnAction->setIcon(QIcon::fromTheme("edit-table-delete-column"));
     connect(removeColumnAction, SIGNAL(triggered()), m_scene, SLOT(removeColumn()));
     addRowAction->setIcon(QIcon::fromTheme("edit-table-insert-row-below"));
     connect(addRowAction, SIGNAL(triggered()), m_scene, SLOT(addRow()));
-    removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-column"));
+    removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
     connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
