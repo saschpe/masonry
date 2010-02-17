@@ -81,12 +81,6 @@ void ConfigDialog::readSettings()
     settings.beginGroup("general");
     settings.endGroup();
 
-    settings.beginGroup("view");
-    settings.beginGroup("advanced");
-    graphItemsMovableCheckBox->setChecked(settings.value("graphItemsMovable", false).toBool());
-    settings.endGroup();
-    settings.endGroup();
-
     settings.beginGroup("backend");
     if (settings.value("current", "octave").toString() == "octave") {
         backendComboBox->setCurrentIndex(0);
@@ -110,12 +104,6 @@ void ConfigDialog::writeSettings()
 
     settings.beginGroup("general");
     settings.setValue("firstStart", false);
-    settings.endGroup();
-
-    settings.beginGroup("view");
-    settings.beginGroup("advanced");
-    settings.setValue("graphItemsMovable", graphItemsMovableCheckBox->isChecked());
-    settings.endGroup();
     settings.endGroup();
 
     settings.beginGroup("backend");

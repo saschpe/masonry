@@ -64,7 +64,6 @@ signals:
 
 public slots:
     void init(InitType initType = StandardInit);
-    void readSettings();
 
     void addRow();
     void removeRow();
