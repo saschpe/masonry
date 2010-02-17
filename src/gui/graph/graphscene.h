@@ -71,6 +71,7 @@ public slots:
     void addColumn();
     void removeColumn();
     void removeSelectedItem();
+    void removeItem(QGraphicsItem *item);
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
