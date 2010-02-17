@@ -286,6 +286,7 @@ bool GraphScene::removeSelectedNode()
 {
     QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
+        //TODO: Add a check if this is a NodeItem
         NodeItem *node = dynamic_cast<NodeItem *>(selection.first());
         //TODO: Set to NULL
         delete node;
@@ -297,6 +298,7 @@ bool GraphScene::removeSelectedNode()
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Update arrow if where currently dragging
     if (m_inDrag) {
         m_dragArrow->setLine(QLineF(m_dragArrow->line().p1(), event->scenePos()));
     }
@@ -304,6 +306,7 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Start a new edge drag if we pressed the left mouse button over a NodeItem
     if (event->button() == Qt::LeftButton) {
         QGraphicsItem *item = itemAt(event->scenePos());
         if ((m_dragStartNode = qgraphicsitem_cast<NodeItem *>(item))) {
@@ -318,6 +321,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
+    // Create a new edge when releasing mouse over an NodeItem while dragging
     if (m_inDrag) {
         QGraphicsItem *item = itemAt(event->scenePos());
         NodeItem* dragEndNode;
