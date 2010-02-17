@@ -292,8 +292,6 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsItem *item = itemAt(event->scenePos());
         if ((m_dragStartNode = qgraphicsitem_cast<NodeItem *>(item))) {
             m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos()), NULL, this);
-            m_dragArrow->setPen(QPen(Qt::lightGray));
-            addItem(m_dragArrow);
             m_inDrag = true;
         }
     }
