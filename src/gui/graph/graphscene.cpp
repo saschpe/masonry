@@ -181,8 +181,8 @@ DirectedEdgeItem *GraphScene::selectedEdge() const
 void GraphScene::init(InitType initType)
 {
     // Remove all items from the scene
-    foreach (const QGraphicsItem *item, items()) {
-        delete item;
+    foreach (QGraphicsItem *item, items()) {
+        removeItem(item);
     }
     m_edges.clear();
     setInputNode(NULL);
@@ -235,7 +235,7 @@ void GraphScene::removeRow()
 {
     const int lastRow = m_gridLayout->rowCount() - 1;
     for (int row = 0; row < m_gridLayout->columnCount(); row++) {
-        removeNode(qgraphicsitem_cast<NodeItem *>(m_gridLayout->itemAt(lastRow, row)));
+        removeItem(dynamic_cast<QGraphicsItem *>(m_gridLayout->itemAt(lastRow, row)));
     }
     updateNodeItemNames();
 
@@ -263,7 +263,7 @@ void GraphScene::removeColumn()
 {
     const int lastColumn = m_gridLayout->columnCount() - 1;
     for (int column = 0; column < m_gridLayout->rowCount(); column++) {
-        removeNode(qgraphicsitem_cast<NodeItem *>(m_gridLayout->itemAt(column, lastColumn)));
+        removeItem(dynamic_cast<QGraphicsItem *>(m_gridLayout->itemAt(column, lastColumn)));
     }
     updateNodeItemNames();
 
@@ -273,20 +273,23 @@ void GraphScene::removeColumn()
 
 void GraphScene::removeSelectedItem()
 {
-    foreach (const QGraphicsItem *item, selectedItems()) {
-        //TODO: Set to NULL
-        delete item;
+    foreach (QGraphicsItem *item, selectedItems()) {
+        removeItem(item);
     }
 }
 
-void GraphScene::removeNode(NodeItem *node)
+void GraphScene::removeItem(QGraphicsItem *item)
 {
-    if (node == m_inputNode) {
-        setInputNode(NULL);
-    } else if (node == m_outputNode) {
-        setOuputNode(NULL)
+    const NodeItem *node = qgraphicsitem_cast<NodeItem *>(item);
+    if (node) {
+        // Nodes should be handled with care
+        if (node == m_inputNode) {
+            setInputNode(NULL);
+        } else if (node == m_outputNode) {
+            setOuputNode(NULL);
+        }
     }
-    delete node;
+    delete item;
 }
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
