@@ -242,6 +242,7 @@ void GraphScene::removeRow()
     const int lastRow = m_gridLayout->rowCount() - 1;
     for (int row = 0; row < m_gridLayout->columnCount(); row++) {
         delete m_gridLayout->itemAt(lastRow, row);
+        //TODO: Set to NULL
     }
     updateNodeItemNames();
 
@@ -271,6 +272,7 @@ void GraphScene::removeColumn()
     const int lastColumn = m_gridLayout->columnCount() - 1;
     for (int column = 0; column < m_gridLayout->rowCount(); column++) {
         delete m_gridLayout->itemAt(column, lastColumn);
+        //TODO: Set to NULL
     }
     updateNodeItemNames();
 
@@ -282,8 +284,9 @@ bool GraphScene::removeSelectedNode()
 {
     QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
-        delete dynamic_cast<NodeItem *>(selection.first());
+        NodeItem *node = dynamic_cast<NodeItem *>(selection.first());
         //TODO: Set to NULL
+        delete node;
         return true;
     } else {
         return false;
