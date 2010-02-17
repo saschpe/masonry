@@ -39,7 +39,8 @@ static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_inDrag(false), m_dragArrow(NULL), m_inputNode(NULL), m_outputNode(NULL)
+    , m_inDrag(false), m_dragArrow(NULL), m_dragStartNode(NULL)
+    , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
 
@@ -304,10 +305,13 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
     if (event->button() == Qt::LeftButton) {
-        m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos()), NULL, this);
-        m_dragArrow->setPen(QPen(Qt::lightGray));
-        addItem(m_dragArrow);
-        m_inDrag = true;
+        QGraphicsItem *item = itemAt(event->scenePos());
+        if ((m_dragStartNode = qgraphicsitem_cast<NodeItem *>(item))) {
+            m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos()), NULL, this);
+            m_dragArrow->setPen(QPen(Qt::lightGray));
+            addItem(m_dragArrow);
+            m_inDrag = true;
+        }
     }
     QGraphicsScene::mousePressEvent(event);
 }
@@ -315,13 +319,14 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 {
     if (m_inDrag) {
-        /*NodeItem *start;
-        NodeItem *end;
-
-        DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
-        edge->setName(start->name() + end->name());
-        m_edges.append(edge);*/
-
+        QGraphicsItem *item = itemAt(event->scenePos());
+        NodeItem* dragEndNode;
+        if ((dragEndNode = qgraphicsitem_cast<NodeItem *>(item))) {
+            DirectedEdgeItem *edge = new DirectedEdgeItem(m_dragStartNode, dragEndNode, NULL, this);
+            edge->setName(m_dragStartNode->name() + dragEndNode->name());
+            m_edges.append(edge);
+            m_dragStartNode = NULL;
+        }
         removeItem(m_dragArrow);
         delete m_dragArrow;
         m_dragArrow = NULL;

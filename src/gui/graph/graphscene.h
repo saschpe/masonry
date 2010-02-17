@@ -85,6 +85,7 @@ private:
 
     bool m_inDrag;
     ArrowItem *m_dragArrow;
+    NodeItem *m_dragStartNode;
     NodeItem *m_inputNode;
     NodeItem *m_outputNode;
 };
