@@ -346,11 +346,12 @@ void GraphScene::removeItem(QGraphicsItem *item)
 
 void GraphScene::updateNodeItemNames()
 {
+    int index = 1;
     for (int row = 0; row < m_gridLayout->rowCount(); row++) {
         for (int column = 0; column < m_gridLayout->columnCount(); column++) {
             NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
             if (node) {
-                node->setName(QString::number(row * m_gridLayout->columnCount() + column + 1));
+                node->setName(QString::number(index++));
             }
         }
     }
