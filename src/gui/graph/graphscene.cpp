@@ -103,7 +103,7 @@ bool GraphScene::saveTo(const QString &fileName)
         }
 
         // Save the edges
-        foreach (DirectedEdgeItem *edge, m_edges) {
+        foreach (const DirectedEdgeItem *edge, m_edges) {
             stream << "edge " << edge->name() << ' ' << edge->start()->name() << ' '
                    << edge->end()->name() << endl;
         }
@@ -160,9 +160,19 @@ int GraphScene::rowCount() const
 
 NodeItem *GraphScene::selectedNode() const
 {
-    QList<QGraphicsItem *> selection = selectedItems();
+    const QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
         return qgraphicsitem_cast<NodeItem *>(selection.first());
+    } else {
+        return NULL;
+    }
+}
+
+DirectedEdgeItem *GraphScene::selectedEdge() const
+{
+    const QList<QGraphicsItem *> selection = selectedItems();
+    if (selection.size() == 1) {
+        return qgraphicsitem_cast<DirectedEdgeItem *>(selection.first());
     } else {
         return NULL;
     }
@@ -171,7 +181,7 @@ NodeItem *GraphScene::selectedNode() const
 void GraphScene::init(InitType initType)
 {
     // Remove all items from the scene
-    foreach (QGraphicsItem *item, items()) {
+    foreach (const QGraphicsItem *item, items()) {
         delete item;
     }
     m_edges.clear();
@@ -262,18 +272,11 @@ void GraphScene::removeColumn()
     emit graphChanged();
 }
 
-bool GraphScene::removeSelectedNode()
+void GraphScene::removeSelectedItem()
 {
-    QList<QGraphicsItem *> selection = selectedItems();
-    if (selection.size() == 1) {
-        //TODO: Add a check if this is a NodeItem
-        NodeItem *node = qgraphicsitem_cast<NodeItem *>(selection.first());
+    foreach (const QGraphicsItem *item, selectedItems()) {
         //TODO: Set to NULL
-        delete node;
-        setSceneRect(QRectF());
-        return true;
-    } else {
-        return false;
+        delete item;
     }
 }
 

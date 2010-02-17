@@ -56,6 +56,7 @@ public:
     int rowCount() const;
 
     NodeItem *selectedNode() const;
+    DirectedEdgeItem *selectedEdge() const;
 
 signals:
     void graphChanged();
@@ -69,7 +70,7 @@ public slots:
     void removeRow();
     void addColumn();
     void removeColumn();
-    bool removeSelectedNode();
+    void removeSelectedItem();
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);

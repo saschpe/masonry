@@ -172,7 +172,7 @@ void MainWindow::on_computeAction_triggered()
 
         // Generate backend input file contents
         int counter = 1;
-        foreach (DirectedEdgeItem *edge, m_scene->edges()) {
+        foreach (const DirectedEdgeItem *edge, m_scene->edges()) {
             /*// NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
             if (edge->name().isEmpty()) {
                 continue;
@@ -252,7 +252,7 @@ void MainWindow::graphChanged()
 
 void MainWindow::graphSelectionChanged()
 {
-    if (m_scene->selectedNode()) {
+    if (m_scene->selectedNode() || m_scene->selectedEdge()) {
         deleteSelectedItemAction->setEnabled(true);
     } else {
         deleteSelectedItemAction->setEnabled(false);
@@ -409,7 +409,7 @@ void MainWindow::setupActions()
     removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
     connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
     deleteSelectedItemAction->setIcon(QIcon::fromTheme("edit-delete"));
-    connect(deleteSelectedItemAction, SIGNAL(triggered()),m_scene, SLOT(removeSelectedNode()));
+    connect(deleteSelectedItemAction, SIGNAL(triggered()),m_scene, SLOT(removeSelectedItem()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
@@ -424,7 +424,7 @@ void MainWindow::setupDockWidgets()
 {
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(m_scene, this);
-    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), m_scene, SLOT(removeSelectedNode()));
+    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), m_scene, SLOT(removeSelectedItem()));
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 
