@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
     connect(m_scene, SIGNAL(inputNodeChanged()), this, SLOT(graphInputOutputNodesChanged()));
     connect(m_scene, SIGNAL(outputNodeChanged()), this, SLOT(graphInputOutputNodesChanged()));
+    connect(m_scene, SIGNAL(sceneRectChanged(const QRectF)), this, SLOT(uncheckZoomToFitAction()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
     removeColumnAction->setEnabled(m_scene->columnCount() > 0);
