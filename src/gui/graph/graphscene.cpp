@@ -282,6 +282,7 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
     // Update arrow if where currently dragging
     if (m_inDrag) {
         m_dragArrow->setLine(QLineF(m_dragArrow->line().p1(), event->scenePos()));
+        clearSelection();   // We're draggin, unselect start node
     }
 }
 
@@ -292,6 +293,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsItem *item = itemAt(event->scenePos());
         if ((m_dragStartNode = qgraphicsitem_cast<NodeItem *>(item))) {
             m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos()), NULL, this);
+            m_dragArrow->setFlag(QGraphicsItem::ItemIsSelectable, false);
             m_inDrag = true;
         }
     }
