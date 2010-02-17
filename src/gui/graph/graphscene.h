@@ -71,7 +71,6 @@ public slots:
     void addColumn();
     void removeColumn();
     void removeSelectedItem();
-    void removeItem(QGraphicsItem *item);
 
 protected:
     void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
@@ -79,6 +78,7 @@ protected:
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
 
 private:
+    void removeItem(QGraphicsItem *item);
     void updateNodeItemNames();
 
     QGraphicsGridLayout *m_gridLayout;

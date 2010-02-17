@@ -276,20 +276,7 @@ void GraphScene::removeSelectedItem()
     foreach (QGraphicsItem *item, selectedItems()) {
         removeItem(item);
     }
-}
-
-void GraphScene::removeItem(QGraphicsItem *item)
-{
-    const NodeItem *node = qgraphicsitem_cast<NodeItem *>(item);
-    if (node) {
-        // Nodes should be handled with care
-        if (node == m_inputNode) {
-            setInputNode(NULL);
-        } else if (node == m_outputNode) {
-            setOuputNode(NULL);
-        }
-    }
-    delete item;
+    updateNodeItemNames();
 }
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -332,6 +319,29 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         m_inDrag = false;
     }
     QGraphicsScene::mouseReleaseEvent(event);
+}
+
+void GraphScene::removeItem(QGraphicsItem *item)
+{
+    const NodeItem *node = qgraphicsitem_cast<NodeItem *>(item);
+    if (node) {
+        // Nodes should be handled with care
+        if (node == m_inputNode) {
+            setInputNode(NULL);
+        } else if (node == m_outputNode) {
+            setOuputNode(NULL);
+        }
+
+        // Check if that node is the start or end of an edge and remove those edges
+        // NOTE: This might not be the fastest way but currently does the trick
+        foreach (DirectedEdgeItem *edge, m_edges) {
+            if (node == edge->start() || node == edge->end()) {
+                m_edges.removeOne(edge);
+                delete edge;
+            }
+        }
+    }
+    delete item;
 }
 
 void GraphScene::updateNodeItemNames()
