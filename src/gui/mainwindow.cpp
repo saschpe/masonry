@@ -278,8 +278,8 @@ void MainWindow::processFinished()
 void MainWindow::processError()
 {
     enableWidgets();
-    //TODO: Handle error
-    statusBar()->showMessage(tr("Backend error occurred!"), 3000);
+    m_outputDockWidget->append("    Backend error occurred!\n");
+    statusBar()->showMessage(tr("Backend error occurred!"), 5000);
 }
 
 void MainWindow::zoomToFit()
