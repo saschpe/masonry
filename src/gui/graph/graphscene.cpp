@@ -202,24 +202,6 @@ void GraphScene::init(InitType initType)
     emit graphChanged();
 }
 
-void GraphScene::readSettings()
-{
-    QSettings settings;
-
-    // Load graphics view stuff
-    settings.beginGroup("view");
-    settings.beginGroup("advanced");
-    const bool movable = settings.value("graphItemsMovable").toBool();
-    foreach (QGraphicsItem *item, items()) {
-        // Only nodes are movable
-        if (dynamic_cast<NodeItem *>(item)) {
-            item->setFlag(QGraphicsItem::ItemIsMovable, movable);
-        }
-    }
-    settings.endGroup();
-    settings.endGroup();
-}
-
 void GraphScene::addRow()
 {
     const int lastRow = m_gridLayout->rowCount();
@@ -232,7 +214,6 @@ void GraphScene::addRow()
     }
     updateNodeItemNames();
 
-    readSettings();
     setSceneRect(QRectF());
     emit graphChanged();
 }
@@ -262,7 +243,6 @@ void GraphScene::addColumn()
     }
     updateNodeItemNames();
 
-    readSettings();
     setSceneRect(QRectF());
     emit graphChanged();
 }

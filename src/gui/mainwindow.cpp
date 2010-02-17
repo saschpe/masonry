@@ -222,7 +222,6 @@ void MainWindow::on_configureAction_triggered()
     ConfigDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
         readSettings();
-        m_scene->readSettings();
     }
     statusBar()->showMessage(tr("Settings saved"), 2000);
 }

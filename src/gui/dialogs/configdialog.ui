@@ -75,6 +75,9 @@
    </item>
    <item row="0" column="1">
     <widget class="QStackedWidget" name="groupStackedWidget">
+     <property name="currentIndex">
+      <number>1</number>
+     </property>
      <widget class="QWidget" name="generalPage">
       <layout class="QGridLayout" name="gridLayout_2">
        <item row="0" column="0">
@@ -191,9 +194,9 @@
          </property>
          <layout class="QGridLayout" name="gridLayout_11">
           <item row="0" column="0">
-           <widget class="QCheckBox" name="graphItemsMovableCheckBox">
+           <widget class="QLabel" name="label_3">
             <property name="text">
-             <string>Make Graph Items Movable</string>
+             <string>TODO</string>
             </property>
            </widget>
           </item>
@@ -379,7 +382,7 @@
          <property name="sizeHint" stdset="0">
           <size>
            <width>20</width>
-           <height>10</height>
+           <height>20</height>
           </size>
          </property>
         </spacer>
