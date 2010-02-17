@@ -229,7 +229,7 @@ void GraphScene::removeRow()
     }
     updateNodeItemNames();
 
-    setSceneRect(m_gridLayout->geometry());
+    setSceneRect(QRectF());
     emit graphChanged();
 }
 
@@ -258,7 +258,7 @@ void GraphScene::removeColumn()
     }
     updateNodeItemNames();
 
-    setSceneRect(m_gridLayout->geometry());
+    setSceneRect(QRectF());
     emit graphChanged();
 }
 
@@ -270,6 +270,7 @@ bool GraphScene::removeSelectedNode()
         NodeItem *node = qgraphicsitem_cast<NodeItem *>(selection.first());
         //TODO: Set to NULL
         delete node;
+        setSceneRect(QRectF());
         return true;
     } else {
         return false;
