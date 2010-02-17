@@ -19,6 +19,7 @@
 */
 
 #include "graphscene.h"
+#include "items/arrowitem.h"
 #include "items/directededgeitem.h"
 #include "items/nodeitem.h"
 
@@ -38,7 +39,7 @@ static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
-    , m_inputNode(NULL), m_outputNode(NULL)
+    , m_inDrag(false), m_dragArrow(NULL), m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
 
@@ -291,6 +292,42 @@ bool GraphScene::removeSelectedNode()
     } else {
         return false;
     }
+}
+
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_inDrag) {
+        m_dragArrow->setLine(QLineF(m_dragArrow->line().p1(), event->scenePos()));
+    }
+}
+
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (event->button() == Qt::LeftButton) {
+        m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos()), NULL, this);
+        m_dragArrow->setPen(QPen(Qt::lightGray));
+        addItem(m_dragArrow);
+        m_inDrag = true;
+    }
+    QGraphicsScene::mousePressEvent(event);
+}
+
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    if (m_inDrag) {
+        /*NodeItem *start;
+        NodeItem *end;
+
+        DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+        edge->setName(start->name() + end->name());
+        m_edges.append(edge);*/
+
+        removeItem(m_dragArrow);
+        delete m_dragArrow;
+        m_dragArrow = NULL;
+        m_inDrag = false;
+    }
+    QGraphicsScene::mouseReleaseEvent(event);
 }
 
 void GraphScene::updateNodeItemNames()

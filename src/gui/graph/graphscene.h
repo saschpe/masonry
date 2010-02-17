@@ -23,9 +23,11 @@
 
 #include <QGraphicsScene>
 
+class ArrowItem;
 class DirectedEdgeItem;
 class NodeItem;
 class QGraphicsGridLayout;
+class QGraphicsSceneMouseEvent;
 
 class GraphScene : public QGraphicsScene
 {
@@ -70,11 +72,19 @@ public slots:
     void removeColumn();
     bool removeSelectedNode();
 
+protected:
+    void mouseMoveEvent(QGraphicsSceneMouseEvent *event);
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
+    void mouseReleaseEvent(QGraphicsSceneMouseEvent *event);
+
 private:
     void updateNodeItemNames();
 
     QGraphicsGridLayout *m_gridLayout;
     QList<DirectedEdgeItem *> m_edges;
+
+    bool m_inDrag;
+    ArrowItem *m_dragArrow;
     NodeItem *m_inputNode;
     NodeItem *m_outputNode;
 };
