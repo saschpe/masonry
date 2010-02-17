@@ -27,7 +27,6 @@
 
 class GraphScene;
 class GraphView;
-class NodeItem;
 class OutputDockWidget;
 
 class QDockWidget;
@@ -54,15 +53,18 @@ private slots:
     void on_helpAction_triggered();
     void on_aboutAction_triggered();
     void on_aboutQtAction_triggered();
+
     void graphChanged();
     void graphSelectionChanged();
-    void deleteSelectedItem();
+    void graphInputOutputNodesChanged();
+
     void processFinished();
     void processError();
 
     void zoomToFit();
     void uncheckZoomToFitAction();
     void checkForFirstStart();
+
     void disableWidgets();
     void enableWidgets();
 
@@ -86,7 +88,6 @@ private:
 
     bool m_graphChangesUnsaved;
     QString m_lastFileName;
-    NodeItem *m_lastSelectedNodeItem;
 };
 
 #endif // MAINWINDOW_H

@@ -156,6 +156,16 @@ int GraphScene::rowCount() const
     return m_gridLayout->columnCount();
 }
 
+NodeItem *GraphScene::selectedNode() const
+{
+    QList<QGraphicsItem *> selection = selectedItems();
+    if (selection.size() == 1) {
+        return dynamic_cast<NodeItem *>(selection.first());
+    } else {
+        return NULL;
+    }
+}
+
 void GraphScene::init(InitType initType)
 {
     // Remove all items from the scene
@@ -266,6 +276,18 @@ void GraphScene::removeColumn()
 
     setSceneRect(m_gridLayout->geometry());
     emit graphChanged();
+}
+
+bool GraphScene::removeSelectedNode()
+{
+    QList<QGraphicsItem *> selection = selectedItems();
+    if (selection.size() == 1) {
+        delete dynamic_cast<NodeItem *>(selection.first());
+        //TODO: Set to NULL
+        return true;
+    } else {
+        return false;
+    }
 }
 
 void GraphScene::updateNodeItemNames()

@@ -44,7 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , m_scene(new GraphScene), m_view(new GraphView(m_scene))
     , m_process(new QProcess(this)), m_backendInputFile(NULL)
-    , m_graphChangesUnsaved(false), m_lastSelectedNodeItem(NULL)
+    , m_graphChangesUnsaved(false)
 {
     setupUi(this);
     setCentralWidget(m_view);
@@ -59,6 +59,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect(m_process, SIGNAL(error(QProcess::ProcessError)), this, SLOT(processError()));
     connect(m_scene, SIGNAL(graphChanged()), this, SLOT(graphChanged()));
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(graphSelectionChanged()));
+    connect(m_scene, SIGNAL(inputNodeChanged()), this, SLOT(graphInputOutputNodesChanged()));
+    connect(m_scene, SIGNAL(outputNodeChanged()), this, SLOT(graphInputOutputNodesChanged()));
     connect(m_view, SIGNAL(zoomChanged()), this, SLOT(uncheckZoomToFitAction()));
 
     removeColumnAction->setEnabled(m_scene->columnCount() > 0);
@@ -167,28 +169,28 @@ void MainWindow::on_computeAction_triggered()
         m_outputDockWidget->clear();
         m_outputDockWidget->append("Input:\n\n");
 
-        /*// Generate backend input file contents
+        // Generate backend input file contents
         int counter = 1;
         foreach (DirectedEdgeItem *edge, m_scene->edges()) {
-            // NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
+            /*// NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
             if (edge->name().isEmpty()) {
                 continue;
-            }
-            QString from = edge->start()->name();
-            QString to = edge->end()->name();
+            }*/
+            const QString from = edge->start()->name();
+            const QString to = edge->end()->name();
 
-            QString line = QString::number(counter++) + ' ' + from + ' ' + to + ' ' + edge->name() + '\n';
-            m_outputDockWidget->append("    " + line);
-            stream << line;
+            const QString line = QString::number(counter++) + ' ' + from + ' ' + to + ' ' + edge->name();
+            m_outputDockWidget->append("    " + line + '\n');
+            stream << line << endl;
         }
-        int startNodeNumber = m_lastSelectedNodeItem->name().toInt();
-        int stopNodeNumber = m_scene->nodes().size() - 1; // It's the second last node in the list
         m_backendInputFile->close();
+        const QString inputNodeName = m_scene->inputNode()->name();
+        const QString outputNodeName = m_scene->outputNode()->name();
 
         // Create call to 'mason' script with supplied arguments
         QString mscript = QString("mason('%1',%2,%3)")
             .arg(m_backendInputFile->fileName())
-            .arg(startNodeNumber).arg(stopNodeNumber);
+            .arg(inputNodeName.toInt()).arg(outputNodeName.toInt());
 
         QString backend;
         QSettings settings;
@@ -207,8 +209,9 @@ void MainWindow::on_computeAction_triggered()
         // Start the backend process
         m_outputDockWidget->append("\nCommand Line:\n\n    " + backend.arg(mscript) + "\n");
         m_outputDockWidget->append("\nResults:\n\n");
-        m_process->start(backend.arg(mscript));*/
-        //statusBar()->showMessage(tr("Compute response for node '%1'...").arg(m_scene->name()));
+        m_process->start(backend.arg(mscript));
+
+        statusBar()->showMessage(tr("Compute response from input node '%1' to output node '%2'...").arg(inputNodeName).arg(outputNodeName));
     } else {
         statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
@@ -249,22 +252,20 @@ void MainWindow::graphChanged()
 
 void MainWindow::graphSelectionChanged()
 {
-    QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    if (selection.size() == 1) {
-        if (m_lastSelectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
-            deleteSelectedItemAction->setEnabled(true);
-        } else {
-            deleteSelectedItemAction->setEnabled(false);
-        }
+    if (m_scene->selectedNode()) {
+        deleteSelectedItemAction->setEnabled(true);
     } else {
-        m_lastSelectedNodeItem = NULL;
         deleteSelectedItemAction->setEnabled(false);
     }
 }
 
-void MainWindow::deleteSelectedItem()
+void MainWindow::graphInputOutputNodesChanged()
 {
-    delete m_lastSelectedNodeItem;
+    if (m_scene->inputNode() && m_scene->outputNode()) {
+        computeAction->setEnabled(true);
+    } else {
+        computeAction->setEnabled(false);
+    }
 }
 
 void MainWindow::processFinished()
@@ -335,7 +336,8 @@ void MainWindow::enableWidgets()
     addRowAction->setEnabled(true);
     removeColumnAction->setEnabled(true);
     removeRowAction->setEnabled(true);
-    graphSelectionChanged();    // Call slot to determine state of computeAction
+    computeAction->setEnabled(true);
+    graphSelectionChanged();    // Call slot to determine state of other QActions
 
     // Settings actions
     configureAction->setEnabled(true);
@@ -407,7 +409,7 @@ void MainWindow::setupActions()
     removeRowAction->setIcon(QIcon::fromTheme("edit-table-delete-row"));
     connect(removeRowAction, SIGNAL(triggered()), m_scene, SLOT(removeRow()));
     deleteSelectedItemAction->setIcon(QIcon::fromTheme("edit-delete"));
-    connect(deleteSelectedItemAction, SIGNAL(triggered()),this, SLOT(deleteSelectedItem()));
+    connect(deleteSelectedItemAction, SIGNAL(triggered()),m_scene, SLOT(removeSelectedNode()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
 
     // Set icons for the actions in the settings menu
@@ -422,7 +424,7 @@ void MainWindow::setupDockWidgets()
 {
     // Edit dock widget
     m_editDockWidget = new EditDockWidget(m_scene, this);
-    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), this, SLOT(deleteSelectedItem()));
+    connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), m_scene, SLOT(removeSelectedNode()));
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
     //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
 

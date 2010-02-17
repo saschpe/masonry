@@ -53,6 +53,8 @@ public:
     int columnCount() const;
     int rowCount() const;
 
+    NodeItem *selectedNode() const;
+
 signals:
     void graphChanged();
     void inputNodeChanged();
@@ -66,6 +68,7 @@ public slots:
     void removeRow();
     void addColumn();
     void removeColumn();
+    bool removeSelectedNode();
 
 private:
     void updateNodeItemNames();
