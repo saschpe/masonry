@@ -19,6 +19,7 @@
 */
 
 #include "graphscene.h"
+#include "items/arrowitem.h"
 #include "items/directededgeitem.h"
 #include "items/nodeitem.h"
 
@@ -38,6 +39,7 @@ static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
+    , m_inDrag(false), m_dragArrow(NULL), m_dragStartNode(NULL)
     , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
@@ -264,6 +266,7 @@ bool GraphScene::removeSelectedNode()
 {
     QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
+        //TODO: Add a check if this is a NodeItem
         NodeItem *node = qgraphicsitem_cast<NodeItem *>(selection.first());
         //TODO: Set to NULL
         delete node;
@@ -272,6 +275,48 @@ bool GraphScene::removeSelectedNode()
     } else {
         return false;
     }
+}
+
+void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
+{
+    // Update arrow if we're currently dragging
+    if (m_inDrag) {
+        m_dragArrow->setLine(QLineF(m_dragArrow->line().p1(), event->scenePos()));
+        clearSelection();   // We're draggin, unselect everything
+    }
+}
+
+void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    // Start a new edge drag if we pressed the left mouse button over a NodeItem
+    if (event->button() == Qt::LeftButton) {
+        QGraphicsItem *item = itemAt(event->scenePos());
+        if ((m_dragStartNode = qgraphicsitem_cast<NodeItem *>(item))) {
+            m_dragArrow = new ArrowItem(QLineF(event->scenePos(), event->scenePos() + QPointF(1, 0)), NULL, this);
+            m_dragArrow->setFlag(QGraphicsItem::ItemIsSelectable, false);
+            m_inDrag = true;
+        }
+    }
+    QGraphicsScene::mousePressEvent(event);
+}
+
+void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
+{
+    // Create a new edge when releasing mouse over an NodeItem while dragging
+    if (m_inDrag) {
+        QGraphicsItem *item = itemAt(event->scenePos());
+        NodeItem* dragEndNode;
+        if ((dragEndNode = qgraphicsitem_cast<NodeItem *>(item))) {
+            DirectedEdgeItem *edge = new DirectedEdgeItem(m_dragStartNode, dragEndNode, NULL, this);
+            edge->setName(m_dragStartNode->name() + dragEndNode->name());
+            m_edges.append(edge);
+            m_dragStartNode = NULL;
+        }
+        delete m_dragArrow;
+        m_dragArrow = NULL;
+        m_inDrag = false;
+    }
+    QGraphicsScene::mouseReleaseEvent(event);
 }
 
 void GraphScene::updateNodeItemNames()
