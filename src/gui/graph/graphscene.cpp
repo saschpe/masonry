@@ -211,6 +211,7 @@ void GraphScene::init(InitType initType)
         setInputNode(n1);
         setOuputNode(n2);
     }
+    setSceneRect(QRectF());
     emit graphChanged();
 }
 
