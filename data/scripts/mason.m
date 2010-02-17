@@ -209,13 +209,13 @@ function [Num,Den] = mason(NetFile,Start,Stop)
       Den=[Den,PrintSumsNotTouching(L,order,[9999999 999999])];  %Sums of all the loops of order order
     end
 
-    fprintf('\nThe variables returned are strings describing\n')
-    fprintf('the numerator and Denominator of the transfer equation.\n')
-    fprintf('If you have the symbolic toolbox, use Denominator=sym(Denominator)\n');
-    fprintf('and Numerator=sym(Numerator) to make these symbolic equations.\n')
-    fprintf('You can now use simple(Numerator/Denominator) to boil the whole\n')
-    fprintf('thing down. You could also use simple(Numerator) to simplify the\n')
-    fprintf('Numerator on it'' own.\n\n')
+    %fprintf('\nThe variables returned are strings describing\n')
+    %fprintf('the numerator and Denominator of the transfer equation.\n')
+    %fprintf('If you have the symbolic toolbox, use Denominator=sym(Denominator)\n');
+    %fprintf('and Numerator=sym(Numerator) to make these symbolic equations.\n')
+    %fprintf('You can now use simple(Numerator/Denominator) to boil the whole\n')
+    %fprintf('thing down. You could also use simple(Numerator) to simplify the\n')
+    %fprintf('Numerator on it'' own.\n\n')
     % ****** Convert to Symbolic and do substitutions *******
 
     for coeff_num=length(Coeff_Names):-1:1; %Cycle through Coefficient array, substituting each one
@@ -225,6 +225,11 @@ function [Num,Den] = mason(NetFile,Start,Stop)
     end % This loop had to count down so there was no risk of C12 being replace by C1
 
     % TODO: Simplify the equation
+    %try
+    %    Den=simple(sym(Den))
+    %    Num=simple(sym(Num))
+    %catch
+    %end
 end
 
 %*************************************************************************************************
