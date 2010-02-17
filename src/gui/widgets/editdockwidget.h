@@ -43,7 +43,7 @@ signals:
     void deleteSelectedItem();
 
 private slots:
-    void updateEdit();
+    void updateWidget();
     void setSelectedEdgeName(const QString &);
     void setSelectedNodeName(const QString &);
     void setSelectedNodeType(int);

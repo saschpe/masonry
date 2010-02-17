@@ -29,9 +29,7 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
 {
     setupUi(this);
 
-    stackedWidget->setCurrentWidget(graphPage);
-
-    connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(updateEdit()));
+    connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(updateWidget()));
 
     connect(edgeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedEdgeName(QString)));
     connect(nodeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedNodeName(QString)));
@@ -42,20 +40,23 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
     connect(deleteEdgeButton, SIGNAL(clicked()), this, SIGNAL(deleteSelectedItem()));
 }
 
-void EditDockWidget::updateEdit()
+void EditDockWidget::updateWidget()
 {
     const QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
         if (m_selectedEdgeItem = dynamic_cast<DirectedEdgeItem *>(selection.first())) {
             edgeNameLineEdit->setText(m_selectedEdgeItem->name());
             stackedWidget->setCurrentWidget(edgePage);
+            setWindowTitle(tr("Edit Edge"));
         } else if (m_selectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
             nodeNameLineEdit->setText(m_selectedNodeItem->name());
             nodeTypeComboBox->setCurrentIndex(m_selectedNodeItem->nodeType());
             stackedWidget->setCurrentWidget(nodePage);
+            setWindowTitle(tr("Edit Node"));
         }
     } else {
-        stackedWidget->setCurrentWidget(graphPage);
+        stackedWidget->setCurrentWidget(nonePage);
+        setWindowTitle(tr("Edit"));
     }
 }
 
