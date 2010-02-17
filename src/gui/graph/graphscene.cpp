@@ -131,9 +131,9 @@ void GraphScene::setInputNode(NodeItem *node)
             m_inputNode->setNodeType(NodeItem::StandardNode);
         }
         node->setNodeType(NodeItem::InputNode);
-        m_inputNode = node;
-        emit inputNodeChanged();
     }
+    m_inputNode = node;
+    emit inputNodeChanged();
 }
 
 void GraphScene::setOuputNode(NodeItem *node)
@@ -143,9 +143,9 @@ void GraphScene::setOuputNode(NodeItem *node)
             m_outputNode->setNodeType(NodeItem::StandardNode);
         }
         node->setNodeType(NodeItem::OutputNode);
-        m_outputNode = node;
-        emit outputNodeChanged();
     }
+    m_outputNode = node;
+    emit outputNodeChanged();
 }
 
 int GraphScene::columnCount() const
@@ -185,8 +185,8 @@ void GraphScene::init(InitType initType)
         delete item;
     }
     m_edges.clear();
-    m_inputNode = NULL;
-    m_outputNode = NULL;
+    setInputNode(NULL);
+    setOuputNode(NULL);
 
     // Set up layout-related stuff
     m_gridLayout = new QGraphicsGridLayout;
@@ -235,8 +235,7 @@ void GraphScene::removeRow()
 {
     const int lastRow = m_gridLayout->rowCount() - 1;
     for (int row = 0; row < m_gridLayout->columnCount(); row++) {
-        delete m_gridLayout->itemAt(lastRow, row);
-        //TODO: Set to NULL
+        removeNode(qgraphicsitem_cast<NodeItem *>(m_gridLayout->itemAt(lastRow, row)));
     }
     updateNodeItemNames();
 
@@ -264,8 +263,7 @@ void GraphScene::removeColumn()
 {
     const int lastColumn = m_gridLayout->columnCount() - 1;
     for (int column = 0; column < m_gridLayout->rowCount(); column++) {
-        delete m_gridLayout->itemAt(column, lastColumn);
-        //TODO: Set to NULL
+        removeNode(qgraphicsitem_cast<NodeItem *>(m_gridLayout->itemAt(column, lastColumn)));
     }
     updateNodeItemNames();
 
@@ -279,6 +277,16 @@ void GraphScene::removeSelectedItem()
         //TODO: Set to NULL
         delete item;
     }
+}
+
+void GraphScene::removeNode(NodeItem *node)
+{
+    if (node == m_inputNode) {
+        setInputNode(NULL);
+    } else if (node == m_outputNode) {
+        setOuputNode(NULL)
+    }
+    delete node;
 }
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
