@@ -37,6 +37,7 @@ public:
 
     virtual QPointF inputPos() const;
     virtual QPointF outputPos() const;
+    int type() const { return Type; }
 
 protected:
     void contextMenuEvent(QGraphicsSceneContextMenuEvent *);

@@ -36,6 +36,7 @@ public:
     GraphItem *start() const { return m_start; }
     void setEnd(GraphItem *end);
     GraphItem *end() const { return m_end; }
+    int type() const { return Type; }
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
