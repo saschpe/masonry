@@ -92,7 +92,8 @@ void ArrowItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     // Make sure that the 'name' text is correctly aligned besides the line
     QPointF middle = line().pointAt(0.5);
-    m_nameRect = QRectF(middle.x() - 10, middle.y() - 10, 20, 20);
+    int halfLength = (line().length() - 4) / 2;
+    m_nameRect = QRectF(middle.x() - halfLength, middle.y() - 10, 2 * halfLength, 20);
     qreal angle = line().angle();
     if (line().dy() >= 0) {
         m_nameRect.translate(0, 10);
