@@ -36,6 +36,7 @@ public:
 
     void setName(const QString &name);
     QString name() const { return m_name; }
+    int type() const { return Type; }
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);

@@ -44,11 +44,11 @@ void EditDockWidget::updateWidget()
 {
     const QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
-        if (m_selectedEdgeItem = dynamic_cast<DirectedEdgeItem *>(selection.first())) {
+        if (m_selectedEdgeItem = qgraphicsitem_cast<DirectedEdgeItem *>(selection.first())) {
             edgeNameLineEdit->setText(m_selectedEdgeItem->name());
             stackedWidget->setCurrentWidget(edgePage);
             setWindowTitle(tr("Edit Edge"));
-        } else if (m_selectedNodeItem = dynamic_cast<NodeItem *>(selection.first())) {
+        } else if (m_selectedNodeItem = qgraphicsitem_cast<NodeItem *>(selection.first())) {
             nodeNameLineEdit->setText(m_selectedNodeItem->name());
             nodeTypeComboBox->setCurrentIndex(m_selectedNodeItem->nodeType());
             stackedWidget->setCurrentWidget(nodePage);

@@ -53,12 +53,12 @@ void DirectedEdgeItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     QLineF l(m_start->inputPos(), m_end->outputPos());
 
     NodeItem *node;
-    if ((node = dynamic_cast<NodeItem *>(m_start)) != NULL) {
+    if ((node = qgraphicsitem_cast<NodeItem *>(m_start)) != NULL) {
         QPointF p1(node->pos().x() + node->radius() * sin(M_PI_2 + l.angle() / 180*M_PI),
                    node->pos().y() + node->radius() * cos(M_PI_2 + l.angle() / 180*M_PI));
         l.setP1(p1);
     }
-    if ((node = dynamic_cast<NodeItem *>(m_end)) != NULL) {
+    if ((node = qgraphicsitem_cast<NodeItem *>(m_end)) != NULL) {
         QPointF p2(node->pos().x() + node->radius() * sin(l.angle() / 180*M_PI - M_PI_2),
                    node->pos().y() + node->radius() * cos(l.angle() / 180*M_PI - M_PI_2));
         l.setP2(p2);

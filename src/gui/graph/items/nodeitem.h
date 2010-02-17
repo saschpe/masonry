@@ -42,6 +42,7 @@ public:
     qreal radius() const { return m_radius; }
     void setNodeType(NodeType nodeType);
     NodeType nodeType() const { return m_nodeType; }
+    int type() const { return Type; }
 
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);

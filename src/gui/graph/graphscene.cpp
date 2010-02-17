@@ -162,7 +162,7 @@ NodeItem *GraphScene::selectedNode() const
 {
     QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
-        return dynamic_cast<NodeItem *>(selection.first());
+        return qgraphicsitem_cast<NodeItem *>(selection.first());
     } else {
         return NULL;
     }
@@ -287,7 +287,7 @@ bool GraphScene::removeSelectedNode()
     QList<QGraphicsItem *> selection = selectedItems();
     if (selection.size() == 1) {
         //TODO: Add a check if this is a NodeItem
-        NodeItem *node = dynamic_cast<NodeItem *>(selection.first());
+        NodeItem *node = qgraphicsitem_cast<NodeItem *>(selection.first());
         //TODO: Set to NULL
         delete node;
         return true;
