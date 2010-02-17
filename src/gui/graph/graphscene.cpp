@@ -312,7 +312,6 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
             m_edges.append(edge);
             m_dragStartNode = NULL;
         }
-        removeItem(m_dragArrow);
         delete m_dragArrow;
         m_dragArrow = NULL;
         m_inDrag = false;
