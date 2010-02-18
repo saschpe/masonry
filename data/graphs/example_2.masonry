@@ -19,5 +19,3 @@ edge G3 4 9
 edge -G3 9 4
 edge T2 8 7
 edge T3 9 8
-input 1
-output 5
