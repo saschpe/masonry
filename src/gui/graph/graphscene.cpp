@@ -23,7 +23,6 @@
 #include "items/directededgeitem.h"
 #include "items/nodeitem.h"
 
-#include <QDebug>
 #include <QFile>
 #include <QList>
 #include <QPainter>
@@ -62,27 +61,38 @@ bool GraphScene::loadFrom(const QString &fileName)
             line = stream.readLine();
             const QStringList splittedLine = line.split(" ");
             if (splittedLine[0] == "node") {
+                // Found a node, add it to the scene
                 NodeItem *node = new NodeItem(NULL, this);
                 node->setName(splittedLine[1]);
                 node->setNodeType(static_cast<NodeItem::NodeType>(splittedLine[2].toInt()));
+                if (splittedLine.length() > 5) {
+                    int formulaStart = line.indexOf('"');
+                    QString formula = line;
+                    formula.remove(0, formulaStart);
+                    while (!formula.endsWith('"')) {
+                        formula += '\n' + stream.readLine();
+                    }
+                    formula.chop(1);
+                    formula.remove(0, 1);
+                    node->setFormula(formula);
+                }
 
                 nodes.insert(node->name(), node);
                 m_gridLayout->addItem(node, splittedLine[3].toInt(), splittedLine[4].toInt());
             } else if (splittedLine[0] == "edge") {
+                // Found an edge, add it to the scene
                 NodeItem *start = nodes[splittedLine[2]];
                 NodeItem *end = nodes[splittedLine[3]];
 
                 DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
                 edge->setName(splittedLine[1]);
+                if (splittedLine.length() > 4) {
+                    QString formula = splittedLine[4];
+                    formula.chop(1);
+                    formula.remove(0, 1);
+                    edge->setFormula(formula);
+                }
                 m_edges.append(edge);
-            } else if (splittedLine[0] == "input") {
-                NodeItem *inputNode = nodes[splittedLine[1]];
-                qDebug() << "GraphScene::loadFrom() input node found" << inputNode;
-                setInputNode(inputNode);
-            } else if (splittedLine[0] == "output") {
-                NodeItem *outputNode = nodes[splittedLine[1]];
-                qDebug() << "GraphScene::loadFrom() output node found" << outputNode;
-                setOuputNode(outputNode);
             }
         } while (!line.isNull());
 
@@ -104,21 +114,16 @@ bool GraphScene::saveTo(const QString &fileName)
             for (int column = 0; column < m_gridLayout->columnCount(); column++) {
                 NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
                 if (node) {
-                    stream << "node " << node->name() << ' ' <<  node->nodeType() << ' '
-                           << row << ' ' << column << endl;
+                    stream << "node " << node->name() << ' ' << node->nodeType() << ' '
+                           << row << ' ' << column << " \"" << node->formula() << '"' << endl;
                 }
             }
         }
-
         // Save the edges
         foreach (const DirectedEdgeItem *edge, m_edges) {
             stream << "edge " << edge->name() << ' ' << edge->start()->name() << ' '
-                   << edge->end()->name() << endl;
+                   << edge->end()->name() << " \"" << edge->formula() << '"' << endl;
         }
-
-        // Save the input and output nodes
-        stream << "input " << inputNode()->name() << endl;
-        stream << "output " << outputNode()->name() << endl;
         file.close();
         return true;
     }
@@ -208,7 +213,6 @@ void GraphScene::init(InitType initType)
     addItem(form);
 
     if (initType == StandardInit) {
-        qDebug() << "GraphScene::init() StandardInit";
         // Create default input/output nodes and wire them
         NodeItem *n1 = new NodeItem(NULL, this);
         n1->setName("1");
@@ -222,8 +226,6 @@ void GraphScene::init(InitType initType)
 
         setInputNode(n1);
         setOuputNode(n2);
-    } else {
-        qDebug() << "GraphScene::init() EmptyInit";
     }
     setSceneRect(QRectF());
     emit graphChanged();
@@ -363,12 +365,11 @@ void GraphScene::removeItem(QGraphicsItem *item)
 
 void GraphScene::updateItemNames()
 {
-    int index = 1;
     for (int row = 0; row < m_gridLayout->rowCount(); row++) {
         for (int column = 0; column < m_gridLayout->columnCount(); column++) {
             NodeItem *node = static_cast<NodeItem *>(m_gridLayout->itemAt(row, column));
             if (node) {
-                node->setName(QString::number(index++));
+                node->setName(QString::number(column * m_gridLayout->columnCount() + row));
             }
         }
     }
