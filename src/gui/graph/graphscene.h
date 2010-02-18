@@ -79,7 +79,7 @@ protected:
 
 private:
     void removeItem(QGraphicsItem *item);
-    void updateNodeItemNames();
+    void updateItemNames();
 
     QGraphicsGridLayout *m_gridLayout;
     QList<DirectedEdgeItem *> m_edges;

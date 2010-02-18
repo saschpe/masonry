@@ -75,6 +75,14 @@ bool GraphScene::loadFrom(const QString &fileName)
                 DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
                 edge->setName(splittedLine[1]);
                 m_edges.append(edge);
+            } else if (splittedLine[0] == "input") {
+                NodeItem *inputNode = nodes[splittedLine[1]];
+                qDebug() << "GraphScene::loadFrom() input node found" << inputNode;
+                setInputNode(inputNode);
+            } else if (splittedLine[0] == "output") {
+                NodeItem *outputNode = nodes[splittedLine[1]];
+                qDebug() << "GraphScene::loadFrom() output node found" << outputNode;
+                setOuputNode(outputNode);
             }
         } while (!line.isNull());
 
@@ -108,6 +116,9 @@ bool GraphScene::saveTo(const QString &fileName)
                    << edge->end()->name() << endl;
         }
 
+        // Save the input and output nodes
+        stream << "input " << inputNode()->name() << endl;
+        stream << "output " << outputNode()->name() << endl;
         file.close();
         return true;
     }
@@ -118,7 +129,7 @@ bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
 {
     if (start && end) {
         DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
-        edge->setName(start->name() + end->name());
+        edge->setName('s' + start->name() + end->name());
         return true;
     }
     return false;
@@ -126,10 +137,10 @@ bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
 
 void GraphScene::setInputNode(NodeItem *node)
 {
+    if (m_inputNode) {
+        m_inputNode->setNodeType(NodeItem::StandardNode);
+    }
     if (node) {
-        if (m_inputNode) {
-            m_inputNode->setNodeType(NodeItem::StandardNode);
-        }
         node->setNodeType(NodeItem::InputNode);
     }
     m_inputNode = node;
@@ -138,10 +149,10 @@ void GraphScene::setInputNode(NodeItem *node)
 
 void GraphScene::setOuputNode(NodeItem *node)
 {
+    if (m_outputNode) {
+        m_outputNode->setNodeType(NodeItem::StandardNode);
+    }
     if (node) {
-        if (m_outputNode) {
-            m_outputNode->setNodeType(NodeItem::StandardNode);
-        }
         node->setNodeType(NodeItem::OutputNode);
     }
     m_outputNode = node;
@@ -197,6 +208,7 @@ void GraphScene::init(InitType initType)
     addItem(form);
 
     if (initType == StandardInit) {
+        qDebug() << "GraphScene::init() StandardInit";
         // Create default input/output nodes and wire them
         NodeItem *n1 = new NodeItem(NULL, this);
         n1->setName("1");
@@ -205,11 +217,13 @@ void GraphScene::init(InitType initType)
         n2->setName("2");
         m_gridLayout->addItem(n2, 0, 1);
         DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
-        e12->setName("12");
+        e12->setName("s12");
         m_edges.append(e12);
 
         setInputNode(n1);
         setOuputNode(n2);
+    } else {
+        qDebug() << "GraphScene::init() EmptyInit";
     }
     setSceneRect(QRectF());
     emit graphChanged();
@@ -225,7 +239,7 @@ void GraphScene::addRow()
             m_gridLayout->addItem(new NodeItem(NULL, this), lastRow, row);
         }
     }
-    updateNodeItemNames();
+    updateItemNames();
 
     setSceneRect(QRectF());
     emit graphChanged();
@@ -237,7 +251,7 @@ void GraphScene::removeRow()
     for (int row = 0; row < m_gridLayout->columnCount(); row++) {
         removeItem(dynamic_cast<QGraphicsItem *>(m_gridLayout->itemAt(lastRow, row)));
     }
-    updateNodeItemNames();
+    updateItemNames();
 
     setSceneRect(QRectF());
     emit graphChanged();
@@ -253,7 +267,7 @@ void GraphScene::addColumn()
             m_gridLayout->addItem(new NodeItem(NULL, this), column, lastColumn);
         }
     }
-    updateNodeItemNames();
+    updateItemNames();
 
     setSceneRect(QRectF());
     emit graphChanged();
@@ -265,7 +279,7 @@ void GraphScene::removeColumn()
     for (int column = 0; column < m_gridLayout->rowCount(); column++) {
         removeItem(dynamic_cast<QGraphicsItem *>(m_gridLayout->itemAt(column, lastColumn)));
     }
-    updateNodeItemNames();
+    updateItemNames();
 
     setSceneRect(QRectF());
     emit graphChanged();
@@ -276,7 +290,7 @@ void GraphScene::removeSelectedItem()
     foreach (QGraphicsItem *item, selectedItems()) {
         removeItem(item);
     }
-    updateNodeItemNames();
+    //updateItemNames();
 }
 
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *event)
@@ -310,7 +324,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         NodeItem* dragEndNode;
         if ((dragEndNode = qgraphicsitem_cast<NodeItem *>(item))) {
             DirectedEdgeItem *edge = new DirectedEdgeItem(m_dragStartNode, dragEndNode, NULL, this);
-            edge->setName(m_dragStartNode->name() + dragEndNode->name());
+            edge->setName('s' + m_dragStartNode->name() + dragEndNode->name());
             m_edges.append(edge);
             m_dragStartNode = NULL;
         }
@@ -323,28 +337,31 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
 
 void GraphScene::removeItem(QGraphicsItem *item)
 {
-    const NodeItem *node = qgraphicsitem_cast<NodeItem *>(item);
-    if (node) {
-        // Nodes should be handled with care
-        if (node == m_inputNode) {
-            setInputNode(NULL);
-        } else if (node == m_outputNode) {
-            setOuputNode(NULL);
-        }
+    if (item) {
+        const NodeItem *node = qgraphicsitem_cast<NodeItem *>(item);
+        if (node) {
+            // Nodes should be handled with care
+            if (node == m_inputNode) {
+                setInputNode(NULL);
+            } else if (node == m_outputNode) {
+                setOuputNode(NULL);
+            }
 
-        // Check if that node is the start or end of an edge and remove those edges
-        // NOTE: This might not be the fastest way but currently does the trick
-        foreach (DirectedEdgeItem *edge, m_edges) {
-            if (node == edge->start() || node == edge->end()) {
-                m_edges.removeOne(edge);
-                delete edge;
+            // Check if that node is the start or end of an edge and remove those edges
+            // NOTE: This might not be the fastest way but currently does the trick
+            foreach (DirectedEdgeItem *edge, m_edges) {
+                if (node == edge->start() || node == edge->end()) {
+                    m_edges.removeOne(edge);
+                    delete edge;
+                }
             }
         }
+        delete item;
+        item = NULL;
     }
-    delete item;
 }
 
-void GraphScene::updateNodeItemNames()
+void GraphScene::updateItemNames()
 {
     int index = 1;
     for (int row = 0; row < m_gridLayout->rowCount(); row++) {
