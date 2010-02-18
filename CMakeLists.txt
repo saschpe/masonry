@@ -13,6 +13,7 @@ set(masonry_UIS
     src/gui/dialogs/configdialog.ui
     src/gui/mainwindow.ui
     src/gui/widgets/editdockwidget.ui
+    src/gui/widgets/nodedetaildockwidget.ui
     src/gui/widgets/outputdockwidget.ui
 )
 set(masonry_SRCS
@@ -26,6 +27,7 @@ set(masonry_SRCS
     src/gui/graph/items/nodeitem.cpp
     src/gui/mainwindow.cpp
     src/gui/widgets/editdockwidget.cpp
+    src/gui/widgets/nodedetaildockwidget.cpp
     src/gui/widgets/outputdockwidget.cpp
     src/main.cpp
 )
