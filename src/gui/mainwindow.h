@@ -82,6 +82,7 @@ private:
 
     QDockWidget *m_editDockWidget;
     OutputDockWidget *m_outputDockWidget;
+    QDockWidget *m_nodeDetailDockWidget;
 
     QProcess *m_process;
     QTemporaryFile *m_backendInputFile;

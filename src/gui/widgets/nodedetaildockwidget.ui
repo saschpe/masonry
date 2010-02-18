@@ -10,9 +10,6 @@
     <height>307</height>
    </rect>
   </property>
-  <property name="features">
-   <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
-  </property>
   <property name="windowTitle">
    <string>Node Detail</string>
   </property>
