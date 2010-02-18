@@ -46,6 +46,40 @@ GraphScene::GraphScene(QObject *parent)
     init(StandardInit);
 }
 
+void GraphScene::init(InitType initType)
+{
+    foreach (QGraphicsItem *item, items()) {                // Remove all items from the scene
+        removeItem(item);
+    }
+    m_edges.clear();
+    setInputNode(NULL);
+    setOuputNode(NULL);
+
+    m_gridLayout = new QGraphicsGridLayout;                 // Set up layout-related stuff
+    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
+    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
+    QGraphicsWidget *form = new QGraphicsWidget;
+    form->setLayout(m_gridLayout);
+    addItem(form);
+
+    if (initType == StandardInit) {                         // Create default input/output nodes
+        NodeItem *n1 = new NodeItem(NULL, this);            // and wire them with an edge
+        n1->setName("1");
+        m_gridLayout->addItem(n1, 0, 0);
+        NodeItem *n2 = new NodeItem(NULL, this);
+        n2->setName("2");
+        m_gridLayout->addItem(n2, 0, 1);
+        DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
+        e12->setName("s12");
+        m_edges.append(e12);
+
+        setInputNode(n1);                                   // Set default input/output nodes
+        setOuputNode(n2);
+    }
+    setSceneRect(QRectF());
+    emit graphChanged();
+}
+
 bool GraphScene::loadFrom(const QString &fileName)
 {
     QFile file(fileName);
@@ -140,6 +174,7 @@ bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
     if (start && end) {
         DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
         edge->setName('s' + start->name() + end->name());
+        m_edges.append(edge);
         return true;
     }
     return false;
@@ -197,40 +232,6 @@ DirectedEdgeItem *GraphScene::selectedEdge() const
     } else {
         return NULL;
     }
-}
-
-void GraphScene::init(InitType initType)
-{
-    foreach (QGraphicsItem *item, items()) {                // Remove all items from the scene
-        removeItem(item);
-    }
-    m_edges.clear();
-    setInputNode(NULL);
-    setOuputNode(NULL);
-
-    m_gridLayout = new QGraphicsGridLayout;                 // Set up layout-related stuff
-    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
-    m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
-    QGraphicsWidget *form = new QGraphicsWidget;
-    form->setLayout(m_gridLayout);
-    addItem(form);
-
-    if (initType == StandardInit) {                         // Create default input/output nodes
-        NodeItem *n1 = new NodeItem(NULL, this);            // and wire them with an edge
-        n1->setName("1");
-        m_gridLayout->addItem(n1, 0, 0);
-        NodeItem *n2 = new NodeItem(NULL, this);
-        n2->setName("2");
-        m_gridLayout->addItem(n2, 0, 1);
-        DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
-        e12->setName("s12");
-        m_edges.append(e12);
-
-        setInputNode(n1);                                   // Set default input/output nodes
-        setOuputNode(n2);
-    }
-    setSceneRect(QRectF());
-    emit graphChanged();
 }
 
 void GraphScene::addRow()
