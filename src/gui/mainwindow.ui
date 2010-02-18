@@ -335,12 +335,6 @@
    <property name="text">
     <string>&amp;Compute Signal</string>
    </property>
-   <property name="iconText">
-    <string>Compute Signal</string>
-   </property>
-   <property name="toolTip">
-    <string>Compute Signal on Selected Point</string>
-   </property>
   </action>
   <action name="zoomInAction">
    <property name="text">

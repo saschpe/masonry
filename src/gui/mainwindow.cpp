@@ -124,7 +124,7 @@ void MainWindow::on_loadAction_triggered()
         const QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open Masonry Graph File"),
             QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
-            tr("Masonry Graph Files (*.masonry)"));
+            tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
         m_scene->loadFrom(fileName);
         m_lastFileName = fileName;
         m_graphChangesUnsaved = false;
@@ -152,7 +152,7 @@ void MainWindow::on_saveAsAction_triggered()
         tr("Save Masonry Graph File"),
         QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
             QDir::separator() + "untitled",
-        tr("Masonry Graph Files (*.masonry)"));
+        tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
     m_scene->saveTo(fileName);
     m_graphChangesUnsaved = false;
     m_lastFileName = fileName;
@@ -168,7 +168,7 @@ void MainWindow::on_computeAction_triggered()
         QTextStream stream(m_backendInputFile);
 
         m_outputDockWidget->clear();                        // Reset output widget contents
-        m_outputDockWidget->append(tr("Input:\n\n"));
+        m_outputDockWidget->append(tr("Input:") + QLatin1String("\n\n"));
 
         int counter = 1;                                    // Generate backend input netfile contents
         foreach (const DirectedEdgeItem *edge, m_scene->edges()) {
@@ -202,11 +202,11 @@ void MainWindow::on_computeAction_triggered()
         settings.endGroup();
 
         // Start the backend process with our Matlab script and the generated command line
-        m_outputDockWidget->append(tr("\nCommand Line:\n\n    ") + backend.arg(mscript) + "\n");
-        m_outputDockWidget->append(tr("\nResults:\n\n"));
+        m_outputDockWidget->append('\n' + tr("Command Line:") + QLatin1String("\n\n    ") + backend.arg(mscript) + '\n');
+        m_outputDockWidget->append('\n' + tr("Results:") + QLatin1String("\n\n"));
         m_process->start(backend.arg(mscript));
 
-        statusBar()->showMessage(tr("Compute response from input node '%1' to output node '%2'...").arg(inputNodeName).arg(outputNodeName));
+        statusBar()->showMessage(tr("Compute signal response from input node '%1' to output node '%2'...").arg(inputNodeName).arg(outputNodeName));
     } else {
         statusBar()->showMessage(tr("Unable to create temporary file!"), 3000);
     }
@@ -272,7 +272,7 @@ void MainWindow::processFinished()
 void MainWindow::processError()
 {
     enableWidgets();
-    m_outputDockWidget->append(tr("    Backend error occurred!\n"));
+    m_outputDockWidget->append(QLatin1String("    ") + tr("Backend error occurred!") + '\n');
     statusBar()->showMessage(tr("Backend error occurred!"), 5000);
 }
 
