@@ -28,7 +28,9 @@
 class QProcess;
 
 /**
- * Shows textual output of an application.
+ * This dock widget can be used to show textual output of an application.
+ * It is used here to display the results computed by the application backend
+ * (like Matlab or Octave).
  *
  * @author Sascha Peilicke <sasch.pe@gmx.de>
  * @since 0.1

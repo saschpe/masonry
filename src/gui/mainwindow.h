@@ -33,6 +33,13 @@ class QDockWidget;
 class QProcess;
 class QTemporaryFile;
 
+/**
+ * This is the main window, which is the central part of the
+ * application. It thus connects the functionality of the more
+ * specific classes and contains the central GUI elements.
+ *
+ * @author Sascha Peilicke <sasch.pe@gmx.de>
+ */
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT

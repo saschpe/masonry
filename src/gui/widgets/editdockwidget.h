@@ -30,6 +30,9 @@ class GraphScene;
 class NodeItem;
 
 /**
+ * This dock widget allows to modify nodes and edges of a Mason graph
+ * that are part of a GraphScene (e.g. NodeItem and DirectEdgeItem instances).
+ *
  * @author Sascha Peilicke <sasch.pe@gmx.de>
  */
 class EditDockWidget : public QDockWidget, private Ui::EditDockWidget
