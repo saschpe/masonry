@@ -44,6 +44,9 @@ public:
     NodeType nodeType() const { return m_nodeType; }
     int type() const { return Type; }
 
+    void setFormula(const QString formula) { m_formula = formula; }
+    QString formula() const { return m_formula;}
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
     QSizeF sizeHint(Qt::SizeHint which, const QSizeF &constraints = QSizeF()) const;
@@ -51,6 +54,7 @@ protected:
 private:
     qreal m_radius;
     NodeType m_nodeType;
+    QString m_formula;
 };
 
 #endif // NODEITEM_H

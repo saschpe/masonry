@@ -38,12 +38,16 @@ public:
     GraphItem *end() const { return m_end; }
     int type() const { return Type; }
 
+    void setFormula(const QString formula) { m_formula = formula; }
+    QString formula() const { return m_formula;}
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = 0);
 
 private:
     GraphItem *m_start;
     GraphItem *m_end;
+    QString m_formula;
 };
 
 #endif // DIRECTEDEDGEITEM_H
