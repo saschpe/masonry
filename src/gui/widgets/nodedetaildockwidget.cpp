@@ -33,11 +33,12 @@ NodeDetailDockWidget::NodeDetailDockWidget(GraphScene *scene, QWidget *parent)
 void NodeDetailDockWidget::updateWidget()
 {
     const QList<QGraphicsItem *> selection = m_scene->selectedItems();
-    if (selection.size() == 1) {
-        if (m_selectedNodeItem = qgraphicsitem_cast<NodeItem *>(selection.first())) {
+    if (selection.size() == 1 &&
+        (m_selectedNodeItem = qgraphicsitem_cast<NodeItem *>(selection.first()))) {
             nodeNameLineEdit->setText(m_selectedNodeItem->name());
-        }
+            stackedWidget->setCurrentWidget(nodePage);
     } else {
+        stackedWidget->setCurrentWidget(nonePage);
     }
 }
 
