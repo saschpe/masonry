@@ -50,7 +50,7 @@ public:
     bool loadFrom(const QString &fileName);
     bool saveTo(const QString &fileName);
 
-    bool addEdge(NodeItem *start, NodeItem *end);
+    DirectedEdgeItem *addEdge(NodeItem *start, NodeItem *end);
 
     void setInputNode(NodeItem *node);
     NodeItem *inputNode() const { return m_inputNode; }

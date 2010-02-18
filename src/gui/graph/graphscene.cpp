@@ -69,9 +69,8 @@ void GraphScene::init(InitType initType)
         NodeItem *n2 = new NodeItem(NULL, this);
         n2->setName("2");
         m_gridLayout->addItem(n2, 0, 1);
-        DirectedEdgeItem *e12 = new DirectedEdgeItem(n1, n2, NULL, this);
-        e12->setName("s12");
-        m_edges.append(e12);
+
+        addEdge(n1, n2);
 
         setInputNode(n1);                                   // Set default input/output nodes
         setOuputNode(n2);
@@ -117,7 +116,7 @@ bool GraphScene::loadFrom(const QString &fileName)
                 NodeItem *start = nodes[splittedLine[2]];   // Found an edge, add it to the scene
                 NodeItem *end = nodes[splittedLine[3]];
 
-                DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
+                DirectedEdgeItem *edge = addEdge(start, end);
                 edge->setName(splittedLine[1]);
                 // There is obviously a (Matlab) formula attached, parse it...
                 if (splittedLine.length() > 4) {
@@ -131,7 +130,6 @@ bool GraphScene::loadFrom(const QString &fileName)
                     formula.remove(0, 1);                   // Remove trailing '"'
                     edge->setFormula(formula);
                 }
-                m_edges.append(edge);
             }
         } while (!line.isNull());
 
@@ -169,15 +167,15 @@ bool GraphScene::saveTo(const QString &fileName)
     return false;
 }
 
-bool GraphScene::addEdge(NodeItem *start, NodeItem *end)
+DirectedEdgeItem *GraphScene::addEdge(NodeItem *start, NodeItem *end)
 {
     if (start && end) {
         DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
         edge->setName('s' + start->name() + end->name());
         m_edges.append(edge);
-        return true;
+        return edge;
     }
-    return false;
+    return NULL;
 }
 
 void GraphScene::setInputNode(NodeItem *node)
@@ -327,9 +325,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
         QGraphicsItem *item = itemAt(event->scenePos());
         NodeItem* dragEndNode;
         if ((dragEndNode = qgraphicsitem_cast<NodeItem *>(item))) {
-            DirectedEdgeItem *edge = new DirectedEdgeItem(m_dragStartNode, dragEndNode, NULL, this);
-            edge->setName('s' + m_dragStartNode->name() + dragEndNode->name());
-            m_edges.append(edge);
+            addEdge(m_dragStartNode, dragEndNode);
             m_dragStartNode = NULL;
         }
         delete m_dragArrow;
