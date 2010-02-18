@@ -26,7 +26,9 @@
 class GraphScene;
 
 /**
- * This class represents a view on a graph scene.
+ * This class represents a view on a graph scene. It
+ * provides mostly zooming support and sets some
+ * optimization flags.
  *
  * @author Sascha Peilicke <sasch.pe@gmx.de>
  * @since 0.1

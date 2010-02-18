@@ -29,6 +29,11 @@ class NodeItem;
 class QGraphicsGridLayout;
 class QGraphicsSceneMouseEvent;
 
+/**
+ * The GraphScene class represents the entire scene in which
+ * the Mason graph is contained. It is responsible for loading
+ * and saving graph files and is the parent of all nodes and edges. It does some related house-keeping and provides scene interaction (like drag'n'drop support).
+ */
 class GraphScene : public QGraphicsScene
 {
     Q_OBJECT
@@ -41,6 +46,7 @@ public:
 
     GraphScene(QObject *parent = 0);
 
+    void init(InitType initType = StandardInit);
     bool loadFrom(const QString &fileName);
     bool saveTo(const QString &fileName);
 
@@ -64,8 +70,6 @@ signals:
     void outputNodeChanged();
 
 public slots:
-    void init(InitType initType = StandardInit);
-
     void addRow();
     void removeRow();
     void addColumn();
