@@ -53,7 +53,8 @@ using Visual Studio (on Windows) or by issuing the following (on Unix)::
 
 The exact build procedure may differ slightly on your platform. Have a look at
 the `CMake documentation`__ for detailed help. The install step is mandatory
-to correctly setup translations and other stuff.
+to correctly setup translations and other stuff. The folder _dist_ now contains
+the ready-to-use application.
 
 
 License
