@@ -31,8 +31,10 @@ EditDockWidget::EditDockWidget(GraphScene *scene, QWidget *parent)
 
     connect(m_scene, SIGNAL(selectionChanged()), this, SLOT(updateWidget()));
 
-    connect(edgeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedEdgeName(QString)));
-    connect(nodeNameLineEdit, SIGNAL(textChanged(QString)), this, SLOT(setSelectedNodeName(QString)));
+    connect(edgeNameLineEdit, SIGNAL(textChanged(const QString)), this, SLOT(setSelectedEdgeName(const QString)));
+    connect(edgeFormulaTextEdit, SIGNAL(textChanged()), this, SLOT(setSelectedEdgeFormula()));
+    connect(nodeNameLineEdit, SIGNAL(textChanged(const QString)), this, SLOT(setSelectedNodeName(const QString)));
+    connect(nodeFormulaTextEdit, SIGNAL(textChanged()), this, SLOT(setSelectedNodeFormula()));
     connect(nodeTypeComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(setSelectedNodeType(int)));
     deleteNodeButton->setIcon(QIcon::fromTheme("edit-delete"));
     connect(deleteNodeButton, SIGNAL(clicked()), this, SIGNAL(deleteSelectedItem()));
@@ -46,10 +48,12 @@ void EditDockWidget::updateWidget()
     if (selection.size() == 1) {
         if (m_selectedEdgeItem = qgraphicsitem_cast<DirectedEdgeItem *>(selection.first())) {
             edgeNameLineEdit->setText(m_selectedEdgeItem->name());
+            edgeFormulaTextEdit->setText(m_selectedEdgeItem->formula());
             stackedWidget->setCurrentWidget(edgePage);
             setWindowTitle(tr("Edit Edge"));
         } else if (m_selectedNodeItem = qgraphicsitem_cast<NodeItem *>(selection.first())) {
             nodeNameLineEdit->setText(m_selectedNodeItem->name());
+            nodeFormulaTextEdit->setText(m_selectedNodeItem->formula());
             nodeTypeComboBox->setCurrentIndex(m_selectedNodeItem->nodeType());
             stackedWidget->setCurrentWidget(nodePage);
             setWindowTitle(tr("Edit Node"));
@@ -65,9 +69,19 @@ void EditDockWidget::setSelectedEdgeName(const QString &name)
     m_selectedEdgeItem->setName(name);
 }
 
+void EditDockWidget::setSelectedEdgeFormula()
+{
+    m_selectedEdgeItem->setFormula(edgeFormulaTextEdit->toPlainText());
+}
+
 void EditDockWidget::setSelectedNodeName(const QString &name)
 {
     m_selectedNodeItem->setName(name);
+}
+
+void EditDockWidget::setSelectedNodeFormula()
+{
+    m_selectedNodeItem->setFormula(nodeFormulaTextEdit->toPlainText());
 }
 
 void EditDockWidget::setSelectedNodeType(int type)

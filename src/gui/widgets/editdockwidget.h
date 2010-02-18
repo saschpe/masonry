@@ -44,8 +44,11 @@ signals:
 
 private slots:
     void updateWidget();
+
     void setSelectedEdgeName(const QString &);
+    void setSelectedEdgeFormula();
     void setSelectedNodeName(const QString &);
+    void setSelectedNodeFormula();
     void setSelectedNodeType(int);
 
 private:
