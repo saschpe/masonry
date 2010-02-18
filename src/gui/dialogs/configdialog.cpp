@@ -23,8 +23,17 @@
 #include <QCloseEvent>
 #include <QDir>
 #include <QFileDialog>
+#include <QLatin1String>
 #include <QPushButton>
 #include <QSettings>
+
+#ifdef Q_OS_WIN32
+const QLatin1String MATLAB_EXECUTABLE("matlab.exe");
+const QLatin1String OCTAVE_EXECUTABLE("octave.exe");
+#else
+const QLatin1String MATLAB_EXECUTABLE("matlab");
+const QLatin1String OCTAVE_EXECUTABLE("octave");
+#endif
 
 ConfigDialog::ConfigDialog(QWidget *parent)
     : QDialog(parent)
@@ -47,7 +56,7 @@ void ConfigDialog::on_octaveExecutableChooseButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Please Select Octave Executable"),
         QDir::rootPath(),
-        tr("Octave Executable (octave)"));
+        tr("Octave Executable (%1)").arg(OCTAVE_EXECUTABLE));
     if (!fileName.isEmpty()) {
         octaveExecutableLineEdit->setText(fileName);
     }
@@ -58,7 +67,7 @@ void ConfigDialog::on_matlabExecutableChooseButton_clicked()
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Please Select Matlab Executable"),
         QDir::rootPath(),
-        tr("Matlab Executable (matlab)"));
+        tr("Matlab Executable (%1)").arg(MATLAB_EXECUTABLE));
     if (!fileName.isEmpty()) {
         matlabExecutableLineEdit->setText(fileName);
     }
@@ -88,11 +97,11 @@ void ConfigDialog::readSettings()
         backendComboBox->setCurrentIndex(1);
     }
     settings.beginGroup("octave");
-    octaveExecutableLineEdit->setText(settings.value("executable", "octave").toString());
+    octaveExecutableLineEdit->setText(settings.value("executable", OCTAVE_EXECUTABLE).toString());
     octaveParameterLineEdit->setText(settings.value("parameters", "--silent --path \"" + QDir::toNativeSeparators("data/scripts") + "\" --eval \"%1;\"").toString());
     settings.endGroup();
     settings.beginGroup("matlab");
-    matlabExecutableLineEdit->setText(settings.value("executable", "matlab").toString());
+    matlabExecutableLineEdit->setText(settings.value("executable", MATLAB_EXECUTABLE).toString());
     matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"addpath('" + QDir::toNativeSeparators("data/scripts") + "');%1;exit\"").toString());
     settings.endGroup();
     settings.endGroup();
