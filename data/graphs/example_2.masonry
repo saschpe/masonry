@@ -1,0 +1,23 @@
+node 1 0 0 0
+node 2 2 0 1
+node 3 2 0 2
+node 4 2 0 3
+node 5 1 0 4
+node 6 2 2 0
+node 7 2 2 1
+node 8 2 2 2
+node 9 2 2 3
+node 10 2 2 4
+edge T1 1 2
+edge T2 2 3
+edge T3 3 4
+edge T4 4 5
+edge s55 5 5
+edge G1 2 7
+edge -G1 7 2
+edge G2 3 8
+edge -G2 8 3
+edge G3 4 9
+edge -G3 9 4
+edge T2 8 7
+edge T3 9 8
