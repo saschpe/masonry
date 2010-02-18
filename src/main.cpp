@@ -27,7 +27,7 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("ifak");
     QCoreApplication::setOrganizationDomain("www.ifak.eu");
     QCoreApplication::setApplicationName("Masonry");
-    QCoreApplication::setApplicationVersion("0.3");
+    QCoreApplication::setApplicationVersion("0.4");
 
     QApplication app(argc, argv);
     MainWindow win;
