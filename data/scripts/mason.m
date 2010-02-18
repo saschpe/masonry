@@ -230,6 +230,14 @@ function [Num,Den] = mason(NetFile,Start,Stop)
     %    Num=simple(sym(Num))
     %catch
     %end
+
+    % ***** Display Numerator and Denominator *****
+    fprintf('\n-- Numerator and Denominator --\n')
+    Num
+    Den
+
+    %fprintf('Numerator   : %d\n',Num);
+    %fprintf('Denominator : %d\n',Den);
 end
 
 %*************************************************************************************************
