@@ -35,6 +35,7 @@ void NodeDetailDockWidget::updateWidget()
     const QList<QGraphicsItem *> selection = m_scene->selectedItems();
     if (selection.size() == 1) {
         if (m_selectedNodeItem = qgraphicsitem_cast<NodeItem *>(selection.first())) {
+            nodeNameLineEdit->setText(m_selectedNodeItem->name());
         }
     } else {
     }
