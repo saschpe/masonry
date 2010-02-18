@@ -26,6 +26,7 @@
 #include "graph/items/directededgeitem.h"
 #include "graph/items/nodeitem.h"
 #include "widgets/editdockwidget.h"
+#include "widgets/nodedetaildockwidget.h"
 #include "widgets/outputdockwidget.h"
 
 #include <QCloseEvent>
@@ -314,8 +315,9 @@ void MainWindow::disableWidgets()
     // Settings actions
     configureAction->setEnabled(false);
 
-    // Edit dock widget
+    // Dock widgets
     m_editDockWidget->setEnabled(false);
+    m_nodeDetailDockWidget->setEnabled(false);
 }
 
 void MainWindow::enableWidgets()
@@ -335,8 +337,9 @@ void MainWindow::enableWidgets()
     // Settings actions
     configureAction->setEnabled(true);
 
-    // Edit dock widget
+    // Dock widgets
     m_editDockWidget->setEnabled(true);
+    m_nodeDetailDockWidget->setEnabled(true);
 }
 
 void MainWindow::readSettings()
@@ -419,7 +422,12 @@ void MainWindow::setupDockWidgets()
     m_editDockWidget = new EditDockWidget(m_scene, this);
     connect(m_editDockWidget, SIGNAL(deleteSelectedItem()), m_scene, SLOT(removeSelectedItem()));
     addDockWidget(Qt::BottomDockWidgetArea, m_editDockWidget);
-    //dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
+    dockersSettingsMenu->addAction(m_editDockWidget->toggleViewAction());
+
+    // Node detail dock widget
+    m_nodeDetailDockWidget = new NodeDetailDockWidget(m_scene, this);
+    addDockWidget(Qt::BottomDockWidgetArea, m_nodeDetailDockWidget);
+    dockersSettingsMenu->addAction(m_nodeDetailDockWidget->toggleViewAction());
 
     // Output dock widget
     m_outputDockWidget = new OutputDockWidget(m_process, this);
