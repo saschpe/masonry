@@ -102,7 +102,19 @@ bool GraphScene::loadFrom(const QString &fileName)
                 // Found a node, add it to the scene
                 NodeItem *node = new NodeItem(NULL, this);
                 node->setName(splittedLine[1]);
-                node->setNodeType(static_cast<NodeItem::NodeType>(splittedLine[2].toInt()));
+                NodeItem::NodeType nodeType = static_cast<NodeItem::NodeType>(splittedLine[2].toInt());
+                switch (nodeType) {
+                    case NodeItem::InputNode:
+                        setInputNode(node);                 // We found the input node
+                        break;
+                    case NodeItem::OutputNode:
+                        setOuputNode(node);                 // We found the ouput node
+                        break;
+                    case NodeItem::StandardNode:
+                        // This should already be set by default but doesn't harm here
+                        node->setNodeType(NodeItem::StandardNode);
+                        break;
+                }
                 // There is obviously a (Matlab) formula attached, parse it...
                 if (splittedLine.length() > 5) {
                     int formulaStart = line.indexOf('"');
