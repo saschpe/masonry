@@ -51,13 +51,13 @@ public:
     bool saveTo(const QString &fileName);
 
     DirectedEdgeItem *addEdge(NodeItem *start, NodeItem *end);
+    QList<DirectedEdgeItem *> edges() const { return m_edges; }
 
     void setInputNode(NodeItem *node);
     NodeItem *inputNode() const { return m_inputNode; }
     void setOuputNode(NodeItem *node);
     NodeItem *outputNode() const { return m_outputNode; }
 
-    QList<DirectedEdgeItem *> edges() const { return m_edges; }
     int columnCount() const;
     int rowCount() const;
 

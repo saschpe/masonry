@@ -38,42 +38,48 @@ static const int NODEITEM_PIXEL_DISTANCE = 50;
 
 GraphScene::GraphScene(QObject *parent)
     : QGraphicsScene(parent)
+    , m_gridLayout(new QGraphicsGridLayout)
     , m_inDrag(false), m_dragArrow(NULL), m_dragStartNode(NULL)
     , m_inputNode(NULL), m_outputNode(NULL)
 {
     setBackgroundBrush(Qt::white);
 
-    init(StandardInit);
-}
-
-void GraphScene::init(InitType initType)
-{
-    foreach (QGraphicsItem *item, items()) {                // Remove all items from the scene
-        removeItem(item);
-    }
-    m_edges.clear();
-    setInputNode(NULL);
-    setOuputNode(NULL);
-
-    m_gridLayout = new QGraphicsGridLayout;                 // Set up layout-related stuff
-    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE);
+    m_gridLayout->setHorizontalSpacing(NODEITEM_PIXEL_DISTANCE); // Set up layout-related stuff
     m_gridLayout->setVerticalSpacing(NODEITEM_PIXEL_DISTANCE);
     QGraphicsWidget *form = new QGraphicsWidget;
     form->setLayout(m_gridLayout);
     addItem(form);
 
-    if (initType == StandardInit) {                         // Create default input/output nodes
-        NodeItem *n1 = new NodeItem(NULL, this);            // and wire them with an edge
-        n1->setName("1");
-        m_gridLayout->addItem(n1, 0, 0);
-        NodeItem *n2 = new NodeItem(NULL, this);
-        n2->setName("2");
-        m_gridLayout->addItem(n2, 0, 1);
+    init(StandardInit);                                     // Init a standard scene
+}
 
-        addEdge(n1, n2);
+void GraphScene::init(InitType initType)
+{
+    // Remove all nodes from the scene (and thus also connecting edges)
+    for (int row = 0; row < m_gridLayout->rowCount(); row++) {
+        for (int column = 0; column < m_gridLayout->columnCount(); column++) {
+            // If there is a node in that cell of the grid layout, remove it
+            removeItem(static_cast<NodeItem *>(m_gridLayout->itemAt(row, column)));
+        }
+    }
 
-        setInputNode(n1);                                   // Set default input/output nodes
-        setOuputNode(n2);
+    switch(initType) {                                      // Check how to init the scene
+        case EmptyInit:
+            setInputNode(NULL);                             // Reset input/output nodes
+            setOuputNode(NULL);
+            break;
+        case StandardInit:
+            NodeItem *n1 = new NodeItem(NULL, this);        // Create default input/output nodes
+            n1->setName("1");
+            m_gridLayout->addItem(n1, 0, 0);
+            NodeItem *n2 = new NodeItem(NULL, this);
+            n2->setName("2");
+            m_gridLayout->addItem(n2, 0, 1);
+
+            addEdge(n1, n2);                                // and wire them with an edge
+            setInputNode(n1);                               // Set default input/output nodes
+            setOuputNode(n2);
+            break;
     }
     setSceneRect(QRectF());
     emit graphChanged();
