@@ -29,6 +29,7 @@ NodeItem::NodeItem(QGraphicsItem *parent, QGraphicsScene *scene)
 {
     setRect(-m_radius, -m_radius, 2 * m_radius, 2 * m_radius);
     setBrush(Qt::white);
+    setZValue(42);  // Just something higher than the default, NodeItems should be above everything else
 }
 
 void NodeItem::setGeometry(const QRectF &rect)
