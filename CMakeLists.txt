@@ -32,11 +32,17 @@ set(masonry_SRCS
     src/main.cpp
 )
 
+set(masonry_TRANS
+    src/locale/de_DE.ts
+    src/locale/fr_FR.ts
+)
+
 qt4_wrap_ui(masonry_UIS_H ${masonry_UIS})
 include_directories(${CMAKE_CURRENT_BINARY_DIR})
 qt4_automoc(${masonry_SRCS})
+qt4_add_translation(masonry_TRANSLATIONS ${masonry_TRANS})
 
-add_executable(masonry ${masonry_SRCS} ${masonry_UIS})
+add_executable(masonry ${masonry_SRCS} ${masonry_UIS} ${masonry_TRANSLATIONS})
 target_link_libraries(masonry ${QT_LIBRARIES})
 
 install(TARGETS masonry DESTINATION ${CMAKE_INSTALL_PREFIX})
