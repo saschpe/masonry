@@ -50,3 +50,8 @@ install(TARGETS masonry DESTINATION ${CMAKE_INSTALL_PREFIX})
 install(DIRECTORY data/ DESTINATION ${CMAKE_INSTALL_PREFIX}/data)
 install(FILES ${masonry_TRANSLATIONS} DESTINATION ${CMAKE_INSTALL_PREFIX}/data/locale)
 install(DIRECTORY docs/ DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
+
+# Some extra convenience for Windows builds allows simpler distribution
+if(WIN32)
+    install(FILES ${QT_BINARY_DIR}/QtCore4.dll ${QT_BINARY_DIR}/QtGui4.dll DESTINATION ${CMAKE_INSTALL_PREFIX})
+endif(WIN32)
