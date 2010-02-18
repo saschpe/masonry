@@ -26,7 +26,7 @@
   <widget class="QStatusBar" name="statusBar_"/>
   <widget class="QToolBar" name="fileToolBar">
    <property name="windowTitle">
-    <string>File Toolbar</string>
+    <string>File</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -37,7 +37,7 @@
   </widget>
   <widget class="QToolBar" name="editToolBar">
    <property name="windowTitle">
-    <string>Edit Toolbar</string>
+    <string>Edit</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -48,7 +48,7 @@
   </widget>
   <widget class="QToolBar" name="viewToolBar">
    <property name="windowTitle">
-    <string>View Toolbar</string>
+    <string>View</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
@@ -59,7 +59,7 @@
   </widget>
   <widget class="QToolBar" name="graphToolBar">
    <property name="windowTitle">
-    <string>Graph Toolbar</string>
+    <string>Graph</string>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
