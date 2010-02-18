@@ -160,42 +160,35 @@ void MainWindow::on_saveAsAction_triggered()
 
 void MainWindow::on_computeAction_triggered()
 {
-    // Remove old temporary file and create a new one
-    delete m_backendInputFile;
-    m_backendInputFile = new QTemporaryFile;
+    delete m_backendInputFile;                              // Remove old temporary netfile and
+    m_backendInputFile = new QTemporaryFile;                // create a new one
 
-    if (m_backendInputFile->open()) {
+    if (m_backendInputFile->open()) {                       // Open backend input netfile
         QTextStream stream(m_backendInputFile);
 
-        m_outputDockWidget->clear();
+        m_outputDockWidget->clear();                        // Reset output widget contents
         m_outputDockWidget->append("Input:\n\n");
 
-        // Generate backend input file contents
-        int counter = 1;
+        int counter = 1;                                    // Generate backend input netfile contents
         foreach (const DirectedEdgeItem *edge, m_scene->edges()) {
-            /*// NOTE: This is rather hacky and should be encapsulated in the GraphScene class.
-            if (edge->name().isEmpty()) {
-                continue;
-            }*/
-            const QString from = edge->start()->name();
-            const QString to = edge->end()->name();
-
+            const QString from = edge->start()->name();     // Parse all edges in the scene and
+            const QString to = edge->end()->name();         // Generate netfile contents from those
             const QString line = QString::number(counter++) + ' ' + from + ' ' + to + ' ' + edge->name();
             m_outputDockWidget->append("    " + line + '\n');
             stream << line << endl;
         }
-        m_backendInputFile->close();
+        m_backendInputFile->close();                        // Save and close the input netfile
         const QString inputNodeName = m_scene->inputNode()->name();
         const QString outputNodeName = m_scene->outputNode()->name();
 
         // Create call to 'mason' script with supplied arguments
-        QString mscript = QString("mason('%1',%2,%3)")
-            .arg(m_backendInputFile->fileName())
+        QString mscript = QString("mason('%1',%2,%3)")      // Create the call to the 'mason' Matlab
+            .arg(m_backendInputFile->fileName())            // function
             .arg(inputNodeName.toInt()).arg(outputNodeName.toInt());
 
-        QString backend;
-        QSettings settings;
-        settings.beginGroup("backend");
+        QString backend;                                    // Check the settings which backend was
+        QSettings settings;                                 // configured and generate the commmand
+        settings.beginGroup("backend");                     // line to execute
         if (settings.value("current", "octave").toString() == "octave") {
             settings.beginGroup("octave");
             backend = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
@@ -207,7 +200,7 @@ void MainWindow::on_computeAction_triggered()
         }
         settings.endGroup();
 
-        // Start the backend process
+        // Start the backend process with our Matlab script and the generated command line
         m_outputDockWidget->append("\nCommand Line:\n\n    " + backend.arg(mscript) + "\n");
         m_outputDockWidget->append("\nResults:\n\n");
         m_process->start(backend.arg(mscript));
