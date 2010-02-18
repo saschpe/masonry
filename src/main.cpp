@@ -21,6 +21,9 @@
 #include "gui/mainwindow.h"
 
 #include <QApplication>
+#include <QDir>
+#include <QLibraryInfo>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
@@ -30,6 +33,15 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationVersion("0.4");
 
     QApplication app(argc, argv);
+
+    QTranslator qtTranslator;
+    qtTranslator.load("qt_" + QLocale::system().name(), QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    app.installTranslator(&qtTranslator);
+
+    QTranslator appTranslator;
+    appTranslator.load(QLocale::system().name(), QDir::toNativeSeparators("data/locale"));
+    app.installTranslator(&appTranslator);
+
     MainWindow win;
     win.show();
     return app.exec();
