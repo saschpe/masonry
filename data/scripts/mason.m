@@ -155,7 +155,7 @@ function [Num,Den] = mason(NetFile,Start,Stop)
     fprintf('Start Node : %d\n',Start);
     fprintf('Stop Node  : %d\n',Stop);
     % ***** Display the paths found ******
-    fprintf('\n----- Paths -----\n')
+    fprintf('\n-- Paths --\n')
     for pathn=1:length(P)                   % Look at each Path and display it's Coeff numbers
       fprintf('P%d : ',pathn);              % on a different line
       fprintf('%d ',P{pathn}.Coeff);
@@ -163,7 +163,7 @@ function [Num,Den] = mason(NetFile,Start,Stop)
     end
     % ***** Display all the loops found *****
     for loop_order=1:length(L)-1            % Look at each loop order (last order has no loops
-      fprintf('\n- Order %d Loops -\n',loop_order) % Print header describing loop order
+      fprintf('\n-- Order %d Loops --\n',loop_order) % Print header describing loop order
       for loop_number=1:L{loop_order}.NumberLoops % Look at each loop of that order
         fprintf('L%d%d : ',loop_order,loop_number) % Display coefficients on a different line
         fprintf('%d ',L{loop_order}.Coeff{loop_number})
