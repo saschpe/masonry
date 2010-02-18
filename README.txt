@@ -35,29 +35,37 @@ this (in a terminal)::
 
     $ mkdir build/
     $ cd build/
-    $ cmake ..
+    $ cmake -DCMAKE_INSTALL_PREFIX=../dist ..
 
-If you want to specify an installation target and an optimised build, the
-following commands could be used instead:
+If you want to specify an optimised build, the following commands could be used
+instead::
 
     $ mkdir build/ dist/
     $ cd build/
     $ cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=../dist ..
 
 You should now have either a Makefile on Unix-like operating systems or a
-Visual Studio project on Windows. You can now build the project by using Visual
-Studio (on Windows) or by issuing the following (on Unix)::
+Visual Studio project on Windows. You can now build and install the project by
+using Visual Studio (on Windows) or by issuing the following (on Unix)::
 
     $ make
+    $ make install
 
 The exact build procedure may differ slightly on your platform. Have a look at
-the `CMake documentation`__ for detailed help.
+the `CMake documentation`__ for detailed help. The install step is mandatory
+to correctly setup translations and other stuff.
 
 
 License
 -------
 
 Please see the file LICENSE.txt for details.
+
+
+Authors
+-------
+
+Please see the file AUTHORS.txt for details.
 
 
 Notes
