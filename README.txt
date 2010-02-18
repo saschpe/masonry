@@ -1,7 +1,9 @@
+=======
 Masonry
 =======
 
-A graphical tool to visualize and compute Mason-graphs written in C++ with Qt.
+A graphical tool to visualize and compute Mason-graphs written in C++ with Qt
+which uses either Matlab or Octave as the computational backend.
 
 ----
 
@@ -9,7 +11,10 @@ A graphical tool to visualize and compute Mason-graphs written in C++ with Qt.
 Prerequisites
 -------------
 
-The following software is necessary to build this application:
+This project uses Git_ as the revision-control system. Git_ is optional if you
+retrieved this project as a source tarball and is only useful if you plan to
+further develop the project or to send patches. The following software is
+necessary to build this application:
 
  - CMake_ 2.6 or later
  - Qt_ 4.6 or later
@@ -17,8 +22,8 @@ The following software is necessary to build this application:
 Additionally, one of the following software packages is needed to run the
 application (only one required):
 
- - GNU Octave_ 3.2 or later
- - Matlab_ r2008a or later (commercial)
+ - Matlab_ r2008a or later (preferred, commercial)
+ - GNU Octave_ 3.2 or later (default, free)
 
 
 Installation
@@ -46,7 +51,7 @@ Studio (on Windows) or by issuing the following (on Unix)::
     $ make
 
 The exact build procedure may differ slightly on your platform. Have a look at
-the `CMake documentation`__ for help.
+the `CMake documentation`__ for detailed help.
 
 
 License
@@ -64,6 +69,7 @@ Python docutils_. Use the following command::
     $ rst2html README.txt > README.html
 
 
+.. _Git: http://git.or.cz/index.html
 .. _CMake: http://www.cmake.org/
 .. _Qt: http://qt.nokia.com/
 .. _Octave: http://www.gnu.org/software/octave/
