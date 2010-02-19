@@ -270,8 +270,24 @@ void MainWindow::processFinished()
 void MainWindow::processError()
 {
     enableWidgets();
-    m_outputDockWidget->append(QLatin1String("    ") + tr("Backend error occurred!") + '\n');
-    statusBar()->showMessage(tr("Backend error occurred!"), 5000);
+    switch (m_process->error()) {
+        case QProcess::FailedToStart:
+            m_outputDockWidget->append(QLatin1String("    ") + tr("Backend failed to start!") + '\n');
+            statusBar()->showMessage(tr("Backend failed to start!"), 5000);
+            break;
+        case QProcess::Crashed:
+            m_outputDockWidget->append(QLatin1String("    ") + tr("Backend crashed or was stopped!") + '\n');
+            statusBar()->showMessage(tr("Backend crashed or was stopped!"), 5000);
+            break;
+        case QProcess::Timedout:
+            m_outputDockWidget->append(QLatin1String("    ") + tr("Backend timed out!") + '\n');
+            statusBar()->showMessage(tr("Backend timed out!"), 5000);
+            break;
+        default:
+            m_outputDockWidget->append(QLatin1String("    ") + tr("Backend error occurred!") + '\n');
+            statusBar()->showMessage(tr("Backend error occurred!"), 5000);
+            break;
+    }
 }
 
 void MainWindow::zoomToFit()
@@ -309,6 +325,7 @@ void MainWindow::disableWidgets()
     removeColumnAction->setEnabled(false);
     removeRowAction->setEnabled(false);
     computeAction->setEnabled(false);
+    stopComputationAction->setEnabled(true);
 
     // Settings actions
     configureAction->setEnabled(false);
@@ -330,6 +347,7 @@ void MainWindow::enableWidgets()
     removeColumnAction->setEnabled(true);
     removeRowAction->setEnabled(true);
     computeAction->setEnabled(true);
+    stopComputationAction->setEnabled(false);
     graphSelectionChanged();    // Call slot to determine state of other QActions
 
     // Settings actions
@@ -405,6 +423,8 @@ void MainWindow::setupActions()
     deleteSelectedItemAction->setIcon(QIcon::fromTheme("edit-delete"));
     connect(deleteSelectedItemAction, SIGNAL(triggered()),m_scene, SLOT(removeSelectedItem()));
     computeAction->setIcon(QIcon::fromTheme("system-run"));
+    stopComputationAction->setIcon(QIcon::fromTheme("process-stop"));
+    connect(stopComputationAction, SIGNAL(triggered()), m_process, SLOT(kill()));
 
     // Set icons for the actions in the settings menu
     configureAction->setIcon(QIcon::fromTheme("configure"));
@@ -460,6 +480,7 @@ void MainWindow::setupToolbars()
     graphToolBar->addAction(deleteSelectedItemAction);
     graphToolBar->addSeparator();
     graphToolBar->addAction(computeAction);
+    graphToolBar->addAction(stopComputationAction);
     toolBarsSettingsMenu->addAction(graphToolBar->toggleViewAction());
 }
 
