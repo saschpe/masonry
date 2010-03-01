@@ -42,6 +42,10 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     groupListWidget->item(1)->setIcon(QIcon::fromTheme("view-choose"));
     groupListWidget->item(2)->setIcon(QIcon::fromTheme("system-run"));
 
+
+    addCustomScriptButton->setIcon(QIcon::fromTheme("list-add"));
+    removeCustomScriptButton->setIcon(QIcon::fromTheme("list-remove"));
+
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(clicked(QAbstractButton *)));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
