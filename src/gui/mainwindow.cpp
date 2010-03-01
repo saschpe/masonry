@@ -444,6 +444,7 @@ void MainWindow::setupDockWidgets()
 
     // Node detail dock widget
     m_nodeDetailDockWidget = new NodeDetailDockWidget(m_scene, this);
+    m_nodeDetailDockWidget->hide();
     addDockWidget(Qt::BottomDockWidgetArea, m_nodeDetailDockWidget);
     dockersSettingsMenu->addAction(m_nodeDetailDockWidget->toggleViewAction());
 
