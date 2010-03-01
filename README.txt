@@ -56,7 +56,8 @@ using Visual Studio (on Windows) or by issuing these commands (on Unix)::
 
 The exact build procedure may differ slightly on your platform. Have a look at
 the `CMake documentation`__ for detailed help. The install step is mandatory
-if you want to correctly setup translations and some other stuff. If the build procedure successfully finished, the folder _dist_ should now contain the
+if you want to correctly setup translations and some other stuff. If the build
+procedure successfully finished, the folder _dist_ should now contain the
 application binary and data files.
 
 
