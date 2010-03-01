@@ -39,8 +39,7 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     setupUi(this);
 
     groupListWidget->item(0)->setIcon(QIcon::fromTheme("go-home"));
-    groupListWidget->item(1)->setIcon(QIcon::fromTheme("view-choose"));
-    groupListWidget->item(2)->setIcon(QIcon::fromTheme("system-run"));
+    groupListWidget->item(1)->setIcon(QIcon::fromTheme("system-run"));
     addCustomScriptButton->setIcon(QIcon::fromTheme("list-add"));
     removeCustomScriptButton->setIcon(QIcon::fromTheme("list-remove"));
 
