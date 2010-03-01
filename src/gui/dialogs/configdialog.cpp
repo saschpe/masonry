@@ -41,21 +41,20 @@ ConfigDialog::ConfigDialog(QWidget *parent)
     groupListWidget->item(0)->setIcon(QIcon::fromTheme("go-home"));
     groupListWidget->item(1)->setIcon(QIcon::fromTheme("view-choose"));
     groupListWidget->item(2)->setIcon(QIcon::fromTheme("system-run"));
-
-
     addCustomScriptButton->setIcon(QIcon::fromTheme("list-add"));
     removeCustomScriptButton->setIcon(QIcon::fromTheme("list-remove"));
 
     connect(buttonBox, SIGNAL(clicked(QAbstractButton *)), this, SLOT(clicked(QAbstractButton *)));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
+    connect(customScriptListWidget, SIGNAL(currentRowChanged(int)), this, SLOT(customScriptRowChanged()));
 
     readSettings();
 }
 
 void ConfigDialog::on_octaveExecutableChooseButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
+    const QString fileName = QFileDialog::getOpenFileName(this,
         tr("Please Select Octave Executable"),
         QDir::rootPath(),
         tr("Octave Executable (%1)").arg(OCTAVE_EXECUTABLE));
@@ -66,13 +65,34 @@ void ConfigDialog::on_octaveExecutableChooseButton_clicked()
 
 void ConfigDialog::on_matlabExecutableChooseButton_clicked()
 {
-    QString fileName = QFileDialog::getOpenFileName(this,
+    const QString fileName = QFileDialog::getOpenFileName(this,
         tr("Please Select Matlab Executable"),
         QDir::rootPath(),
         tr("Matlab Executable (%1)").arg(MATLAB_EXECUTABLE));
     if (!fileName.isEmpty()) {
         matlabExecutableLineEdit->setText(fileName);
     }
+}
+
+void ConfigDialog::on_addCustomScriptButton_clicked()
+{
+    const QString fileName = QFileDialog::getOpenFileName(this,
+        tr("Add Matlab Script File"),
+        QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "scripts",
+        tr("Matlab Script Files") + QLatin1String(" (*.m)"));
+    if (!fileName.isEmpty()) {
+        customScriptListWidget->addItem(fileName);
+    }
+}
+
+void ConfigDialog::on_removeCustomScriptButton_clicked()
+{
+    customScriptListWidget->takeItem(customScriptListWidget->currentRow());
+}
+
+void ConfigDialog::customScriptRowChanged()
+{
+    removeCustomScriptButton->setEnabled(customScriptListWidget->currentRow() != -1);
 }
 
 void ConfigDialog::clicked(QAbstractButton *button)

@@ -155,6 +155,9 @@ p, li { white-space: pre-wrap; }
           </item>
           <item row="2" column="2">
            <widget class="QPushButton" name="removeCustomScriptButton">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
             <property name="text">
              <string>Remove Selected Script</string>
             </property>

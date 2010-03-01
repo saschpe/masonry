@@ -33,6 +33,9 @@ public:
 private slots:
     void on_octaveExecutableChooseButton_clicked();
     void on_matlabExecutableChooseButton_clicked();
+    void on_addCustomScriptButton_clicked();
+    void on_removeCustomScriptButton_clicked();
+    void customScriptRowChanged();
     void clicked(QAbstractButton *);
 
     void readSettings();
