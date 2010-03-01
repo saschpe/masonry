@@ -130,7 +130,10 @@ void ConfigDialog::readSettings()
 
     settings.beginGroup("customScripts");
     foreach (const QString &key, settings.allKeys()) {
-        customScriptListWidget->addItem(settings.value(key).toString());
+        const QString scriptFileName = settings.value(key).toString();
+        if (QFile(scriptFileName).exists()) {
+            customScriptListWidget->addItem(scriptFileName);
+        }
     }
     settings.endGroup();
 }
@@ -162,8 +165,12 @@ void ConfigDialog::writeSettings()
     const int count = customScriptListWidget->count();
     if (count > 0) {
         settings.beginGroup("customScripts");
+        settings.remove("");                    // Clear current group
         for (int i = 0; i < count; i++) {
-            settings.setValue("script" + QString::number(i), customScriptListWidget->item(i)->text());
+            const QString scriptFileName = customScriptListWidget->item(i)->text();
+            if (QFile(scriptFileName).exists()) {
+                settings.setValue("script" + QString::number(i), scriptFileName);
+            }
         }
         settings.endGroup();
     }
