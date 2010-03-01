@@ -222,12 +222,10 @@ function [Eq,Num,Den] = mason(NetFile,Start,Stop)
     fprintf('Numerator   : %s\n',Num);
     fprintf('Denominator : %s\n',Den);
 
-    % Generate final resulting equation, numerator and denominator. These
-    % are simplified if the 'Matlab Symbolic Toolbox' is installed.
+    % Generate the final resulting equation. The equation issimplified if the 'Matlab Symbolic Toolbox'
+    % is installed.
     try
-        Num=simple(sym(Num));
-        Den=simple(sym(Den));
-        Eq=Num/Den;
+        Eq=simple(sym(Num)/sym(Den));
     catch
         Eq=['(',Num,')/(',Den,')'];
     end
