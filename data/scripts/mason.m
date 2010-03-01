@@ -7,23 +7,25 @@
 % output node. Please see the *readme* file for a full description, and 
 % an example netfile.
 %
-% Author:       Rob Walton
+% Author:       Rob Walton <walton@ieee.org>
 % Organisation: TRLabs and the University of Calgary, Alberta, Canada
-% Date:         January 25th 1999
-% Revised:      January 20th 2000 (Removed bug that caused the odd loop to be thrown away)
+%               Original author
 %
-% Please email me at <walton@ieee.org> if you find any errors!
+% Author:       Sascha Peilicke <sasch.pe@gmx.de>
+% Organisation: IFAK, Magdeburg, Germany
+%               Code cleanup, symbolic equation, ...
 %
 % USAGE:
-%   [Numerator,Denominator] = mason(Netfile,StartNode,StopNode)
+%   [Equation,Numerator,Denominator] = mason(Netfile,StartNode,StopNode)
 %
 %   Netfile     - is a string with the name of the netfile to load
 %   StartNode   - is the integer number describing the independent input node
 %   StopNode    - is the integer number describing the dependent output node
+%   Equation    - is the resulting equation (Numerator / Denominator)
 %   Numerator   - is a string containing the equation for the Numerator
 %   Denominator - is a string containing the equation for the Denominator 
 %*************************************************************************************************
-function [Num,Den] = mason(NetFile,Start,Stop)
+function [Eq,Num,Den] = mason(NetFile,Start,Stop)
     % *** Load the the net description file into Net ***
     % *** The first column in the file is the coefficient number (These must be in order starting
     %     at 1). The second and third column are start node and stop node numbers respectively.
@@ -209,35 +211,30 @@ function [Num,Den] = mason(NetFile,Start,Stop)
       Den=[Den,PrintSumsNotTouching(L,order,[9999999 999999])];  %Sums of all the loops of order order
     end
 
-    %fprintf('\nThe variables returned are strings describing\n')
-    %fprintf('the numerator and Denominator of the transfer equation.\n')
-    %fprintf('If you have the symbolic toolbox, use Denominator=sym(Denominator)\n');
-    %fprintf('and Numerator=sym(Numerator) to make these symbolic equations.\n')
-    %fprintf('You can now use simple(Numerator/Denominator) to boil the whole\n')
-    %fprintf('thing down. You could also use simple(Numerator) to simplify the\n')
-    %fprintf('Numerator on it'' own.\n\n')
-    % ****** Convert to Symbolic and do substitutions *******
-
     for coeff_num=length(Coeff_Names):-1:1; %Cycle through Coefficient array, substituting each one
       orig=sprintf('c%d',Net(coeff_num,1)); % for each line generate c[Coeff Number] to replace  
       Den=strrep(Den,orig,Coeff_Names{coeff_num}); % Replace all the c#s with the strings from net file
       Num=strrep(Num,orig,Coeff_Names{coeff_num});
     end % This loop had to count down so there was no risk of C12 being replace by C1
-
-    % TODO: Simplify the equation
-    %try
-    %    Den=simple(sym(Den))
-    %    Num=simple(sym(Num))
-    %catch
-    %end
-
+    
     % ***** Display Numerator and Denominator *****
     fprintf('\n-- Numerator and Denominator --\n')
-    Num
-    Den
+    fprintf('Numerator   : %s\n',Num);
+    fprintf('Denominator : %s\n',Den);
 
-    %fprintf('Numerator   : %d\n',Num);
-    %fprintf('Denominator : %d\n',Den);
+    % Generate final resulting equation, numerator and denominator. These
+    % are simplified if the 'Matlab Symbolic Toolbox' is installed.
+    try
+        Num=simple(sym(Num));
+        Den=simple(sym(Den));
+        Eq=Num/Den;
+    catch
+        Eq=['(',Num,')/(',Den,')'];
+    end
+    
+    % ***** Display (Simplified) Equation *****
+    fprintf('\n-- Final Equation --\n')
+    fprintf('Equation    : %s\n',char(Eq));    
 end
 
 %*************************************************************************************************
