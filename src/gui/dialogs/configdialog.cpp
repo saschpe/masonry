@@ -127,6 +127,12 @@ void ConfigDialog::readSettings()
     matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"addpath('" + QDir::toNativeSeparators("data/scripts") + "');%1;exit\"").toString());
     settings.endGroup();
     settings.endGroup();
+
+    settings.beginGroup("customScripts");
+    foreach (const QString &key, settings.allKeys()) {
+        customScriptListWidget->addItem(settings.value(key).toString());
+    }
+    settings.endGroup();
 }
 
 void ConfigDialog::writeSettings()
@@ -152,6 +158,15 @@ void ConfigDialog::writeSettings()
     settings.setValue("parameters", matlabParameterLineEdit->text());
     settings.endGroup();
     settings.endGroup();
+
+    const int count = customScriptListWidget->count();
+    if (count > 0) {
+        settings.beginGroup("customScripts");
+        for (int i = 0; i < count; i++) {
+            settings.setValue("script" + QString::number(i), customScriptListWidget->item(i)->text());
+        }
+        settings.endGroup();
+    }
 }
 
 #include "configdialog.moc"
