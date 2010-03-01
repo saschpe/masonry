@@ -3,10 +3,10 @@ Masonry
 =======
 
 A graphical tool to visualize and compute signal-flow graphs (or Mason graphs)
-written in C++ with Qt which uses either Matlab or Octave as the computational
-backend. It serves as a fully interactive Mason-graph editor and allows you to
-run additional custom Matlab/Octave scripts as well as loading/saving your
-graph files and results.
+written in C++ with Qt which uses either Matlab (commercial) or GNU Octave as
+the computational backend. It serves as a fully interactive editor to signal-
+flow graphs and allows you to run additional custom Matlab/Octave scripts as
+well as saving your graph files and results.
 
 ----
 
