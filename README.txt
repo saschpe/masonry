@@ -32,9 +32,9 @@ application (only one required):
 Installation
 ------------
 
-How to build masonry depends on your platform. Generally you use CMake_ to
-generate a platform-dependent build-environment. Generally this is done like
-this (in a terminal)::
+How to build masonry depends on your platform. Generally you have to  use
+CMake_ to generate a platform-dependent build-environment. You can do that
+like this (in a terminal session)::
 
     $ mkdir build/
     $ cd build/
@@ -49,15 +49,15 @@ instead::
 
 You should now have either a Makefile on Unix-like operating systems or a
 Visual Studio project on Windows. You can now build and install the project by
-using Visual Studio (on Windows) or by issuing the following (on Unix)::
+using Visual Studio (on Windows) or by issuing these commands (on Unix)::
 
     $ make
     $ make install
 
 The exact build procedure may differ slightly on your platform. Have a look at
 the `CMake documentation`__ for detailed help. The install step is mandatory
-to correctly setup translations and other stuff. The folder _dist_ now contains
-the ready-to-use application.
+if you want to correctly setup translations and some other stuff. If the build procedure successfully finished, the folder _dist_ should now contain the
+application binary and data files.
 
 
 License
