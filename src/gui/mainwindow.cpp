@@ -181,8 +181,8 @@ void MainWindow::on_computeAction_triggered()
         const QString outputNodeName = m_scene->outputNode()->name();
 
         // Create call to 'mason' script with supplied arguments
-        QString mscript = QString("mason('%1',%2,%3)")      // Create the call to the 'mason' Matlab
-            .arg(m_backendInputFile->fileName())            // function
+        const QString mason = QString("[Eq,Num,Den]=mason('%1',%2,%3);")
+            .arg(m_backendInputFile->fileName())
             .arg(inputNodeName.toInt()).arg(outputNodeName.toInt());
 
         QString backend;                                    // Check the settings which backend was
@@ -196,6 +196,20 @@ void MainWindow::on_computeAction_triggered()
             settings.beginGroup("matlab");
             backend = settings.value("executable").toString() + ' ' + settings.value("parameters").toString();
             settings.endGroup();
+        }
+        settings.endGroup();
+
+        // Check if the user configured additional custom scripts and add those to the backend commandline
+        QString mscript = mason;
+        settings.beginGroup("customScripts");
+        foreach (const QString &key, settings.allKeys()) {
+            QFileInfo scriptFile(settings.value(key).toString());
+            // If the current custom script exists, add the corresponding Matlab code to add the script
+            // path and call to the script with parameters Eq,Num and Den.
+            if (scriptFile.exists()) {
+                mscript += "addpath('" + scriptFile.absolutePath() + "');" +
+                           scriptFile.baseName() + "(Eq,Num,Den);";
+            }
         }
         settings.endGroup();
 
