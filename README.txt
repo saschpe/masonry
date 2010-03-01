@@ -3,7 +3,9 @@ Masonry
 =======
 
 A graphical tool to visualize and compute Mason-graphs written in C++ with Qt
-which uses either Matlab or Octave as the computational backend.
+which uses either Matlab or Octave as the computational backend. It serves as
+a fully interactive Mason-graph editor and allows you to run additional custom
+Matlab/Octave scripts as well as loading/saving your graph files and results.
 
 ----
 
