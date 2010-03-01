@@ -55,90 +55,139 @@
     </message>
     <message>
         <location filename="../gui/dialogs/configdialog.ui" line="54"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="154"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="245"/>
         <source>View</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../gui/dialogs/configdialog.ui" line="65"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="232"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="323"/>
         <source>Backend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="112"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="177"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="128"/>
+        <source>Custom Scripts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.ui" line="134"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="161"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="208"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Sans Serif&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Your script must have a function of the same name as the file name and those parameters:&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;    Eq&lt;/span&gt;	- Resulting equation&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;    Num&lt;/span&gt;	- Numerator&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600; color:#000000;&quot;&gt;    Den&lt;/span&gt;	- Denominator&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;A minimal script might look like this:&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;    function dummy(Eq,Num,Den)&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;        fprintf(&apos;Dummy Function\n&apos;);&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-style:italic;&quot;&gt;    end&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.ui" line="151"/>
+        <source>Here you can add additional custom scripts that are run after the main computation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.ui" line="178"/>
+        <source>Add Script...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.ui" line="188"/>
+        <source>Remove Selected Script</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.ui" line="268"/>
         <source>GroupBox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="118"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="183"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="199"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="274"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="290"/>
         <source>TODO</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="193"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="284"/>
         <source>Advanced</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="253"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="344"/>
         <source>External Octave Interpreter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="258"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="349"/>
         <source>External Matlab Interpreter</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="282"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="373"/>
         <source>Octave Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="288"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="337"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="379"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="428"/>
         <source>Executable:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="298"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="347"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="389"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="438"/>
         <source>Parameters:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="314"/>
-        <location filename="../gui/dialogs/configdialog.ui" line="363"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="405"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="454"/>
         <source>...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.ui" line="331"/>
+        <location filename="../gui/dialogs/configdialog.ui" line="422"/>
         <source>Matlab Options</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.cpp" line="55"/>
+        <location filename="../gui/dialogs/configdialog.cpp" line="58"/>
         <source>Please Select Octave Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.cpp" line="57"/>
+        <location filename="../gui/dialogs/configdialog.cpp" line="60"/>
         <source>Octave Executable (%1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.cpp" line="66"/>
+        <location filename="../gui/dialogs/configdialog.cpp" line="69"/>
         <source>Please Select Matlab Executable</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/dialogs/configdialog.cpp" line="68"/>
+        <location filename="../gui/dialogs/configdialog.cpp" line="71"/>
         <source>Matlab Executable (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.cpp" line="80"/>
+        <source>Add Matlab Script File</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../gui/dialogs/configdialog.cpp" line="82"/>
+        <source>Matlab Script Files</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -533,17 +582,17 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="203"/>
+        <location filename="../gui/mainwindow.cpp" line="217"/>
         <source>Command Line:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="204"/>
+        <location filename="../gui/mainwindow.cpp" line="218"/>
         <source>Results:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="207"/>
+        <location filename="../gui/mainwindow.cpp" line="221"/>
         <source>Compute signal response from input node &apos;%1&apos; to output node &apos;%2&apos;...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -564,46 +613,46 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="209"/>
+        <location filename="../gui/mainwindow.cpp" line="223"/>
         <source>Unable to create temporary file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="219"/>
+        <location filename="../gui/mainwindow.cpp" line="233"/>
         <source>Settings saved</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="267"/>
+        <location filename="../gui/mainwindow.cpp" line="281"/>
         <source>Computation finished</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="275"/>
-        <location filename="../gui/mainwindow.cpp" line="276"/>
+        <location filename="../gui/mainwindow.cpp" line="289"/>
+        <location filename="../gui/mainwindow.cpp" line="290"/>
         <source>Backend failed to start!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="279"/>
-        <location filename="../gui/mainwindow.cpp" line="280"/>
+        <location filename="../gui/mainwindow.cpp" line="293"/>
+        <location filename="../gui/mainwindow.cpp" line="294"/>
         <source>Backend crashed or was stopped!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="283"/>
-        <location filename="../gui/mainwindow.cpp" line="284"/>
+        <location filename="../gui/mainwindow.cpp" line="297"/>
+        <location filename="../gui/mainwindow.cpp" line="298"/>
         <source>Backend timed out!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="287"/>
-        <location filename="../gui/mainwindow.cpp" line="288"/>
+        <location filename="../gui/mainwindow.cpp" line="301"/>
+        <location filename="../gui/mainwindow.cpp" line="302"/>
         <source>Backend error occurred!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../gui/mainwindow.cpp" line="297"/>
+        <location filename="../gui/mainwindow.cpp" line="311"/>
         <source>Zoomed to fit graph in view</source>
         <translation type="unfinished"></translation>
     </message>
