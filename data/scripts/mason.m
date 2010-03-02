@@ -216,19 +216,21 @@ function [Eq,Num,Den] = mason(NetFile,Start,Stop)
       Den=strrep(Den,orig,Coeff_Names{coeff_num}); % Replace all the c#s with the strings from net file
       Num=strrep(Num,orig,Coeff_Names{coeff_num});
     end % This loop had to count down so there was no risk of C12 being replace by C1
-    
-    % ***** Display Numerator and Denominator *****
-    fprintf('\n-- Numerator and Denominator --\n')
-    fprintf('Numerator   : %s\n',Num);
-    fprintf('Denominator : %s\n',Den);
 
     % Generate the final resulting equation. The equation issimplified if the 'Matlab Symbolic Toolbox'
     % is installed.
     try
-        Eq=simple(sym(Num)/sym(Den));
+        Num=simple(sym(Num));
+        Den=simple(sym(Den));
+        Eq=simple(Num/Den);
     catch
         Eq=['(',Num,')/(',Den,')'];
     end
+    
+    % ***** Display Numerator and Denominator *****
+    fprintf('\n-- Numerator and Denominator --\n')
+    fprintf('Numerator   : %s\n',char(Num));
+    fprintf('Denominator : %s\n',char(Den));
     
     % ***** Display (Simplified) Equation *****
     fprintf('\n-- Final Equation --\n')
