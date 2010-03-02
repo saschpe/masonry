@@ -185,7 +185,8 @@ bool GraphScene::saveTo(const QString &fileName)
 
 DirectedEdgeItem *GraphScene::addEdge(NodeItem *start, NodeItem *end)
 {
-    if (start && end) {
+    if (start && end && start != end) {
+        //qDebug() << "GraphScene::addEdge(" << start->name() << "," << end->name() << ")";
         DirectedEdgeItem *edge = new DirectedEdgeItem(start, end, NULL, this);
         edge->setName('s' + start->name() + end->name());
         m_edges.append(edge);
