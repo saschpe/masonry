@@ -101,6 +101,7 @@ void ConfigDialog::clicked(QAbstractButton *button)
     } else if (button == buttonBox->button(QDialogButtonBox::Reset)) {
         QSettings settings;
         settings.clear();
+        readSettings();
     }
 }
 
