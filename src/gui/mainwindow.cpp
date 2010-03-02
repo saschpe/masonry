@@ -123,8 +123,8 @@ void MainWindow::on_loadAction_triggered()
             tr("Open Masonry Graph File"),
             QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
             tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
-        m_scene->loadFrom(fileName);
         m_lastFileName = fileName;
+        m_scene->loadFrom(m_lastFileName);
         m_graphChangesUnsaved = false;
         m_process->close(); // If there was a computation running
 
@@ -151,9 +151,9 @@ void MainWindow::on_saveAsAction_triggered()
         QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
             QDir::separator() + "untitled",
         tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
-    m_scene->saveTo(fileName);
-    m_graphChangesUnsaved = false;
     m_lastFileName = fileName;
+    m_scene->saveTo(m_lastFileName);
+    m_graphChangesUnsaved = false;
     statusBar()->showMessage(tr("File '%1' saved").arg(m_lastFileName), 3000);
 }
 
@@ -226,6 +226,7 @@ void MainWindow::on_computeAction_triggered()
 
 void MainWindow::on_configureAction_triggered()
 {
+    writeSettings(); // Write MainWindow settings first
     ConfigDialog dialog(this);
     if (dialog.exec() == QDialog::Accepted) {
         readSettings();
