@@ -123,7 +123,7 @@ void ConfigDialog::readSettings()
     settings.endGroup();
     settings.beginGroup("matlab");
     matlabExecutableLineEdit->setText(settings.value("executable", MATLAB_EXECUTABLE).toString());
-    matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nojvm -r \"addpath('" + QDir::toNativeSeparators("data/scripts") + "');%1;exit\"").toString());
+    matlabParameterLineEdit->setText(settings.value("parameters", "-nosplash -nodisplay -nodesktop -r \"addpath('" + QDir::toNativeSeparators("data/scripts") + "');%1;exit\"").toString());
     settings.endGroup();
     settings.endGroup();
 
