@@ -33,6 +33,7 @@ set(masonry_SRCS
 )
 
 set(masonry_TRANS
+    src/locale/cs_CZ.ts
     src/locale/de_DE.ts
     src/locale/fr_FR.ts
 )
