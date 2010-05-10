@@ -49,9 +49,9 @@ set(masonry_SRCS
 )
 
 set(masonry_TRANS
-    src/locale/cs_CZ.ts
-    src/locale/de_DE.ts
-    src/locale/fr_FR.ts
+    translations/cs_CZ.ts
+    translations/de_DE.ts
+    translations/fr_FR.ts
 )
 
 qt4_wrap_ui(masonry_UIS_H ${masonry_UIS})
