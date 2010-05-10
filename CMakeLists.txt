@@ -23,7 +23,6 @@ else()
     set(MASONRY_TRANS_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry/locale")
 endif()
 # Make some variables available in the source code
-#add_definitions(-D MASONRY_DATA_DIR=${MASONRY_DATA_DIR})
 set_property(DIRECTORY PROPERTY COMPILE_DEFINITIONS "MASONRY_DATA_DIR=\"${MASONRY_DATA_DIR}\"")
 
 set(masonry_UIS
