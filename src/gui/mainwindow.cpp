@@ -399,8 +399,7 @@ void MainWindow::writeSettings()
 void MainWindow::setupActions()
 {
     QStringList themeSearchPaths = QIcon::themeSearchPaths();
-    themeSearchPaths << QDir::currentPath() + QDir::separator() + "data" +
-                        QDir::separator() + "icons";
+    themeSearchPaths << MASONRY_ICON_DIR;
     QIcon::setThemeSearchPaths(themeSearchPaths);
     QIcon::setThemeName("oxygen-minimal");
 

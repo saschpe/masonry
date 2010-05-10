@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
     app.installTranslator(&qtTranslator);
 
     QTranslator appTranslator;
-    appTranslator.load(QLocale::system().name(), QDir::toNativeSeparators("data/locale"));
+    appTranslator.load(QLocale::system().name(), QDir::toNativeSeparators(MASONRY_TRANS_DIR));
     app.installTranslator(&appTranslator);
 
     MainWindow win;
