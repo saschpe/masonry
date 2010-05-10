@@ -45,6 +45,8 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 public:
     MainWindow(QWidget *parent = 0);
 
+    void load(const QString &fileName);
+
 protected:
     void closeEvent(QCloseEvent *event);
 

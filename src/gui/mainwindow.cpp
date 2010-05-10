@@ -116,6 +116,21 @@ int MainWindow::checkForUnsavedChanges()
     return ret;
 }
 
+void MainWindow::load(const QString &fileName)
+{
+    if (!fileName.isEmpty() &&
+        checkForUnsavedChanges() != QMessageBox::Cancel) {
+
+        m_lastFileName = fileName;
+        m_scene->loadFrom(m_lastFileName);
+        m_graphChangesUnsaved = false;
+        m_process->close(); // If there was a computation running
+
+        statusBar()->showMessage(tr("File '%1' loaded").arg(m_lastFileName), 3000);
+        enableWidgets();
+    }
+}
+
 void MainWindow::on_loadAction_triggered()
 {
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
@@ -123,13 +138,15 @@ void MainWindow::on_loadAction_triggered()
             tr("Open Masonry Graph File"),
             QString(MASONRY_DATA_DIR) + QDir::separator() + "graphs",
             tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
-        m_lastFileName = fileName;
-        m_scene->loadFrom(m_lastFileName);
-        m_graphChangesUnsaved = false;
-        m_process->close(); // If there was a computation running
+        if (!fileName.isEmpty()) {
+            m_lastFileName = fileName;
+            m_scene->loadFrom(m_lastFileName);
+            m_graphChangesUnsaved = false;
+            m_process->close(); // If there was a computation running
+            statusBar()->showMessage(tr("File '%1' loaded").arg(m_lastFileName), 3000);
+        }
 
         enableWidgets();
-        statusBar()->showMessage(tr("File '%1' loaded").arg(m_lastFileName), 3000);
     }
 }
 
