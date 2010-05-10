@@ -4,9 +4,27 @@ project(masonry)
 set(CMAKE_MODULE_PATH "${masonry_SOURCE_DIR}/cmake/modules")
 
 find_package(Qt4 4.6 COMPONENTS QtCore QtGui REQUIRED)
-
 include(${QT_USE_FILE})
 include_directories(${QT_INCLUDE_DIR} "src/")
+
+if(WIN32 AND NOT UNIX)
+    set(MASONRY_BIN_DIR "${CMAKE_INSTALL_PREFIX}")
+    set(MASONRY_DATA_DIR "${CMAKE_INSTALL_PREFIX}/data")
+    set(MASONRY_DOC_DIR "${CMAKE_INSTALL_PREFIX}/docs")
+    set(MASONRY_MISC_DOC_DIR ${MASONRY_BIN_DIR})
+    set(MASONRY_TRANS_DIR "${CMAKE_INSTALL_PREFIX}/translations")
+    # Only defined on Windows
+    set(MASONRY_ICON_DIR "${CMAKE_INSTALL_PREFIX}/icons")
+else()
+    set(MASONRY_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
+    set(MASONRY_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry")
+    set(MASONRY_DOC_DIR "${CMAKE_INSTALL_PREFIX}/share/doc/masonry")
+    set(MASONRY_MISC_DOC_DIR ${MASONRY_DOC_DIR})
+    set(MASONRY_TRANS_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry/locale")
+endif()
+# Make some variables available in the source code
+#add_definitions(-D MASONRY_DATA_DIR=${MASONRY_DATA_DIR})
+set_property(DIRECTORY PROPERTY COMPILE_DEFINITIONS "MASONRY_DATA_DIR=\"${MASONRY_DATA_DIR}\"")
 
 set(masonry_UIS
     src/gui/dialogs/aboutdialog.ui
@@ -64,18 +82,16 @@ add_executable(masonry ${masonry_SRCS} ${masonry_UIS} ${masonry_TRANSLATIONS})
 target_link_libraries(masonry ${QT_LIBRARIES})
 
 # Installation
+install(TARGETS masonry DESTINATION ${MASONRY_BIN_DIR})
+install(DIRECTORY data/ DESTINATION ${MASONRY_DATA_DIR})
+install(DIRECTORY docs/ DESTINATION ${MASONRY_DOC_DIR})
+install(FILES ${masonry_TRANSLATIONS} DESTINATION ${MASONRY_TRANS_DIR})
+install(FILES AUTHORS.txt README.txt LICENSE.txt DESTINATION ${MASONRY_MISC_DOC_DIR})
+
 if(WIN32 AND NOT UNIX)
-    install(TARGETS masonry DESTINATION ${CMAKE_INSTALL_PREFIX})
-    install(DIRECTORY data/ DESTINATION ${CMAKE_INSTALL_PREFIX}/data)
-    install(DIRECTORY docs/ DESTINATION ${CMAKE_INSTALL_PREFIX}/docs)
-    install(FILES ${masonry_TRANSLATIONS} DESTINATION ${CMAKE_INSTALL_PREFIX}/data/locale)
-    install(FILES AUTHORS.txt README.txt LICENSE.txt DESTINATION ${CMAKE_INSTALL_PREFIX})
+    # Those icons should be available on unix, so only install on Windows
+    install(DIRECTORY icons/ DESTINATION ${MASONRY_ICON_DIR})
     # Some extra convenience for Windows builds allows simpler distribution
     install(FILES ${QT_BINARY_DIR}/QtCore4.dll ${QT_BINARY_DIR}/QtGui4.dll DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
-    install(TARGETS masonry DESTINATION bin/)
-    install(DIRECTORY data/ DESTINATION share/masonry/)
-    install(DIRECTORY docs/ DESTINATION share/doc/masonry)
-    install(FILES AUTHORS.txt README.txt LICENSE.txt DESTINATION share/doc/masonry)
-    install(FILES ${masonry_TRANSLATIONS} DESTINATION share/masonry/locale)
 endif()

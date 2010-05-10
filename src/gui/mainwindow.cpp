@@ -121,7 +121,7 @@ void MainWindow::on_loadAction_triggered()
     if (checkForUnsavedChanges() != QMessageBox::Cancel) {
         const QString fileName = QFileDialog::getOpenFileName(this,
             tr("Open Masonry Graph File"),
-            QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs",
+            QString(MASONRY_DATA_DIR) + QDir::separator() + "graphs",
             tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
         m_lastFileName = fileName;
         m_scene->loadFrom(m_lastFileName);
@@ -148,8 +148,7 @@ void MainWindow::on_saveAsAction_triggered()
 {
     const QString fileName = QFileDialog::getSaveFileName(this,
         tr("Save Masonry Graph File"),
-        QDir::currentPath() + QDir::separator() + "data" + QDir::separator() + "graphs" +
-            QDir::separator() + "untitled",
+        QString(MASONRY_DATA_DIR) + QDir::separator() + "graphs" + QDir::separator() + "untitled",
         tr("Masonry Graph Files") + QLatin1String(" (*.masonry)"));
     m_lastFileName = fileName;
     m_scene->saveTo(m_lastFileName);
