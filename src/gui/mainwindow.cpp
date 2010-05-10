@@ -47,7 +47,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
     setCentralWidget(m_view);
-    setWindowIcon(QIcon(QString(MASONRY_PIXMAP_DIR) + QDir::separator() + "masonry-32x32.png"));
+    setWindowIcon(QIcon(QString(MASONRY_ICON_DIR) + QDir::separator() + "hicolor" +
+                        QDir::separator() + "32x32" + QDir::separator() + "apps" +
+                        QDir::separator() + "masonry.png"));
 
     setupActions();
     setupDockWidgets();

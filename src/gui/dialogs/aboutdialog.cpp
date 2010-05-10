@@ -26,14 +26,18 @@ AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent)
 {
     setupUi(this);
-    setWindowIcon(QIcon(QString(MASONRY_PIXMAP_DIR) + QDir::separator() + "masonry-32x32.png"));
+    setWindowIcon(QIcon(QString(MASONRY_ICON_DIR) + QDir::separator() + "hicolor" +
+                        QDir::separator() + "32x32" + QDir::separator() + "apps" +
+                        QDir::separator() + "masonry.png"));
 
     QUrl url = QUrl("http://" + QCoreApplication::organizationDomain());
 
     organizationLabel->setOpenExternalLinks(true);
     organizationLabel->setText(tr("<strong>%1 e.V.</strong> (<a href=\"%2\">%2</a>)").arg(QCoreApplication::organizationName()).arg(url.toString()));
     versionLabel->setText(tr("Version %1").arg(QCoreApplication::applicationVersion()));
-    pictureLabel->setPixmap(QPixmap(QString(MASONRY_PIXMAP_DIR) + QDir::separator() + "masonry-128x128.png"));
+    pictureLabel->setPixmap(QPixmap(QString(MASONRY_ICON_DIR) + QDir::separator() + "hicolor" +
+                                    QDir::separator() + "128x128" + QDir::separator() + "apps" +
+                                    QDir::separator() + "masonry.png"));
     connect(buttonBox, SIGNAL(accepted()), this, SLOT(accept()));
     connect(buttonBox, SIGNAL(rejected()), this, SLOT(reject()));
 }
