@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     setupUi(this);
     setCentralWidget(m_view);
+    setWindowIcon(QIcon(QString(MASONRY_PIXMAP_DIR) + QDir::separator() + "masonry-32x32.png"));
 
     setupActions();
     setupDockWidgets();

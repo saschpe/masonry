@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>494</width>
-    <height>180</height>
+    <height>195</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,16 +21,6 @@
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Close</set>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="1" rowspan="4">
-    <widget class="QFrame" name="frame">
-     <property name="frameShape">
-      <enum>QFrame::NoFrame</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Plain</enum>
      </property>
     </widget>
    </item>
@@ -111,6 +101,13 @@ Copyright (c) 2009-2010 Sascha Peilicke &lt;sasch.pe@gmx.de&gt;</string>
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="0" column="1" rowspan="5">
+    <widget class="QLabel" name="pictureLabel">
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

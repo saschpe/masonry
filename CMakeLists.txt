@@ -14,6 +14,7 @@ if(WIN32 AND NOT UNIX)
     set(MASONRY_MISC_DOC_DIR ${MASONRY_BIN_DIR})
     set(MASONRY_TRANS_DIR "${CMAKE_INSTALL_PREFIX}/translations")
     set(MASONRY_ICON_DIR "${CMAKE_INSTALL_PREFIX}/icons")
+    set(MASONRY_PIXMAP_DIR "${CMAKE_INSTALL_PREFIX}/pixmaps")
 else()
     set(MASONRY_BIN_DIR "${CMAKE_INSTALL_PREFIX}/bin")
     set(MASONRY_DATA_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry")
@@ -21,6 +22,9 @@ else()
     set(MASONRY_MISC_DOC_DIR ${MASONRY_DOC_DIR})
     set(MASONRY_TRANS_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry/locale")
     set(MASONRY_ICON_DIR "${CMAKE_INSTALL_PREFIX}/share/masonry/icons")
+    set(MASONRY_PIXMAP_DIR "${CMAKE_INSTALL_PREFIX}/share/pixmaps")
+    # Unix only desktop file installation dir
+    set(MASONRY_DESKTOP_DIR "${CMAKE_INSTALL_PREFIX}/share/applications")
 endif()
 # Make some variables available in the source code
 set_property(DIRECTORY PROPERTY COMPILE_DEFINITIONS
@@ -29,7 +33,8 @@ set_property(DIRECTORY PROPERTY COMPILE_DEFINITIONS
     "MASONRY_DOC_DIR=\"${MASONRY_DOC_DIR}\""
     "MASONRY_MISC_DOC_DIR=\"${MASONRY_MISC_DOC_DIR}\""
     "MASONRY_TRANS_DIR=\"${MASONRY_TRANS_DIR}\""
-    "MASONRY_ICON_DIR=\"${MASONRY_ICON_DIR}\"")
+    "MASONRY_ICON_DIR=\"${MASONRY_ICON_DIR}\""
+    "MASONRY_PIXMAP_DIR=\"${MASONRY_PIXMAP_DIR}\"")
 
 set(masonry_UIS
     src/gui/dialogs/aboutdialog.ui
@@ -90,12 +95,15 @@ target_link_libraries(masonry ${QT_LIBRARIES})
 install(TARGETS masonry DESTINATION ${MASONRY_BIN_DIR})
 install(DIRECTORY data/ DESTINATION ${MASONRY_DATA_DIR})
 install(DIRECTORY docs/ DESTINATION ${MASONRY_DOC_DIR})
-install(DIRECTORY icons/ DESTINATION ${MASONRY_ICON_DIR})
-install(FILES ${masonry_TRANSLATIONS} DESTINATION ${MASONRY_TRANS_DIR})
 install(FILES AUTHORS.txt README.txt LICENSE.txt DESTINATION ${MASONRY_MISC_DOC_DIR})
+install(FILES ${masonry_TRANSLATIONS} DESTINATION ${MASONRY_TRANS_DIR})
+install(DIRECTORY icons/ DESTINATION ${MASONRY_ICON_DIR})
+install(DIRECTORY pixmaps/ DESTINATION ${MASONRY_PIXMAP_DIR})
 
 if(WIN32 AND NOT UNIX)
     # Some extra convenience for Windows builds allows simpler distribution
     install(FILES ${QT_BINARY_DIR}/QtCore4.dll ${QT_BINARY_DIR}/QtGui4.dll DESTINATION ${CMAKE_INSTALL_PREFIX})
 else()
+    # Install desktop file
+    install(FILES desktop/masonry.desktop DESTINATION ${MASONRY_DESKTOP_DIR})
 endif()
