@@ -79,7 +79,7 @@ Notes
 This file is written in reStructuredText_ and can be converted to HTML with
 Python docutils_. Use the following command::
 
-    $ rst2html README.txt > README.html
+    $ rst2html README.rst > README.html
 
 
 .. _Git: http://git.or.cz/index.html
