@@ -11,7 +11,7 @@
 % Organisation: TRLabs and the University of Calgary, Alberta, Canada
 %               Original author
 %
-% Author:       Sascha Peilicke <sasch.pe@gmx.de>
+% Author:       Sascha Peilicke <sascha@peilicke.de>
 % Organisation: IFAK, Magdeburg, Germany
 %               Code cleanup, symbolic equation, ...
 %

@@ -1,2 +1,2 @@
-Sascha Peilicke <sasch.pe@gmx.de> - Original author and maintainer
+Sascha Peilicke <sascha@peilicke.de> - Original author and maintainer
 Pavel Fric <pavelfric@seznam.cz> - Czech translation

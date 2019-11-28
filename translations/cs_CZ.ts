@@ -27,9 +27,9 @@
     <message utf8="true">
         <location filename="../gui/dialogs/aboutdialog.ui" line="68"/>
         <source>Copyright (c) 2009-2010 ifak - Institut für Automation und Kommunikation e.V.
-Copyright (c) 2009-2010 Sascha Peilicke &lt;sasch.pe@gmx.de&gt;</source>
+Copyright (c) 2009-2010 Sascha Peilicke &lt;sascha@peilicke.de&gt;</source>
         <translation>Copyright (c) 2009-2010 ifak - Institut für Automation und Kommunikation e.V.
-Copyright (c) 2009-2010 Sascha Peilicke &lt;sasch.pe@gmx.de&gt;</translation>
+Copyright (c) 2009-2010 Sascha Peilicke &lt;sascha@peilicke.de&gt;</translation>
     </message>
     <message>
         <location filename="../gui/dialogs/aboutdialog.ui" line="79"/>

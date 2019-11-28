@@ -1,6 +1,6 @@
 /*
     Copyright (c) 2009 ifak - Institut für Automation und Kommunikation e.V.
-    Copyright (c) 2009 Sascha Peilicke <sasch.pe@gmx.de>
+    Copyright (c) 2009 Sascha Peilicke <sascha@peilicke.de>
 
     This application is free software; you can redistribute it and/or modify it
     under the terms of the GNU Library General Public License as published by
@@ -32,7 +32,7 @@ class QProcess;
  * It is used here to display the results computed by the application backend
  * (like Matlab or Octave).
  *
- * @author Sascha Peilicke <sasch.pe@gmx.de>
+ * @author Sascha Peilicke <sascha@peilicke.de>
  * @since 0.1
  */
 class OutputDockWidget : public QDockWidget, private Ui::OutputDockWidget

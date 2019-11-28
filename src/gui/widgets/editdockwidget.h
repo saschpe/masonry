@@ -1,6 +1,6 @@
 /*
     Copyright (c) 2009 ifak - Institut für Automation und Kommunikation e.V.
-    Copyright (c) 2009 Sascha Peilicke <sasch.pe@gmx.de>
+    Copyright (c) 2009 Sascha Peilicke <sascha@peilicke.de>
 
     This application is free software; you can redistribute it and/or modify it
     under the terms of the GNU Library General Public License as published by
@@ -33,7 +33,7 @@ class NodeItem;
  * This dock widget allows to modify nodes and edges of a Mason graph
  * that are part of a GraphScene (e.g. NodeItem and DirectEdgeItem instances).
  *
- * @author Sascha Peilicke <sasch.pe@gmx.de>
+ * @author Sascha Peilicke <sascha@peilicke.de>
  */
 class EditDockWidget : public QDockWidget, private Ui::EditDockWidget
 {
